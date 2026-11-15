@@ -642,12 +642,10 @@ body {
 
 <!-- INTERACTIVE 3D DOCK -->
 <div class="viewport-dock">
-  <button class="dock-item active" id="btn-theme-studio">MATTE GRAPHITE</button>
-  <button class="dock-item" id="btn-theme-amber">SOLAR AMBER</button>
-  <button class="dock-item" id="btn-theme-bronze">BRONZE TITANIUM</button>
+  <button class="dock-item active" id="btn-toggle-orbits">ORBIT TRACKS</button>
+  <button class="dock-item" id="btn-speed-toggle">SPEED: 1X</button>
   <div class="dock-divider"></div>
-  <button class="dock-item" id="btn-wire-toggle">WIREFRAME</button>
-  <button class="dock-item dock-pulse-btn" id="btn-kinetic-pulse">KINETIC PULSE</button>
+  <button class="dock-item dock-pulse-btn" id="btn-solar-flare">💥 SOLAR FLARE</button>
 </div>
 
 <!-- SCROLL POINT TRACKER -->
@@ -682,7 +680,7 @@ body {
       </div>
       <div style="margin-top:18px;font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--text-dim);letter-spacing:1.5px;display:flex;align-items:center;justify-content:center;gap:6px">
         <span style="color:var(--accent-amber)">✦</span>
-        <span>INTERACTIVE 3D · MOVE MOUSE OR DRAG TO ROTATE MODEL</span>
+        <span>3D SOLAR SYSTEM · MOVE CURSOR OR DRAG TO ORBIT IN 360°</span>
       </div>
     </div>
   </section>
@@ -819,169 +817,236 @@ body {
   <p>Engineered by Anurag Kumar · Built for Techfest 2026 Interactive Submission</p>
 </footer>
 
-<!-- THREE.JS 3D ENGINE -->
+<!-- THREE.JS 3D SOLAR SYSTEM ENGINE -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
 /* ════════════════════════════════════════════════════════════════════
-   1. THREE.JS SCENE SETUP & CINEMATIC PBR LIGHTING
+   1. THREE.JS SCENE SETUP & SOLAR SYSTEM ILLUMINATION
 ════════════════════════════════════════════════════════════════════ */
 const canvas = document.getElementById('canvas3d');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.1;
+renderer.toneMappingExposure = 1.2;
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x090a0f, 0.015);
+scene.fog = new THREE.FogExp2(0x090a0f, 0.012);
 
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 0, 32);
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1500);
+camera.position.set(0, 16, 38);
 
-// Studio Lighting (Clean Warm / Titanium Tones)
-const keyLight = new THREE.DirectionalLight(0xffedd5, 1.8);
-keyLight.position.set(15, 20, 20);
-scene.add(keyLight);
+// Central Solar Light (Sun shines outward on all planets)
+const sunLight = new THREE.PointLight(0xfff5ea, 3.8, 500, 0.35);
+sunLight.position.set(0, 0, 0);
+scene.add(sunLight);
 
-const warmFillLight = new THREE.PointLight(0xff7a1a, 2.2, 50);
-warmFillLight.position.set(-12, -8, 10);
-scene.add(warmFillLight);
-
-const ambientLight = new THREE.AmbientLight(0x1e2433, 1.2);
+// Soft Ambient Cosmic Light for dark side visibility
+const ambientLight = new THREE.AmbientLight(0x22283a, 1.4);
 scene.add(ambientLight);
 
-/* ─── COLOR PALETTES ─── */
-const PALETTES = {
-  studio: {
-    metal: 0x222634,
-    accent: 0xd4d4d8,
-    glow: 0xffedd5,
-    roughness: 0.35,
-    metalness: 0.85
-  },
-  amber: {
-    metal: 0x2a1a12,
-    accent: 0xff7a1a,
-    glow: 0xf59e0b,
-    roughness: 0.25,
-    metalness: 0.9
-  },
-  bronze: {
-    metal: 0x241d18,
-    accent: 0xc27838,
-    glow: 0xe6a15c,
-    roughness: 0.3,
-    metalness: 0.8
-  }
-};
-let activeTheme = PALETTES.studio;
-
 /* ════════════════════════════════════════════════════════════════════
-   2. PRECISION KINETIC GYROSCOPE SCULPTURE
+   2. 3D SOLAR SYSTEM ARCHITECTURE
 ════════════════════════════════════════════════════════════════════ */
-const kineticGroup = new THREE.Group();
-scene.add(kineticGroup);
+const solarSystem = new THREE.Group();
+solarSystem.rotation.x = 0.28; // Cinematic 16-degree inclination
+scene.add(solarSystem);
 
-// Master PBR Materials
-const metallicMat = new THREE.MeshStandardMaterial({
-  color: activeTheme.metal,
-  roughness: activeTheme.roughness,
-  metalness: activeTheme.metalness
-});
+// ─── A. THE SUN & CORONA ───
+const sunGroup = new THREE.Group();
+solarSystem.add(sunGroup);
 
-const accentMat = new THREE.MeshStandardMaterial({
-  color: activeTheme.accent,
-  roughness: 0.2,
-  metalness: 0.95
-});
+// Sun Core
+const sunGeo = new THREE.SphereGeometry(4.4, 48, 48);
+const sunMat = new THREE.MeshBasicMaterial({ color: 0xffa028 });
+const sunMesh = new THREE.Mesh(sunGeo, sunMat);
+sunGroup.add(sunMesh);
 
-const coreMat = new THREE.MeshStandardMaterial({
-  color: 0x0f1118,
-  roughness: 0.2,
-  metalness: 0.9,
-  wireframe: false
-});
-
-// Central Monolith (Faceted Precision Polyhedron)
-const coreGeo = new THREE.IcosahedronGeometry(4.2, 1);
-const centralCore = new THREE.Mesh(coreGeo, coreMat);
-kineticGroup.add(centralCore);
-
-// Inner Luminous Core
-const innerLightGeo = new THREE.SphereGeometry(1.8, 32, 32);
-const innerLightMat = new THREE.MeshBasicMaterial({
-  color: 0xff8a3d,
-  wireframe: true,
+// Outer Radiant Corona
+const coronaGeo = new THREE.SphereGeometry(5.2, 32, 32);
+const coronaMat = new THREE.MeshBasicMaterial({
+  color: 0xff6200,
   transparent: true,
-  opacity: 0.6
+  opacity: 0.25,
+  side: THREE.BackSide
 });
-const innerNucleus = new THREE.Mesh(innerLightGeo, innerLightMat);
-kineticGroup.add(innerNucleus);
+const coronaMesh = new THREE.Mesh(coronaGeo, coronaMat);
+sunGroup.add(coronaMesh);
 
-// Precision Outer Rings (Machined Titanium Gyroscope)
-function makeGimbalRing(radius, tubeWidth, mat, rx, ry) {
-  const geo = new THREE.TorusGeometry(radius, tubeWidth, 24, 160);
-  const ring = new THREE.Mesh(geo, mat);
-  ring.rotation.x = rx;
-  ring.rotation.y = ry;
-  kineticGroup.add(ring);
-  return ring;
+// Solar Flare Particle Shell
+const flareCount = 300;
+const flareGeo = new THREE.BufferGeometry();
+const flarePos = new Float32Array(flareCount * 3);
+for (let i = 0; i < flareCount; i++) {
+  const phi = Math.acos(2 * Math.random() - 1);
+  const theta = Math.random() * Math.PI * 2;
+  const r = 4.8 + Math.random() * 1.6;
+  flarePos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+  flarePos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+  flarePos[i * 3 + 2] = r * Math.cos(phi);
+}
+flareGeo.setAttribute('position', new THREE.BufferAttribute(flarePos, 3));
+const flareMat = new THREE.PointsMaterial({
+  color: 0xffba08,
+  size: 0.24,
+  transparent: true,
+  opacity: 0.8
+});
+const flarePoints = new THREE.Points(flareGeo, flareMat);
+sunGroup.add(flarePoints);
+
+// ─── B. ORBITAL TRACKS ───
+const orbitTracksGroup = new THREE.Group();
+solarSystem.add(orbitTracksGroup);
+
+function createOrbitTrack(distance) {
+  const segments = 120;
+  const points = [];
+  for (let i = 0; i <= segments; i++) {
+    const theta = (i / segments) * Math.PI * 2;
+    points.push(new THREE.Vector3(Math.cos(theta) * distance, 0, Math.sin(theta) * distance));
+  }
+  const geo = new THREE.BufferGeometry().setFromPoints(points);
+  const mat = new THREE.LineBasicMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.12
+  });
+  const line = new THREE.Line(geo, mat);
+  orbitTracksGroup.add(line);
+  return line;
 }
 
-const ring1 = makeGimbalRing(7.2, 0.16, metallicMat, Math.PI / 4, 0);
-const ring2 = makeGimbalRing(9.8, 0.14, accentMat, -Math.PI / 5, Math.PI / 3);
-const ring3 = makeGimbalRing(12.4, 0.12, metallicMat, Math.PI / 2.2, -Math.PI / 6);
+// ─── C. PLANETARY DATA & MESHES ───
+const planetConfigs = [
+  { name: 'Mercury', distance: 8.5, radius: 0.52, color: 0xa8a29e, roughness: 0.8, orbitSpeed: 0.038, rotSpeed: 0.015 },
+  { name: 'Venus', distance: 12.8, radius: 0.88, color: 0xeab308, roughness: 0.5, orbitSpeed: 0.026, rotSpeed: -0.008 },
+  { name: 'Earth', distance: 18.0, radius: 1.05, color: 0x2563eb, roughness: 0.4, orbitSpeed: 0.02, rotSpeed: 0.025, hasMoon: true },
+  { name: 'Mars', distance: 23.5, radius: 0.68, color: 0xe05638, roughness: 0.7, orbitSpeed: 0.016, rotSpeed: 0.022 },
+  { name: 'Jupiter', distance: 36.5, radius: 2.6, color: 0xd97706, roughness: 0.45, orbitSpeed: 0.009, rotSpeed: 0.04, hasJupiterMoons: true },
+  { name: 'Saturn', distance: 48.0, radius: 2.1, color: 0xfef08a, roughness: 0.5, orbitSpeed: 0.0065, rotSpeed: 0.035, hasRings: true },
+  { name: 'Uranus', distance: 58.0, radius: 1.45, color: 0x38bdf8, roughness: 0.5, orbitSpeed: 0.0045, rotSpeed: 0.02 },
+  { name: 'Neptune', distance: 68.0, radius: 1.38, color: 0x1d4ed8, roughness: 0.5, orbitSpeed: 0.0035, rotSpeed: 0.022 }
+];
 
-// Orbital Kinetic Nodes
-const nodeCount = 12;
-const orbitalNodes = [];
-const nodeGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.8, 8);
+const planets = [];
 
-for (let i = 0; i < nodeCount; i++) {
-  const mesh = new THREE.Mesh(nodeGeo, accentMat);
-  const angle = (i / nodeCount) * Math.PI * 2;
-  const radius = 11.2;
-  mesh.position.set(Math.cos(angle) * radius, 0, Math.sin(angle) * radius);
-  mesh.rotation.z = Math.PI / 2;
-  kineticGroup.add(mesh);
-  orbitalNodes.push({ mesh, angle, radius, speed: 0.008 + (i % 3) * 0.004 });
-}
+planetConfigs.forEach(cfg => {
+  createOrbitTrack(cfg.distance);
 
-// Particle Atmosphere (Subtle Amber & Silver Stardust)
-const dustCount = 2000;
-const dustGeo = new THREE.BufferGeometry();
-const dustPositions = new Float32Array(dustCount * 3);
-const dustColors = new Float32Array(dustCount * 3);
+  const pivot = new THREE.Group();
+  solarSystem.add(pivot);
 
-for (let i = 0; i < dustCount; i++) {
-  dustPositions[i * 3] = (Math.random() - 0.5) * 160;
-  dustPositions[i * 3 + 1] = (Math.random() - 0.5) * 160;
-  dustPositions[i * 3 + 2] = (Math.random() - 0.5) * 160;
+  const mat = new THREE.MeshStandardMaterial({
+    color: cfg.color,
+    roughness: cfg.roughness,
+    metalness: 0.15
+  });
+  const geo = new THREE.SphereGeometry(cfg.radius, 32, 32);
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.x = cfg.distance;
+  pivot.add(mesh);
+
+  let moonObj = null;
+  if (cfg.hasMoon) {
+    const moonGeo = new THREE.SphereGeometry(0.28, 16, 16);
+    const moonMat = new THREE.MeshStandardMaterial({ color: 0xd4d4d8, roughness: 0.9 });
+    const moonMesh = new THREE.Mesh(moonGeo, moonMat);
+    moonMesh.position.x = 2.0;
+    mesh.add(moonMesh);
+    moonObj = { mesh: moonMesh, angle: 0, speed: 0.08 };
+  }
+
+  // Saturn's Iconic Rings
+  if (cfg.hasRings) {
+    const ringGeo = new THREE.RingGeometry(2.7, 5.2, 64);
+    const ringMat = new THREE.MeshStandardMaterial({
+      color: 0xfef3c7,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.75,
+      roughness: 0.4
+    });
+    const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+    ringMesh.rotation.x = Math.PI / 2.3;
+    mesh.add(ringMesh);
+  }
+
+  planets.push({
+    pivot,
+    mesh,
+    angle: Math.random() * Math.PI * 2,
+    orbitSpeed: cfg.orbitSpeed,
+    rotSpeed: cfg.rotSpeed,
+    moon: moonObj
+  });
+});
+
+// ─── D. ASTEROID BELT (Between Mars & Jupiter) ───
+const asteroidCount = 1400;
+const asteroidGeo = new THREE.BufferGeometry();
+const asteroidPos = new Float32Array(asteroidCount * 3);
+const asteroidColors = new Float32Array(asteroidCount * 3);
+
+for (let i = 0; i < asteroidCount; i++) {
+  const theta = Math.random() * Math.PI * 2;
+  const dist = 27.5 + (Math.random() - 0.5) * 5.0;
+  const y = (Math.random() - 0.5) * 2.2;
+
+  asteroidPos[i * 3] = Math.cos(theta) * dist;
+  asteroidPos[i * 3 + 1] = y;
+  asteroidPos[i * 3 + 2] = Math.sin(theta) * dist;
 
   const rnd = Math.random();
-  if (rnd < 0.2) {
-    // Warm amber ember
-    dustColors[i * 3] = 1.0; dustColors[i * 3 + 1] = 0.55; dustColors[i * 3 + 2] = 0.2;
+  if (rnd < 0.3) {
+    asteroidColors[i * 3] = 0.95; asteroidColors[i * 3 + 1] = 0.7; asteroidColors[i * 3 + 2] = 0.4;
   } else {
-    // Silver starlight
-    dustColors[i * 3] = 0.85; dustColors[i * 3 + 1] = 0.9; dustColors[i * 3 + 2] = 0.95;
+    asteroidColors[i * 3] = 0.7; asteroidColors[i * 3 + 1] = 0.7; asteroidColors[i * 3 + 2] = 0.75;
   }
 }
-
-dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
-dustGeo.setAttribute('color', new THREE.BufferAttribute(dustColors, 3));
-const dustMat = new THREE.PointsMaterial({
+asteroidGeo.setAttribute('position', new THREE.BufferAttribute(asteroidPos, 3));
+asteroidGeo.setAttribute('color', new THREE.BufferAttribute(asteroidColors, 3));
+const asteroidMat = new THREE.PointsMaterial({
   size: 0.18,
   vertexColors: true,
   transparent: true,
   opacity: 0.65
 });
-const dustPoints = new THREE.Points(dustGeo, dustMat);
-scene.add(dustPoints);
+const asteroidBelt = new THREE.Points(asteroidGeo, asteroidMat);
+solarSystem.add(asteroidBelt);
+
+// ─── E. DEEP SPACE COSMIC STARS ───
+const starCount = 3000;
+const starGeo = new THREE.BufferGeometry();
+const starPos = new Float32Array(starCount * 3);
+const starColors = new Float32Array(starCount * 3);
+
+for (let i = 0; i < starCount; i++) {
+  starPos[i * 3] = (Math.random() - 0.5) * 350;
+  starPos[i * 3 + 1] = (Math.random() - 0.5) * 350;
+  starPos[i * 3 + 2] = (Math.random() - 0.5) * 350;
+
+  const rnd = Math.random();
+  if (rnd < 0.25) {
+    starColors[i * 3] = 1.0; starColors[i * 3 + 1] = 0.75; starColors[i * 3 + 2] = 0.4;
+  } else {
+    starColors[i * 3] = 0.85; starColors[i * 3 + 1] = 0.92; starColors[i * 3 + 2] = 1.0;
+  }
+}
+starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+starGeo.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
+const starMat = new THREE.PointsMaterial({
+  size: 0.22,
+  vertexColors: true,
+  transparent: true,
+  opacity: 0.7
+});
+const stars = new THREE.Points(starGeo, starMat);
+scene.add(stars);
 
 /* ════════════════════════════════════════════════════════════════════
-   3. SCROLL KINEMATICS & MOUSE INTERACTION (SMOOTH DAMPING)
+   3. SCROLL KINEMATICS & INTERACTIVE 3D ORBIT CONTROLS
 ════════════════════════════════════════════════════════════════════ */
 let scrollY = 0;
 let scrollProgress = 0;
@@ -1003,7 +1068,6 @@ let previousMouseX = 0, previousMouseY = 0;
 let dragRotationX = 0, dragRotationY = 0;
 let dragVelX = 0, dragVelY = 0;
 
-// Mouse move tracking
 window.addEventListener('mousemove', (e) => {
   targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
   targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
@@ -1023,7 +1087,7 @@ window.addEventListener('mousemove', (e) => {
   }
 });
 
-// Click and drag to orbit 3D model
+// Click and drag anywhere to orbit 360°
 window.addEventListener('mousedown', (e) => {
   if (e.target.closest('a, button, input, select, .interactive-card')) return;
   isDragging = true;
@@ -1035,7 +1099,7 @@ window.addEventListener('mouseup', () => {
   isDragging = false;
 });
 
-// Touch support for mobile
+// Touch support for mobile devices
 window.addEventListener('touchstart', (e) => {
   if (e.touches.length === 1 && !e.target.closest('a, button, input, select, .interactive-card')) {
     isDragging = true;
@@ -1064,34 +1128,30 @@ window.addEventListener('touchend', () => {
   isDragging = false;
 });
 
-// Kinetic Pulse Effect
-let pulseStrength = 0;
-document.getElementById('btn-kinetic-pulse').addEventListener('click', () => {
-  pulseStrength = 1.0;
-  warmFillLight.intensity = 6.0;
+// Solar Flare Burst
+let flarePulse = 0;
+document.getElementById('btn-solar-flare').addEventListener('click', () => {
+  flarePulse = 1.0;
+  sunLight.intensity = 8.0;
 });
 
-// Wireframe toggle
-let isWire = false;
-document.getElementById('btn-wire-toggle').addEventListener('click', () => {
-  isWire = !isWire;
-  centralCore.material.wireframe = isWire;
-  document.getElementById('btn-wire-toggle').classList.toggle('active', isWire);
+// Toggle Orbit Tracks
+let orbitsVisible = true;
+const orbitBtn = document.getElementById('btn-toggle-orbits');
+orbitBtn.addEventListener('click', () => {
+  orbitsVisible = !orbitsVisible;
+  orbitTracksGroup.visible = orbitsVisible;
+  orbitBtn.classList.toggle('active', orbitsVisible);
 });
 
-// Palette modulation
-function setPalette(themeKey, btnId) {
-  activeTheme = PALETTES[themeKey];
-  metallicMat.color.setHex(activeTheme.metal);
-  accentMat.color.setHex(activeTheme.accent);
-  warmFillLight.color.setHex(activeTheme.glow);
-  document.querySelectorAll('.dock-item').forEach(b => b.classList.remove('active'));
-  document.getElementById(btnId).classList.add('active');
-}
-
-document.getElementById('btn-theme-studio').addEventListener('click', () => setPalette('studio', 'btn-theme-studio'));
-document.getElementById('btn-theme-amber').addEventListener('click', () => setPalette('amber', 'btn-theme-amber'));
-document.getElementById('btn-theme-bronze').addEventListener('click', () => setPalette('bronze', 'btn-theme-bronze'));
+// Speed Toggle
+let speedMultiplier = 1.0;
+const speedBtn = document.getElementById('btn-speed-toggle');
+speedBtn.addEventListener('click', () => {
+  speedMultiplier = speedMultiplier === 1.0 ? 3.0 : 1.0;
+  speedBtn.textContent = 'SPEED: ' + speedMultiplier + 'X';
+  speedBtn.classList.toggle('active', speedMultiplier > 1.0);
+});
 
 // Copy referral code
 document.getElementById('copy-btn').addEventListener('click', () => {
@@ -1119,7 +1179,7 @@ trackerPoints.forEach(pt => {
 });
 
 /* ════════════════════════════════════════════════════════════════════
-   4. RENDER LOOP (60 FPS FLUID DYNAMICS & 3D INTERACTION)
+   4. RENDER LOOP (PLANETARY MECHANICS & 3D DYNAMICS)
 ════════════════════════════════════════════════════════════════════ */
 const clock = new THREE.Clock();
 
@@ -1127,7 +1187,7 @@ function animate() {
   requestAnimationFrame(animate);
 
   const delta = clock.getDelta();
-  const time = clock.getElapsedTime();
+  const time = clock.getElapsedTime() * speedMultiplier;
 
   // Smooth mouse damping
   mouseX += (targetMouseX - mouseX) * 0.05;
@@ -1142,67 +1202,66 @@ function animate() {
   }
 
   // Responsive 3D Cursor Tilt
-  mouseTiltX += (targetMouseY * 0.65 - mouseTiltX) * 0.08;
-  mouseTiltY += (targetMouseX * 0.9 - mouseTiltY) * 0.08;
+  mouseTiltX += (targetMouseY * 0.55 - mouseTiltX) * 0.08;
+  mouseTiltY += (targetMouseX * 0.85 - mouseTiltY) * 0.08;
 
-  // Direct 3D Rotation applied to the Kinetic Sculpture
-  kineticGroup.rotation.x = mouseTiltX + dragRotationX;
-  kineticGroup.rotation.y = time * 0.12 + mouseTiltY + dragRotationY;
-  kineticGroup.rotation.z = Math.sin(time * 0.25) * 0.08 - targetMouseX * 0.12;
+  // Direct 3D Rotation applied to the entire Solar System
+  solarSystem.rotation.x = 0.28 + mouseTiltX + dragRotationX;
+  solarSystem.rotation.y = time * 0.03 + mouseTiltY + dragRotationY;
+  solarSystem.rotation.z = Math.sin(time * 0.1) * 0.04 - targetMouseX * 0.08;
 
-  // Direct 3D Parallax Shift (the model physically drifts with your cursor)
-  kineticGroup.position.x = mouseX * 3.2;
-  kineticGroup.position.y = -mouseY * 2.4;
+  // 3D Parallax Shift (the solar system drifts with cursor position)
+  solarSystem.position.x = mouseX * 2.8;
+  solarSystem.position.y = -mouseY * 2.0;
 
-  // Camera flight trajectory driven by natural scroll
-  const camX = Math.sin(scrollProgress * Math.PI * 1.8) * 8 + mouseX * 1.8;
-  const camY = -scrollProgress * 20 - mouseY * 1.4;
-  const camZ = 32 - scrollProgress * 10;
+  // Camera flight trajectory driven by natural page scroll:
+  // Starts near Earth/Sun -> flies past Mars -> sweeps past Jupiter & Saturn
+  const camX = Math.sin(scrollProgress * Math.PI * 1.8) * 10 + mouseX * 1.6;
+  const camY = 16 - scrollProgress * 14 - mouseY * 1.2;
+  const camZ = 38 - scrollProgress * 12;
 
   camera.position.x += (camX - camera.position.x) * 0.06;
   camera.position.y += (camY - camera.position.y) * 0.06;
   camera.position.z += (camZ - camera.position.z) * 0.06;
-  camera.lookAt(0, -scrollProgress * 18, 0);
+  camera.lookAt(0, -scrollProgress * 8, 0);
 
-  // Dynamic light follows mouse cursor to cast live specular highlights across metal edges
-  warmFillLight.position.x = -12 + mouseX * 24;
-  warmFillLight.position.y = -8 - mouseY * 18;
-  warmFillLight.position.z = 10 + Math.abs(mouseX) * 8;
+  // Sun subtle rotation & corona pulsation
+  sunMesh.rotation.y = time * 0.08;
+  coronaMesh.rotation.y = -time * 0.05;
+  flarePoints.rotation.y = time * 0.12;
 
-  // Precision Gyroscopic Rotations (inner rings)
-  centralCore.rotation.x = time * 0.18;
-  centralCore.rotation.y = time * 0.25;
-
-  ring1.rotation.z = time * 0.22;
-  ring1.rotation.y = time * 0.14;
-
-  ring2.rotation.x = -time * 0.2;
-  ring2.rotation.z = time * 0.16;
-
-  ring3.rotation.y = time * 0.28;
-
-  // Orbital Nodes
-  orbitalNodes.forEach(node => {
-    node.angle += node.speed;
-    node.mesh.position.x = Math.cos(node.angle) * node.radius;
-    node.mesh.position.z = Math.sin(node.angle) * node.radius;
-    node.mesh.rotation.y = -node.angle;
-  });
-
-  // Pulse Decay
-  if (pulseStrength > 0.01) {
-    pulseStrength *= 0.93;
-    const sc = 1.0 + pulseStrength * 0.35;
-    centralCore.scale.set(sc, sc, sc);
-    warmFillLight.intensity = 2.2 + pulseStrength * 4.0;
+  // Solar Flare Decay
+  if (flarePulse > 0.01) {
+    flarePulse *= 0.92;
+    const scale = 1.0 + flarePulse * 0.45;
+    sunGroup.scale.set(scale, scale, scale);
+    sunLight.intensity = 3.8 + flarePulse * 5.0;
   } else {
-    centralCore.scale.set(1, 1, 1);
-    warmFillLight.intensity = 2.2;
+    // Gentle heartbeat
+    const breath = 1.0 + Math.sin(time * 2) * 0.03;
+    sunGroup.scale.set(breath, breath, breath);
+    sunLight.intensity = 3.8;
   }
 
-  // Stardust dynamic 3D parallax
-  dustPoints.rotation.y = time * 0.008 + mouseX * 0.25;
-  dustPoints.rotation.x = time * 0.004 + mouseY * 0.18;
+  // Planetary Revolutions & Self-Rotations
+  planets.forEach(p => {
+    p.angle += p.orbitSpeed * delta * speedMultiplier * 1.8;
+    p.pivot.rotation.y = p.angle;
+    p.mesh.rotation.y += p.rotSpeed * delta * 50;
+
+    if (p.moon) {
+      p.moon.angle += p.moon.speed * delta * 60;
+      p.moon.mesh.position.x = Math.cos(p.moon.angle) * 2.2;
+      p.moon.mesh.position.z = Math.sin(p.moon.angle) * 2.2;
+    }
+  });
+
+  // Asteroid Belt gentle drift
+  asteroidBelt.rotation.y = time * 0.012;
+
+  // Cosmic Stars subtle twinkle & drift
+  stars.rotation.y = time * 0.003 + mouseX * 0.04;
+  stars.rotation.x = time * 0.002 + mouseY * 0.03;
 
   renderer.render(scene, camera);
 }

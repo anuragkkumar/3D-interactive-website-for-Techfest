@@ -1,7 +1,7 @@
 # Techfest 2026 — Indian Institute of Technology Bombay
-### 3D Interactive Web Experience (Three.js WebGL)
+### 3D Interactive Solar System Experience (Three.js WebGL)
 
-An engineering-grade, human-designed 3D interactive web portal for **Techfest, IIT Bombay** (30th Edition). Built with Three.js (WebGL) and physical PBR studio materials, stepping completely away from artificial cyberpunk neon cliches in favor of authentic titanium, graphite, and warm solar amber aesthetics.
+An engineering-grade, interactive 3D Solar System web portal built for **Techfest, IIT Bombay** (30th Edition). Built with Three.js (WebGL) featuring procedural celestial illumination, physically modeled planetary revolutions, multi-plane cursor parallax, and 360° orbital camera mechanics.
 
 ---
 
@@ -11,44 +11,42 @@ An engineering-grade, human-designed 3D interactive web portal for **Techfest, I
 
 ---
 
-## 🎨 Design Philosophy & Architecture
+## 🪐 3D Celestial Architecture & Features
 
-### 1. Authentic Studio Materiality (No Neon Cliches)
-- **Titanium & Matte Graphite Palette:** Physical standard materials (PBR) featuring realistic surface roughness, metalness, and ACES Filmic tone mapping.
-- **Warm Solar Key & Rim Lighting:** Directional studio key lights paired with warm tungsten/amber bounce lights (`#ff7a1a`), recreating high-end industrial engineering showcases.
-- **Cinematic Typography:** Modern editorial styling with `Plus Jakarta Sans`, `Space Grotesk`, and `Space Mono`.
+### 1. The Solar Core & Radiant Corona
+- **The Sun:** Central high-luminance sphere emitting omnidirectional inverse-square lighting across all planetary bodies.
+- **Coronal Mass Ejection & Flares:** Translucent outer corona shell with 300 radiating solar flare particles.
+- **Solar Flare Burst:** Interactive button trigger causing coronal mass expansion and dynamic lighting surge.
 
-### 2. Precision Kinetic Gyroscope (Three.js)
-- **Central Faceted Monolith:** Geometric polyhedron core with inner warm luminescent nucleus.
-- **Machined Gimbal Rings:** 3 concentric structural rings revolving along distinct Euler rotational axes.
-- **Orbital Telemetry Nodes:** 12 precision-machined elements tracing circular orbits with dynamic rotational alignment.
-- **Stardust Atmosphere:** 2,000 warm amber and silver particles drifting naturally in 3D perspective.
+### 2. Planetary System & Orbital Mechanics
+- **Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune:**
+  - Scaled planetary radii, surface materials, and proportional orbital velocities.
+  - **Earth & Moon System:** Sub-orbital lunar satellite revolving around Earth's gravitational barycenter.
+  - **Saturn's 3D Rings:** Double-sided ring geometry tilted at 28° across Saturn's equatorial plane.
+  - **Asteroid Belt:** 1,400 individual rocky asteroid particles orbiting in an accretion belt between Mars and Jupiter.
+- **Orbital Trajectory Tracks:** Precision circular path lines visualizing planetary planes with toggleable visibility.
 
-### 3. Smooth Damped Camera Trajectory
-- Scroll-driven camera flight smoothly interpolating through five major festival zones:
-  - **Zone 01 / Overview:** Panoramic view of the monolithic sculpture.
-  - **Zone 02 / Foundation:** Focus on festival scale and historical metrics (175,000+ footfall across 78 countries).
-  - **Zone 03 / Arenas:** Robowars, 36-hour hackathons, and autonomous robotics tracks.
-  - **Zone 04 / Innovation:** Humanoids, defense breakthroughs, and space technology from ISRO.
-  - **Zone 05 / Performance:** Technoholix drone ballets and evening spectacles.
-  - **Zone 06 / Access Deck:** Official delegate access identifier (`TECHFEST-IITB-2026`).
+### 3. Interactive 3D Cursor Physics & Orbit Controls
+- **Dynamic 3D Cursor Tilt:** Real-time angular perspective shift reacting smoothly to cursor coordinates with inertia damping.
+- **360° Click & Drag Orbital View:** Freeform 360-degree rotation allowing exploration from planar ecliptic views to high-angle polar perspectives.
+- **Scroll-Driven Spaceflight:** Smooth camera interpolation flying from Earth/Sun outwards toward the gas giants as visitors scroll through event sections.
 
-### 4. Interactive Studio Viewport Dock
-- **Matte Graphite / Solar Amber / Bronze Titanium:** Instantaneous live PBR material and studio lighting modulation.
-- **Wireframe Toggle:** Switch effortlessly between solid metallic surfaces and CAD wireframe meshes.
-- **Kinetic Pulse:** Generates dynamic energy impulses and lighting surges across the central sculpture.
+### 4. Minimalist Studio Dock
+- **Orbit Tracks:** Toggle visibility of orbital trajectory lines.
+- **Speed: 1X / 3X:** Modulate real-time orbital revolution velocity.
+- **Solar Flare:** Trigger dynamic coronal solar explosion impulse.
 
 ---
 
 ## 🛠️ Technical Stack
 - **Engine:** Three.js (r128) WebGL Renderer
-- **Shading Model:** MeshStandardMaterial (PBR) + ACES Filmic Tone Mapping
-- **Typography:** Google Fonts (Plus Jakarta Sans, Space Grotesk, Space Mono)
+- **Lighting Model:** PointLight (Solar source) + Ambient cosmic fill
+- **Typography:** Plus Jakarta Sans, Space Grotesk, Space Mono
 - **Styling:** CSS Hardware-Accelerated Glassmorphism (Frosted backdrop-filter)
 
 ---
 
-## 👤 Project Details
+## 👤 Project Information
 - **Developer:** Anurag Kumar
-- **Location:** Kanpur, Uttar Pradesh
-- **Festival:** Techfest 2026, IIT Bombay (Powai, Mumbai)
+- **College / City:** Kanpur, Uttar Pradesh
+- **Event:** Techfest 2026, IIT Bombay
