@@ -6,8 +6,8 @@ An interactive 3D Celestial Solar Observatory designed and developed for **Techf
 ---
 
 ## ⚡ Live WebGL Experience
-🔗 **GitHub Repository:** [https://github.com/anuragkkumar/techfest-3d-interactive](https://github.com/anuragkkumar/techfest-3d-interactive)  
-🔗 **Live Pages Deployment:** [https://anuragkkumar.github.io/techfest-3d-interactive/](https://anuragkkumar.github.io/techfest-3d-interactive/)  
+🔗 **GitHub Repository:** [https://github.com/anuragkkumar/3D-interactive-website-for-Techfest](https://github.com/anuragkkumar/3D-interactive-website-for-Techfest)  
+🔗 **Live Pages Deployment:** [https://anuragkkumar.github.io/3D-interactive-website-for-Techfest/](https://anuragkkumar.github.io/3D-interactive-website-for-Techfest/)  
 🔗 **Local Testing:** `http://localhost:8080/`
 
 ---
