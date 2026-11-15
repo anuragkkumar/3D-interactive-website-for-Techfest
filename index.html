@@ -489,65 +489,65 @@ html, body {
 <!-- HERO OVERLAY -->
 <div class="hero-overlay">
   <div class="hero-pill">
-    <span>● SOLAR OBSERVATORY ENGINE</span>
+    <span>● TECHFEST 2026 // 30TH ANNUAL GALAXY</span>
   </div>
   <h2 class="hero-title">
-    Scale Beyond
-    <em>Boundaries.</em>
+    The Universe of
+    <em>Innovation.</em>
   </h2>
   <p class="hero-desc">
-    Asia's benchmark science &amp; technology festival at IIT Bombay. Explore planetary systems, interact in real-time 3D, and inspect the celestial geometry of Techfest 2026.
+    Asia's largest science &amp; technology festival mapped across an interactive 3D universe. Explore International Robowars, AI summits, humanoid exhibits, and Technoholix pro-nights at IIT Bombay.
   </p>
   <div class="hero-actions">
-    <button class="btn-explore" id="btn-hero-explore">Inspect Earth Orbit</button>
-    <button class="btn-details" id="btn-hero-info">Delegation Pass</button>
+    <button class="btn-explore" id="btn-hero-explore">Enter Robowars Arena</button>
+    <button class="btn-details" id="btn-hero-info">Festival Brief &amp; Pass</button>
   </div>
 </div>
 
 <!-- LIVE PLANET TELEMETRY HUD -->
 <aside class="planet-hud" id="planet-hud">
   <div class="hud-header">
-    <div class="hud-target-name" id="hud-name">SOLAR SYSTEM</div>
-    <div class="hud-status-chip" id="hud-status">ORBIT LOCKED</div>
+    <div class="hud-target-name" id="hud-name">TECHFEST CONSTELLATION</div>
+    <div class="hud-status-chip" id="hud-status">SECTOR LOCKED</div>
   </div>
   <div class="hud-metrics">
     <div class="metric-line">
-      <span>SEMI-MAJOR AXIS:</span>
-      <span id="hud-dist">1.000 AU</span>
+      <span id="hud-lbl-1">SECTOR DOMAIN:</span>
+      <span id="hud-dist">FESTIVAL CORE</span>
     </div>
     <div class="metric-line">
-      <span>ORBITAL PERIOD:</span>
-      <span id="hud-period">365.25 DAYS</span>
+      <span id="hud-lbl-2">VENUE / DATES:</span>
+      <span id="hud-period">DEC 18–20, 2026</span>
     </div>
     <div class="metric-line">
-      <span>EQUATORIAL RADIUS:</span>
-      <span id="hud-radius">6,371 KM</span>
+      <span id="hud-lbl-3">SCALE / CAPACITY:</span>
+      <span id="hud-radius">175,000+ ATTENDEES</span>
     </div>
     <div class="metric-line">
-      <span>SURFACE GRAVITY:</span>
-      <span id="hud-gravity">9.807 M/S²</span>
+      <span id="hud-lbl-4">LOCATION:</span>
+      <span id="hud-gravity">IIT BOMBAY · POWAI</span>
     </div>
   </div>
   <p class="hud-planet-desc" id="hud-desc">
-    System overview active. Click any planetary body or dock tab below to initiate smooth orbital camera flight and inspect surface textures up close.
+    Techfest constellation overview active. The central core powers Asia's largest tech festival, while each planetary body represents a flagship competition arena, summit, or global exhibition. Click any sector to enter orbit.
   </p>
 </aside>
 
-<!-- INTERACTIVE 3D PLANET SELECTOR BAR -->
+<!-- INTERACTIVE 3D SECTOR SELECTOR BAR -->
 <div class="planet-selector-bar">
-  <button class="planet-tab btn-overview active" data-target="system">☀️ SYSTEM</button>
+  <button class="planet-tab btn-overview active" data-target="system">☀️ TECHFEST CORE</button>
   <div class="dock-sep"></div>
-  <button class="planet-tab" data-target="mercury">MERCURY</button>
-  <button class="planet-tab" data-target="venus">VENUS</button>
-  <button class="planet-tab" data-target="earth">EARTH</button>
-  <button class="planet-tab" data-target="mars">MARS</button>
-  <button class="planet-tab" data-target="jupiter">JUPITER</button>
-  <button class="planet-tab" data-target="saturn">SATURN</button>
-  <button class="planet-tab" data-target="uranus">URANUS</button>
-  <button class="planet-tab" data-target="neptune">NEPTUNE</button>
+  <button class="planet-tab" data-target="mercury">⚔️ ROBOWARS</button>
+  <button class="planet-tab" data-target="venus">🧠 AI SUMMIT</button>
+  <button class="planet-tab" data-target="earth">📍 IIT BOMBAY</button>
+  <button class="planet-tab" data-target="mars">🚀 AEROSPACE</button>
+  <button class="planet-tab" data-target="jupiter">🔬 EXHIBITIONS</button>
+  <button class="planet-tab" data-target="saturn">🎆 TECHNOHOLIX</button>
+  <button class="planet-tab" data-target="uranus">🤖 MESHMERIZE</button>
+  <button class="planet-tab" data-target="neptune">💻 HACKATHON</button>
 </div>
 
-<div class="drag-hint">✦ DRAG TO ROTATE 360° · SCROLL TO ZOOM · CLICK PLANETS TO FLY IN</div>
+<div class="drag-hint">✦ DRAG TO ROTATE 360° · SCROLL TO ZOOM · CLICK SECTORS TO ENTER ORBIT</div>
 
 <!-- FESTIVAL INFO MODAL -->
 <div class="techfest-modal" id="modal">
@@ -700,15 +700,95 @@ solarGroup.add(coronaMesh);
 
 // ─── B. PLANETARY BODIES & PBR TEXTURING ───
 const planetsData = {
-  system: { name: 'SOLAR SYSTEM', dist: '1.000 AU', period: '365.25 D', radius: '6,371 KM', gravity: '9.81 M/S²', desc: 'Panoramic celestial observatory view of the full solar system. Move mouse or drag anywhere to rotate 360 degrees.' },
-  mercury: { name: 'MERCURY', dist: '0.387 AU', period: '88.0 DAYS', radius: '2,440 KM', gravity: '3.70 M/S²', desc: 'The smallest and innermost planet in the solar system, heavily cratered and enduring extreme thermal variations.', radiusMesh: 0.52, distMesh: 9.0, color: 0x94a3b8, speed: 0.035, roughness: 0.8 },
-  venus: { name: 'VENUS', dist: '0.723 AU', period: '224.7 DAYS', radius: '6,052 KM', gravity: '8.87 M/S²', desc: 'Shrouded by a dense, toxic sulfuric atmosphere creating an intense greenhouse effect with surface temperatures of 465°C.', radiusMesh: 0.9, distMesh: 13.8, color: 0xfde047, speed: 0.024, roughness: 0.35 },
-  earth: { name: 'EARTH', dist: '1.000 AU', period: '365.25 DAYS', radius: '6,371 KM', gravity: '9.81 M/S²', desc: 'The home world. Abundant liquid water oceans, dynamic nitrogen-oxygen atmosphere, and the cradle of human engineering.', radiusMesh: 1.1, distMesh: 19.5, speed: 0.018, roughness: 0.3, hasMoon: true, texture: 'earth' },
-  mars: { name: 'MARS', dist: '1.524 AU', period: '687.0 DAYS', radius: '3,390 KM', gravity: '3.72 M/S²', desc: 'The Red Planet. Iron-oxide dust deserts, extinct giant shield volcanoes, and polar ice caps under investigation for future colonies.', radiusMesh: 0.72, distMesh: 25.5, speed: 0.014, roughness: 0.7, texture: 'mars' },
-  jupiter: { name: 'JUPITER', dist: '5.204 AU', period: '11.86 YEARS', radius: '69,911 KM', gravity: '24.79 M/S²', desc: 'The gas giant king. Massive hydrogen-helium fluid bands with the legendary centuries-old Great Red Spot anticyclonic storm.', radiusMesh: 2.8, distMesh: 38.0, speed: 0.008, roughness: 0.4, texture: 'jupiter' },
-  saturn: { name: 'SATURN', dist: '9.582 AU', period: '29.45 YEARS', radius: '58,232 KM', gravity: '10.44 M/S²', desc: 'The jewel of the solar system, celebrated for its spectacular, highly reflective ice-particle ring structure spanning 282,000 km.', radiusMesh: 2.2, distMesh: 50.0, speed: 0.006, roughness: 0.45, texture: 'saturn', hasRings: true },
-  uranus: { name: 'URANUS', dist: '19.22 AU', period: '84.01 YEARS', radius: '25,362 KM', gravity: '8.69 M/S²', desc: 'An ice giant with a unique 98° axial tilt, rolling along its orbital plane with a pale cyan methane-rich atmosphere.', radiusMesh: 1.45, distMesh: 61.0, color: 0x67e8f9, speed: 0.004, roughness: 0.4 },
-  neptune: { name: 'NEPTUNE', dist: '30.05 AU', period: '164.8 YEARS', radius: '24,622 KM', gravity: '11.15 M/S²', desc: 'The outermost major planet, an azure ice world battered by supersonic atmospheric winds exceeding 2,100 km/h.', radiusMesh: 1.4, distMesh: 72.0, color: 0x1d4ed8, speed: 0.003, roughness: 0.4 }
+  system: {
+    name: 'TECHFEST CONSTELLATION',
+    lbl1: 'FESTIVAL CORE:', dist: '30TH ANNUAL EDITION',
+    lbl2: 'FESTIVAL DATES:', period: 'DEC 18–20, 2026',
+    lbl3: 'STUDENT REACH:', radius: '175,000+ ATTENDEES',
+    lbl4: 'HEADQUARTERS:', gravity: 'IIT BOMBAY · POWAI',
+    status: 'SECTOR LOCKED',
+    desc: 'The central solar core powers Asia\'s largest science and technology festival. Each orbiting planetary body represents a premier national competition arena, summit, or global exhibition. Click any sector to enter orbit.'
+  },
+  mercury: {
+    name: 'ROBOWARS CHAMPIONSHIP',
+    lbl1: 'COMBAT WEIGHT:', dist: '60KG & 15KG HEAVYWEIGHT',
+    lbl2: 'TOTAL PRIZE POOL:', period: '₹12,00,000 INR',
+    lbl3: 'ARENA SPECS:', radius: 'BULLETPROOF POLYCARBONATE',
+    lbl4: 'COMPETITION TIER:', gravity: 'INTERNATIONAL COMBAT',
+    status: 'ARENA ACTIVE',
+    desc: 'Asia\'s fiercest combat robotics championship. Heavyweight bots with high-velocity spinning drums, pneumatic flippers, and wedge chassis battle to destruction inside a fortified arena.',
+    radiusMesh: 0.52, distMesh: 9.0, color: 0x94a3b8, speed: 0.035, roughness: 0.8
+  },
+  venus: {
+    name: 'AI & QUANTUM TRACK',
+    lbl1: 'CHALLENGE DOMAIN:', dist: 'COMPUTER VISION & LLMS',
+    lbl2: 'TRACK PRIZE POOL:', period: '₹6,50,000 INR',
+    lbl3: 'COMPUTE PARTNER:', radius: 'NVIDIA GPU CLOUD',
+    lbl4: 'EVALUATION:', gravity: 'LATENCY & ACCURACY',
+    status: 'NEURAL CLUSTER LIVE',
+    desc: 'National AI and Machine Learning hack-challenge. Engineering teams deploy real-time neural models, edge inferencing, and autonomous agent workflows to tackle enterprise problems.',
+    radiusMesh: 0.9, distMesh: 13.8, color: 0xfde047, speed: 0.024, roughness: 0.35
+  },
+  earth: {
+    name: 'IIT BOMBAY MAIN CAMPUS',
+    lbl1: 'HOST INSTITUTION:', dist: 'IIT BOMBAY, MUMBAI',
+    lbl2: 'CAMPUS VENUES:', period: 'CONVOCATION & OPEN THEATRE',
+    lbl3: 'PARTICIPATING COLL.:', radius: '2,500+ UNIVERSITIES',
+    lbl4: 'SUB-ORBIT NODE:', gravity: 'CAMPUS AMBASSADOR HUB',
+    status: 'CAMPUS GRID ONLINE',
+    desc: 'The primary physical grounds of Techfest at Powai, Mumbai. Encompassing academic lecture halls, pro-night stages, and delegate hostels. The orbiting Moon represents the nationwide Campus Ambassador network.',
+    radiusMesh: 1.1, distMesh: 19.5, speed: 0.018, roughness: 0.3, hasMoon: true, texture: 'earth'
+  },
+  mars: {
+    name: 'AEROSPACE & ISRO PAVILION',
+    lbl1: 'AEROSPACE TRACKS:', dist: 'DRONE PRIX & ROCKETRY',
+    lbl2: 'TOTAL PRIZE POOL:', period: '₹8,00,000 INR',
+    lbl3: 'SPECIAL EXHIBIT:', radius: 'ISRO SATELLITE HARDWARE',
+    lbl4: 'FLIGHT TELEMETRY:', gravity: 'MILLIMETER ACCURACY',
+    status: 'ORBITAL RADAR ON',
+    desc: 'Autonomous drone navigation courses, high-altitude model rocket propulsion, and rare physical aerospace prototypes showcased directly by national space agencies.',
+    radiusMesh: 0.72, distMesh: 25.5, speed: 0.014, roughness: 0.7, texture: 'mars'
+  },
+  jupiter: {
+    name: 'INTERNATIONAL EXHIBITIONS',
+    lbl1: 'PARTICIPATING NATIONS:', dist: '78 COUNTRIES WORLDWIDE',
+    lbl2: 'INNOVATION STALLS:', period: '150+ GLOBAL EXHIBITS',
+    lbl3: 'FLAGSHIP ROBOTICS:', radius: 'HUMANOID BIONICS & QUADRUPEDS',
+    lbl4: 'ATTENDANCE CAPACITY:', gravity: '50,000+ DAILY WALKTHROUGH',
+    status: 'EXHIBIT DOME OPEN',
+    desc: 'The colossal international innovation pavilion. Showcasing cutting-edge humanoid kinematics (Sophia & Unitree robotics), neural prosthetics, and autonomous hypercar technology.',
+    radiusMesh: 2.8, distMesh: 38.0, speed: 0.008, roughness: 0.4, texture: 'jupiter'
+  },
+  saturn: {
+    name: 'TECHNOHOLIX // NIGHT SHOWS',
+    lbl1: 'EVENING SPECTACLE:', dist: '1,000 DRONE FORMATION BALLET',
+    lbl2: 'SCHEDULE TIMING:', period: 'DEC 18–20 · 7:00 PM TILL LATE',
+    lbl3: 'ARENA VENUE:', radius: 'OPEN AIR THEATRE (OAT)',
+    lbl4: 'AUDIOVISUAL:', gravity: '3D LASER MAPPING & EDM PROS',
+    status: 'STAGE READY',
+    desc: 'The crowning jewel of Techfest. The illuminated rings symbolize the 1,000-drone aerial light symphony dancing over the Mumbai night sky alongside world-renowned electronic musicians.',
+    radiusMesh: 2.2, distMesh: 50.0, speed: 0.006, roughness: 0.45, texture: 'saturn', hasRings: true
+  },
+  uranus: {
+    name: 'MESHMERIZE // AUTONOMOUS BOTS',
+    lbl1: 'ROBOTICS FORMAT:', dist: 'LINE FOLLOWING & MAZE SOLVING',
+    lbl2: 'TOTAL PRIZE POOL:', period: '₹4,50,000 INR',
+    lbl3: 'TRACK SURFACE:', radius: 'DYNAMIC REAL-TIME GRIDS',
+    lbl4: 'CONTROL HARDWARE:', gravity: 'CUSTOM SENSORS & PID ALGORITHMS',
+    status: 'TRACK CALIBRATED',
+    desc: 'High-speed autonomous robots racing through shifting maze layouts with microsecond sensor feedback, demonstrating PID tuning, obstacle avoidance, and precision motor control.',
+    radiusMesh: 1.45, distMesh: 61.0, color: 0x67e8f9, speed: 0.004, roughness: 0.4
+  },
+  neptune: {
+    name: 'NATIONAL 36-HR HACKATHON',
+    lbl1: 'HACKATHON SPRINT:', dist: '36 HOURS CONTINUOUS BUILDING',
+    lbl2: 'TOTAL PRIZE POOL:', period: '₹10,00,000 INR + HIRING',
+    lbl3: 'DEV TEAMS:', radius: '1,500+ SHORTLISTED CODERS',
+    lbl4: 'PARTNER COMPANIES:', gravity: 'DIRECT PRE-PLACEMENT OFFERS (PPO)',
+    status: 'SPRINT ACTIVE',
+    desc: 'The national premier hackathon. Student teams build full-stack web applications, decentralized protocols, and automation tools addressing real problem statements from sponsor tech companies.',
+    radiusMesh: 1.4, distMesh: 72.0, color: 0x1d4ed8, speed: 0.003, roughness: 0.4
+  }
 };
 
 const planetObjects = {};
@@ -907,11 +987,16 @@ function focusPlanet(key) {
 
   // Update HUD Display
   document.getElementById('hud-name').textContent = info.name;
+  document.getElementById('hud-lbl-1').textContent = info.lbl1 || 'CATEGORY / DOMAIN:';
   document.getElementById('hud-dist').textContent = info.dist;
+  document.getElementById('hud-lbl-2').textContent = info.lbl2 || 'DATES / PRIZE:';
   document.getElementById('hud-period').textContent = info.period;
+  document.getElementById('hud-lbl-3').textContent = info.lbl3 || 'CAPACITY / SCALE:';
   document.getElementById('hud-radius').textContent = info.radius;
+  document.getElementById('hud-lbl-4').textContent = info.lbl4 || 'VENUE / RULES:';
   document.getElementById('hud-gravity').textContent = info.gravity;
   document.getElementById('hud-desc').textContent = info.desc;
+  document.getElementById('hud-status').textContent = info.status || 'SECTOR LOCKED';
 
   // Update Active Tab State
   document.querySelectorAll('.planet-tab').forEach(t => {
@@ -932,7 +1017,7 @@ document.querySelectorAll('.planet-tab').forEach(tab => {
 });
 
 document.getElementById('btn-hero-explore').addEventListener('click', () => {
-  focusPlanet('earth');
+  focusPlanet('mercury');
 });
 
 // Modal Controls
