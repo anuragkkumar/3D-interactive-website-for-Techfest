@@ -32,7 +32,7 @@ An authentic, high-fidelity 3D WebGL web portal modeled directly after the offic
   - **Sector 02 (Competitions):** Shifts perspective overlooking Robowars and the AI Hackathon.
   - **Sector 03 (Exhibitions & Humanoids):** Glides along international tech showcases and ISRO aerospace pavilions.
   - **Sector 04 (Technoholix):** Tilts upward toward the skyward drone symphony.
-  - **Sector 05 (Campus Ambassador Terminal):** Top-down command terminal with official CA referral authentication (`CA-102709063903`).
+  - **Sector 05 (Portal Terminal):** Top-down command terminal with official portal access identification (`TECHFEST-IITB-2026`).
 
 ### 4. Interactive Reactor Controls
 - **Cyan Void / Solar Flare:** Instantaneous live shader palette modulation.
@@ -50,8 +50,7 @@ An authentic, high-fidelity 3D WebGL web portal modeled directly after the offic
 
 ---
 
-## 👤 Candidate Information
-- **Name:** Anurag Kumar
-- **Campus Ambassador ID:** `CA-102709063903`
+## 👤 Project Information
+- **Developer:** Anurag Kumar
 - **College / City:** Kanpur, Uttar Pradesh
 - **Event:** Techfest, IIT Bombay 2026

@@ -894,18 +894,18 @@ body {
       <div class="terminal-body">
         <div class="term-line green">> INITIALIZING FESTIVAL DEPLOYMENT UPLINK...</div>
         <div class="term-line">> CAMPUS NODE: KANPUR / UTTAR PRADESH</div>
-        <div class="term-line">> AMBASSADOR: ANURAG KUMAR [2k24.cs1e.2414311]</div>
+        <div class="term-line">> AMBASSADOR: ANURAG KUMAR</div>
         
         <div class="referral-box">
           <div>
-            <div style="font-size:0.7rem;color:var(--text-dim);letter-spacing:1px;margin-bottom:4px">OFFICIAL REFERRAL IDENTIFIER</div>
-            <div class="referral-code">CA-102709063903</div>
+            <div style="font-size:0.7rem;color:var(--text-dim);letter-spacing:1px;margin-bottom:4px">OFFICIAL ACCESS IDENTIFIER</div>
+            <div class="referral-code">TECHFEST-IITB-2026</div>
           </div>
           <button class="hud-btn" id="copy-ca-btn">COPY CODE</button>
         </div>
 
         <p class="term-line" style="font-size:0.8rem;color:#8892b0">
-          Use the CA verification credential above for fast-track team registration, accommodation reservations at the IIT Bombay campus, and workshop slot verification.
+          Use the verification access code above for fast-track team registration, accommodation reservations at the IIT Bombay campus, and workshop slot verification.
         </p>
 
         <div style="margin-top:24px;display:flex;gap:12px;justify-content:center">
@@ -919,7 +919,7 @@ body {
 
 <footer class="hud-footer">
   <div>TECHFEST 2026 // INDIAN INSTITUTE OF TECHNOLOGY BOMBAY // POWAI, MUMBAI - 400076</div>
-  <div style="margin-top:8px">DEVELOPED BY ANURAG KUMAR · CA-102709063903 · OFFICIAL 3D WEBGL INTERACTION TASK</div>
+  <div style="margin-top:8px">DEVELOPED BY ANURAG KUMAR · TECHFEST IIT BOMBAY 2026 · OFFICIAL 3D WEBGL INTERACTION TASK</div>
 </footer>
 
 <!-- THREE.JS CORE & ANIMATION SCRIPTS -->
@@ -1251,9 +1251,9 @@ function applyTheme(themeKey) {
 document.getElementById('btn-theme-cyan').addEventListener('click', () => applyTheme('cyan'));
 document.getElementById('btn-theme-crimson').addEventListener('click', () => applyTheme('crimson'));
 
-// CA Code copy
+// Access Code copy
 document.getElementById('copy-ca-btn').addEventListener('click', () => {
-  navigator.clipboard.writeText('CA-102709063903');
+  navigator.clipboard.writeText('TECHFEST-IITB-2026');
   const btn = document.getElementById('copy-ca-btn');
   btn.textContent = 'COPIED!';
   playLaserBeep(1200, 0.1);
