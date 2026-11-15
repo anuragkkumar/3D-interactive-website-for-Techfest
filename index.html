@@ -3,23 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Techfest 2026 — Indian Institute of Technology Bombay</title>
+<title>Techfest 2026 — 3D Celestial Observatory | IIT Bombay</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --bg-main: #090a0f;
-  --surface-card: rgba(18, 20, 29, 0.65);
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-hover: rgba(255, 138, 61, 0.35);
-  --accent-amber: #ff7a1a;
-  --accent-warm: #f59e0b;
-  --accent-gold: #fbbf24;
-  --text-heading: #f8fafc;
-  --text-body: #94a3b8;
-  --text-dim: #64748b;
+  --bg-space: #030407;
+  --accent-gold: #eab308;
+  --accent-orange: #f97316;
+  --text-main: #f1f5f9;
+  --text-muted: #64748b;
+  --border-glass: rgba(255, 255, 255, 0.08);
 }
 
 * {
@@ -28,1044 +24,823 @@
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-  background: var(--bg-main);
-  color: var(--text-heading);
-  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-  overflow-x: hidden;
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-space);
+  color: var(--text-main);
+  font-family: 'Space Grotesk', -apple-system, sans-serif;
+  user-select: none;
 }
 
-body {
-  position: relative;
-  min-height: 100vh;
-  background: radial-gradient(circle at 50% 0%, #151824 0%, #090a0f 65%, #050608 100%);
-  color: var(--text-body);
-}
-
-/* ─── WEBGL CANVAS ─── */
-#canvas3d {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  pointer-events: auto;
-}
-
-/* ─── ATMOSPHERIC GRAIN & LIGHTING ─── */
-.noise-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-}
-
-.ambient-glow {
-  position: fixed;
-  top: 15%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 700px;
-  height: 450px;
-  background: radial-gradient(circle, rgba(255, 122, 26, 0.08) 0%, rgba(245, 158, 11, 0.03) 50%, transparent 75%);
-  pointer-events: none;
-  z-index: 2;
-  filter: blur(60px);
-}
-
-/* ─── TOP HEADER NAVIGATION ─── */
-.site-nav {
-  position: fixed;
+/* ─── WEBGL FULLSCREEN CANVAS ─── */
+#webgl-canvas {
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  padding: 22px 48px;
+  height: 100%;
+  z-index: 1;
+}
+
+/* ─── CINEMATIC VIGNETTE & GRAIN ─── */
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: radial-gradient(circle at center, transparent 40%, rgba(3, 4, 7, 0.8) 100%);
+}
+
+/* ─── MINIMALIST STUDIO HEADER ─── */
+.top-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 24px 36px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 100;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  background: rgba(9, 10, 15, 0.72);
-  border-bottom: 1px solid var(--border-subtle);
+  z-index: 20;
+  pointer-events: auto;
 }
 
-.brand-container {
+.brand-badge {
   display: flex;
   align-items: center;
-  gap: 16px;
-  text-decoration: none;
-  color: inherit;
+  gap: 14px;
 }
 
-.brand-symbol {
-  width: 38px;
-  height: 38px;
-  border-radius: 9px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+.brand-emblem {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f97316 0%, #030407 80%);
+  border: 1px solid rgba(249, 115, 22, 0.4);
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
 }
 
-.brand-container:hover .brand-symbol {
-  border-color: rgba(255, 122, 26, 0.4);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(255, 122, 26, 0.15);
-}
-
-.brand-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.brand-info h1 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.05rem;
+.brand-text h1 {
+  font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: 1.5px;
-  color: #fff;
+  letter-spacing: 2px;
   text-transform: uppercase;
+  color: #fff;
+  line-height: 1.1;
 }
 
-.brand-info span {
-  font-family: 'Space Mono', monospace;
+.brand-text span {
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.65rem;
-  color: var(--text-dim);
+  color: var(--text-muted);
   letter-spacing: 1px;
 }
 
-.nav-links {
+.header-telemetry {
   display: flex;
   align-items: center;
-  gap: 32px;
-  list-style: none;
-}
-
-.nav-link {
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--text-body);
-  text-decoration: none;
-  transition: color 0.2s ease;
-  letter-spacing: 0.3px;
-}
-
-.nav-link:hover {
-  color: #fff;
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.edition-badge {
-  padding: 6px 14px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-subtle);
-  font-family: 'Space Mono', monospace;
+  gap: 28px;
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.72rem;
-  color: var(--accent-amber);
+  color: var(--text-muted);
 }
 
-.btn-primary {
-  padding: 10px 22px;
-  border-radius: 8px;
-  background: #fff;
-  color: #090a0f;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 600;
-  font-size: 0.85rem;
+.header-telemetry strong {
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.btn-portal {
+  padding: 8px 18px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
   text-decoration: none;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
+  letter-spacing: 0.5px;
+}
+
+.btn-portal:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* ─── ELEGANT FLOATING HERO TITLE (MINIMAL, OFF-CENTER) ─── */
+.hero-overlay {
+  position: absolute;
+  top: 14%;
+  left: 5vw;
+  max-width: 460px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-glass);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--accent-orange);
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
+
+.hero-title {
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: #fff;
+  letter-spacing: -1.5px;
+  margin-bottom: 14px;
+}
+
+.hero-title em {
+  font-style: normal;
+  color: #94a3b8;
+  font-weight: 300;
+  display: block;
+}
+
+.hero-desc {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #94a3b8;
+  font-weight: 400;
+  margin-bottom: 24px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.btn-explore {
+  padding: 10px 22px;
+  border-radius: 6px;
+  background: #fff;
+  color: #030407;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
   border: none;
   cursor: pointer;
 }
 
-.btn-primary:hover {
+.btn-explore:hover {
   background: #f1f5f9;
   transform: translateY(-1px);
-  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
 }
 
-/* ─── 3D VIEWPORT CONTROLS BAR (MINIMAL DOCK) ─── */
-.viewport-dock {
-  position: fixed;
-  bottom: 28px;
+.btn-details {
+  padding: 10px 20px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  color: #e2e8f0;
+  border: 1px solid var(--border-glass);
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-details:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* ─── LIVE PLANET TELEMETRY HUD (RIGHT SIDE) ─── */
+.planet-hud {
+  position: absolute;
+  top: 14%;
+  right: 5vw;
+  width: 320px;
+  background: rgba(8, 11, 18, 0.75);
+  border: 1px solid var(--border-glass);
+  border-radius: 12px;
+  padding: 24px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 10;
+  pointer-events: auto;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  transition: opacity 0.3s ease;
+}
+
+.hud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-glass);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.hud-target-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+
+.hud-status-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: #22c55e;
+  letter-spacing: 1px;
+}
+
+.hud-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+}
+
+.metric-line {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-muted);
+}
+
+.metric-line span:last-child {
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.hud-planet-desc {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  line-height: 1.55;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-glass);
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* ─── BOTTOM PLANET SELECTOR BAR (HUMAN STUDIO DOCK) ─── */
+.planet-selector-bar {
+  position: absolute;
+  bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 100;
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(14, 16, 24, 0.82);
-  border: 1px solid var(--border-subtle);
-  padding: 6px 10px;
-  border-radius: 30px;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+  gap: 6px;
+  background: rgba(8, 11, 18, 0.82);
+  border: 1px solid var(--border-glass);
+  padding: 6px 8px;
+  border-radius: 40px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 20;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  pointer-events: auto;
 }
 
-.dock-item {
+.planet-tab {
   background: transparent;
   border: none;
-  color: var(--text-dim);
-  font-family: 'Space Mono', monospace;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
   font-size: 0.7rem;
-  padding: 7px 14px;
+  padding: 8px 14px;
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 6px;
+  letter-spacing: 0.5px;
 }
 
-.dock-item:hover {
+.planet-tab:hover {
   color: #fff;
   background: rgba(255, 255, 255, 0.05);
 }
 
-.dock-item.active {
-  background: rgba(255, 255, 255, 0.1);
+.planet-tab.active {
+  background: rgba(255, 255, 255, 0.12);
   color: #fff;
-  font-weight: 700;
+  font-weight: 600;
 }
 
-.dock-divider {
+.dock-sep {
   width: 1px;
   height: 16px;
-  background: var(--border-subtle);
+  background: var(--border-glass);
   margin: 0 2px;
 }
 
-.dock-pulse-btn {
-  background: linear-gradient(135deg, rgba(255, 122, 26, 0.2), rgba(245, 158, 11, 0.15));
-  border: 1px solid rgba(255, 122, 26, 0.4);
-  color: #ffa463;
+.btn-overview {
+  background: rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  color: #fb923c;
   font-weight: 600;
 }
 
-.dock-pulse-btn:hover {
-  background: var(--accent-amber);
+.btn-overview:hover {
+  background: #f97316;
   color: #fff;
-  box-shadow: 0 0 20px rgba(255, 122, 26, 0.4);
 }
 
-/* ─── SCROLL TRACKER BAR ─── */
-.scroll-tracker {
-  position: fixed;
-  right: 32px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
+/* ─── DRAG HINT ─── */
+.drag-hint {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.25);
+  letter-spacing: 2px;
+  pointer-events: none;
+  z-index: 10;
+  text-transform: uppercase;
+}
+
+/* ─── MODAL DIALOG (ABOUT TECHFEST) ─── */
+.techfest-modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 4, 7, 0.85);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  z-index: 100;
+  display: none;
   align-items: center;
-  gap: 16px;
-  z-index: 90;
+  justify-content: center;
+  padding: 20px;
 }
 
-.tracker-point {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
+.techfest-modal.open {
+  display: flex;
+}
+
+.modal-content {
+  max-width: 640px;
+  background: #0b0e17;
+  border: 1px solid var(--border-glass);
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
   cursor: pointer;
 }
 
-.tracker-point.active {
-  background: var(--accent-amber);
-  height: 24px;
-  border-radius: 12px;
-  box-shadow: 0 0 12px rgba(255, 122, 26, 0.5);
-}
-
-/* ─── CONTENT WRAPPER & SECTIONS ─── */
-.content-wrapper {
-  position: relative;
-  z-index: 10;
-  pointer-events: none;
-}
-
-.section {
-  min-height: 100vh;
-  padding: 140px 8vw 100px 8vw;
-  display: flex;
-  align-items: center;
-  position: relative;
-  pointer-events: none;
-}
-
-.interactive-card {
-  pointer-events: auto;
-}
-
-.section.align-center {
-  justify-content: center;
-  text-align: center;
-}
-
-.section.align-left {
-  justify-content: flex-start;
-}
-
-.section.align-right {
-  justify-content: flex-end;
-}
-
-/* ─── HERO CARD ─── */
-.hero-box {
-  max-width: 860px;
-  margin: 0 auto;
-}
-
-.pill-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 16px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-subtle);
-  font-family: 'Space Mono', monospace;
-  font-size: 0.72rem;
-  color: var(--accent-warm);
-  letter-spacing: 1px;
-  margin-bottom: 24px;
-}
-
-.hero-main-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(3.2rem, 8vw, 6.5rem);
-  font-weight: 700;
-  letter-spacing: -2px;
-  line-height: 0.98;
-  color: #fff;
-  margin-bottom: 24px;
-}
-
-.hero-main-title span {
-  display: block;
-  font-weight: 400;
-  font-size: clamp(1.4rem, 3.2vw, 2.6rem);
-  color: #94a3b8;
-  letter-spacing: -0.5px;
-  margin-top: 10px;
-}
-
-.hero-lead-text {
-  font-size: 1.15rem;
-  line-height: 1.7;
-  color: var(--text-body);
-  max-width: 620px;
-  margin: 0 auto 36px auto;
-  font-weight: 400;
-}
-
-.hero-cta-group {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.btn-secondary {
-  padding: 12px 28px;
-  border-radius: 8px;
-  background: transparent;
-  color: #e2e8f0;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 600;
-  font-size: 0.88rem;
-  text-decoration: none;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  transition: all 0.25s ease;
-}
-
-.btn-secondary:hover {
-  border-color: rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.04);
+.modal-close:hover {
   color: #fff;
 }
 
-/* ─── GLASS PANEL CARDS ─── */
-.glass-panel {
-  max-width: 540px;
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  padding: 44px;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-  transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.glass-panel:hover {
-  border-color: var(--border-hover);
-  transform: translateY(-2px);
-}
-
-.panel-kicker {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.72rem;
-  color: var(--accent-amber);
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 12px;
-  display: block;
-}
-
-.panel-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: -1px;
-  line-height: 1.15;
-  margin-bottom: 18px;
-}
-
-.panel-title em {
-  font-style: normal;
-  color: var(--accent-amber);
-}
-
-.panel-desc {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--text-body);
-  margin-bottom: 28px;
-}
-
-/* ─── EVENT HIGHLIGHT ITEMS ─── */
-.feature-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 12px 16px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.2s ease;
-}
-
-.feature-item:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.12);
-}
-
-.feature-icon {
-  font-size: 1.2rem;
-  padding-top: 2px;
-}
-
-.feature-text h4 {
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: #fff;
-  margin-bottom: 2px;
-}
-
-.feature-text p {
-  font-size: 0.82rem;
-  color: var(--text-dim);
-  line-height: 1.5;
-}
-
-/* ─── METRIC STAT COUNTERS ─── */
-.metrics-row {
-  display: flex;
-  gap: 24px;
-  margin-top: 28px;
-}
-
-.metric-cell {
-  flex: 1;
-  padding: 16px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--border-subtle);
-}
-
-.metric-val {
-  font-family: 'Space Grotesk', sans-serif;
+.modal-title {
   font-size: 1.8rem;
   font-weight: 700;
   color: #fff;
-  letter-spacing: -0.5px;
+  margin-bottom: 12px;
 }
 
-.metric-tag {
-  font-family: 'Space Mono', monospace;
-  font-size: 0.68rem;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-top: 4px;
+.modal-desc {
+  font-size: 0.95rem;
+  color: #94a3b8;
+  line-height: 1.7;
+  margin-bottom: 24px;
 }
 
-/* ─── TERMINAL / REGISTRATION DECK ─── */
-.deck-card {
-  max-width: 620px;
-  margin: 0 auto;
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  padding: 44px;
-  backdrop-filter: blur(25px);
-  text-align: center;
-}
-
-.access-chip {
-  margin: 24px auto;
-  padding: 18px 24px;
-  background: rgba(255, 122, 26, 0.06);
-  border: 1px dashed rgba(255, 122, 26, 0.4);
-  border-radius: 10px;
+.access-box {
+  padding: 18px;
+  border-radius: 8px;
+  background: rgba(249, 115, 22, 0.06);
+  border: 1px dashed rgba(249, 115, 22, 0.35);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 440px;
+  margin-bottom: 24px;
 }
 
-.access-val {
-  font-family: 'Space Mono', monospace;
-  font-size: 1.15rem;
+.access-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
   font-weight: 700;
-  color: var(--accent-amber);
-  letter-spacing: 2px;
+  color: #f97316;
 }
 
-/* ─── FOOTER ─── */
-.site-footer {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-  padding: 40px 20px;
-  border-top: 1px solid var(--border-subtle);
-  background: rgba(5, 6, 8, 0.9);
-  font-size: 0.8rem;
-  color: var(--text-dim);
-}
-
-.site-footer p {
-  margin-top: 6px;
-  font-family: 'Space Mono', monospace;
-  font-size: 0.72rem;
-}
-
-/* ─── RESPONSIVE ADAPTATION ─── */
+/* ─── RESPONSIVE ─── */
 @media (max-width: 900px) {
-  .site-nav { padding: 16px 20px; }
-  .nav-links, .edition-badge { display: none; }
-  .section { padding: 100px 5vw 60px 5vw; }
-  .glass-panel, .deck-card { padding: 28px 20px; }
-  .hero-main-title { font-size: 3.2rem; }
-  .scroll-tracker { display: none; }
-  .viewport-dock { width: 90%; justify-content: center; overflow-x: auto; }
+  .top-nav { padding: 18px 20px; }
+  .header-telemetry { display: none; }
+  .hero-overlay { top: 12%; left: 6vw; right: 6vw; max-width: none; }
+  .planet-hud { display: none; }
+  .planet-selector-bar { width: 92%; overflow-x: auto; justify-content: flex-start; border-radius: 20px; }
+  .drag-hint { bottom: 85px; }
 }
 </style>
 </head>
 <body>
 
 <!-- WEBGL CANVAS -->
-<canvas id="canvas3d"></canvas>
+<canvas id="webgl-canvas"></canvas>
 
 <!-- ATMOSPHERE -->
-<div class="noise-overlay"></div>
-<div class="ambient-glow"></div>
+<div class="vignette"></div>
 
-<!-- NAVIGATION BAR -->
-<header class="site-nav">
-  <a href="#hero" class="brand-container">
-    <div class="brand-symbol">
-      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="tfGradTop" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#ffffff"/>
-            <stop offset="100%" stop-color="#cbd5e1"/>
-          </linearGradient>
-          <linearGradient id="tfGradLeft" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#ff8a3d"/>
-            <stop offset="100%" stop-color="#ea580c"/>
-          </linearGradient>
-          <linearGradient id="tfGradRight" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#f59e0b"/>
-            <stop offset="100%" stop-color="#b45309"/>
-          </linearGradient>
-        </defs>
-        <!-- Isometric Faceted Engineering Polyhedron Mark -->
-        <path d="M16 3 L28 10 L16 17 L4 10 Z" fill="url(#tfGradTop)"/>
-        <path d="M4 10 L16 17 L16 29 L4 22 Z" fill="url(#tfGradLeft)"/>
-        <path d="M16 17 L28 10 L28 22 L16 29 Z" fill="url(#tfGradRight)"/>
-        <!-- Core Aperture Cutout -->
-        <path d="M16 8 L22 11.5 L16 15 L10 11.5 Z" fill="#090a0f" opacity="0.85"/>
-        <circle cx="16" cy="11.5" r="2" fill="#ffedd5"/>
-      </svg>
+<!-- NAVIGATION -->
+<nav class="top-nav">
+  <div class="brand-badge">
+    <div class="brand-emblem"></div>
+    <div class="brand-text">
+      <h1>Techfest 2026</h1>
+      <span>IIT BOMBAY · 30TH EDITION</span>
     </div>
-    <div class="brand-info">
-      <h1>TECHFEST</h1>
-      <span>IIT BOMBAY · 2026</span>
-    </div>
-  </a>
-
-  <ul class="nav-links">
-    <li><a href="#about" class="nav-link">Overview</a></li>
-    <li><a href="#competitions" class="nav-link">Competitions</a></li>
-    <li><a href="#exhibitions" class="nav-link">Exhibitions</a></li>
-    <li><a href="#technoholix" class="nav-link">Technoholix</a></li>
-  </ul>
-
-  <div class="nav-actions">
-    <div class="edition-badge">30TH EDITION</div>
-    <a href="#register" class="btn-primary">Register</a>
   </div>
-</header>
 
-<!-- INTERACTIVE 3D DOCK -->
-<div class="viewport-dock">
-  <button class="dock-item active" id="btn-toggle-orbits">ORBIT TRACKS</button>
-  <button class="dock-item" id="btn-speed-toggle">SPEED: 1X</button>
-  <div class="dock-divider"></div>
-  <button class="dock-item dock-pulse-btn" id="btn-solar-flare">💥 SOLAR FLARE</button>
+  <div class="header-telemetry">
+    <div>OBSERVATORY: <strong>19.1334° N, 72.9133° E</strong></div>
+    <div>EPOCH: <strong>DEC 18–20, 2026</strong></div>
+  </div>
+
+  <div style="display:flex;gap:12px">
+    <button class="btn-portal" id="btn-open-modal">FESTIVAL BRIEF</button>
+  </div>
+</nav>
+
+<!-- HERO OVERLAY -->
+<div class="hero-overlay">
+  <div class="hero-pill">
+    <span>● SOLAR OBSERVATORY ENGINE</span>
+  </div>
+  <h2 class="hero-title">
+    Scale Beyond
+    <em>Boundaries.</em>
+  </h2>
+  <p class="hero-desc">
+    Asia's benchmark science &amp; technology festival at IIT Bombay. Explore planetary systems, interact in real-time 3D, and inspect the celestial geometry of Techfest 2026.
+  </p>
+  <div class="hero-actions">
+    <button class="btn-explore" id="btn-hero-explore">Inspect Earth Orbit</button>
+    <button class="btn-details" id="btn-hero-info">Delegation Pass</button>
+  </div>
 </div>
 
-<!-- SCROLL POINT TRACKER -->
-<div class="scroll-tracker">
-  <div class="tracker-point active" data-sec="hero"></div>
-  <div class="tracker-point" data-sec="about"></div>
-  <div class="tracker-point" data-sec="competitions"></div>
-  <div class="tracker-point" data-sec="exhibitions"></div>
-  <div class="tracker-point" data-sec="technoholix"></div>
-  <div class="tracker-point" data-sec="register"></div>
+<!-- LIVE PLANET TELEMETRY HUD -->
+<aside class="planet-hud" id="planet-hud">
+  <div class="hud-header">
+    <div class="hud-target-name" id="hud-name">SOLAR SYSTEM</div>
+    <div class="hud-status-chip" id="hud-status">ORBIT LOCKED</div>
+  </div>
+  <div class="hud-metrics">
+    <div class="metric-line">
+      <span>SEMI-MAJOR AXIS:</span>
+      <span id="hud-dist">1.000 AU</span>
+    </div>
+    <div class="metric-line">
+      <span>ORBITAL PERIOD:</span>
+      <span id="hud-period">365.25 DAYS</span>
+    </div>
+    <div class="metric-line">
+      <span>EQUATORIAL RADIUS:</span>
+      <span id="hud-radius">6,371 KM</span>
+    </div>
+    <div class="metric-line">
+      <span>SURFACE GRAVITY:</span>
+      <span id="hud-gravity">9.807 M/S²</span>
+    </div>
+  </div>
+  <p class="hud-planet-desc" id="hud-desc">
+    System overview active. Click any planetary body or dock tab below to initiate smooth orbital camera flight and inspect surface textures up close.
+  </p>
+</aside>
+
+<!-- INTERACTIVE 3D PLANET SELECTOR BAR -->
+<div class="planet-selector-bar">
+  <button class="planet-tab btn-overview active" data-target="system">☀️ SYSTEM</button>
+  <div class="dock-sep"></div>
+  <button class="planet-tab" data-target="mercury">MERCURY</button>
+  <button class="planet-tab" data-target="venus">VENUS</button>
+  <button class="planet-tab" data-target="earth">EARTH</button>
+  <button class="planet-tab" data-target="mars">MARS</button>
+  <button class="planet-tab" data-target="jupiter">JUPITER</button>
+  <button class="planet-tab" data-target="saturn">SATURN</button>
+  <button class="planet-tab" data-target="uranus">URANUS</button>
+  <button class="planet-tab" data-target="neptune">NEPTUNE</button>
 </div>
 
-<!-- SECTIONS CONTAINER -->
-<main class="content-wrapper">
+<div class="drag-hint">✦ DRAG TO ROTATE 360° · SCROLL TO ZOOM · CLICK PLANETS TO FLY IN</div>
 
-  <!-- 01: HERO SECTION -->
-  <section class="section align-center" id="hero">
-    <div class="hero-box interactive-card">
-      <div class="pill-eyebrow">
-        <span>POWAI, MUMBAI · DECEMBER 18–20, 2026</span>
+<!-- FESTIVAL INFO MODAL -->
+<div class="techfest-modal" id="modal">
+  <div class="modal-content">
+    <button class="modal-close" id="btn-close-modal">✕</button>
+    <div class="hero-pill" style="margin-bottom:12px">IIT BOMBAY // DEC 18–20, 2026</div>
+    <h3 class="modal-title">Techfest 2026 — 30th Edition</h3>
+    <p class="modal-desc">
+      Founded in 1998, Techfest is Asia’s largest science and technology festival with 175,000+ attendees from 2,500+ universities worldwide. Featuring International Robowars, 36-Hour National Hackathons, ISRO aerospace exhibitions, and Technoholix pro-nights.
+    </p>
+    <div class="access-box">
+      <div>
+        <div style="font-size:0.7rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace">DELEGATE ACCESS CODE</div>
+        <div class="access-tag">TECHFEST-IITB-2026</div>
       </div>
-      <h2 class="hero-main-title">
-        The Future of Scale.
-        <span>Asia's Largest Science &amp; Technology Festival.</span>
-      </h2>
-      <p class="hero-lead-text">
-        Thirty years of engineering breakthrough. 175,000+ creators, students, and pioneers gather at IIT Bombay for three days of international robotics, AI summits, and global exhibits.
-      </p>
-      <div class="hero-cta-group">
-        <a href="#competitions" class="btn-primary" style="padding:14px 32px;font-size:0.95rem">Explore Schedule</a>
-        <a href="#register" class="btn-secondary">Portal Access</a>
-      </div>
-      <div style="margin-top:18px;font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--text-dim);letter-spacing:1.5px;display:flex;align-items:center;justify-content:center;gap:6px">
-        <span style="color:var(--accent-amber)">✦</span>
-        <span>3D SOLAR SYSTEM · MOVE CURSOR OR DRAG TO ORBIT IN 360°</span>
-      </div>
+      <button class="btn-explore" id="btn-copy-code" style="padding:8px 16px;font-size:0.75rem">Copy Code</button>
     </div>
-  </section>
+    <a href="https://techfest.org" target="_blank" class="btn-explore" style="display:block;text-align:center;padding:12px">
+      Proceed to Official Techfest Portal →
+    </a>
+  </div>
+</div>
 
-  <!-- 02: ABOUT / FESTIVAL VISION -->
-  <section class="section align-left" id="about">
-    <div class="glass-panel interactive-card">
-      <span class="panel-kicker">01 / Foundation</span>
-      <h3 class="panel-title">Precision engineering <em>at scale.</em></h3>
-      <p class="panel-desc">
-        Founded in 1998 at IIT Bombay, Techfest has grown into the benchmark student festival across Asia. We host premier national engineering challenges, keynote addresses by Nobel laureates, and cutting-edge exhibits from global defense and aerospace centers.
-      </p>
-      <div class="metrics-row">
-        <div class="metric-cell">
-          <div class="metric-val">175,000+</div>
-          <div class="metric-tag">Footfall</div>
-        </div>
-        <div class="metric-cell">
-          <div class="metric-val">2,500+</div>
-          <div class="metric-tag">Institutions</div>
-        </div>
-        <div class="metric-cell">
-          <div class="metric-val">78</div>
-          <div class="metric-tag">Countries</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 03: COMPETITIONS -->
-  <section class="section align-right" id="competitions">
-    <div class="glass-panel interactive-card">
-      <span class="panel-kicker">02 / Arenas</span>
-      <h3 class="panel-title">Combat robotics &amp; <em>autonomous systems.</em></h3>
-      <p class="panel-desc">
-        Watch high-impact combat robots compete inside armored bulletproof arenas, alongside 36-hour competitive hackathons and autonomous drone racing.
-      </p>
-
-      <div class="feature-list">
-        <div class="feature-item">
-          <div class="feature-icon">⚔️</div>
-          <div class="feature-text">
-            <h4>International Robowars</h4>
-            <p>60kg and 15kg combat robots clashing in high-velocity kinetic rounds.</p>
-          </div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">💻</div>
-          <div class="feature-text">
-            <h4>National 36-Hour Hackathon</h4>
-            <p>Full-stack and AI sprints solving direct industry challenge statements.</p>
-          </div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">🤖</div>
-          <div class="feature-text">
-            <h4>Meshmerize</h4>
-            <p>Autonomous line-following robots navigating complex algorithmic mazes.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 04: EXHIBITIONS -->
-  <section class="section align-left" id="exhibitions">
-    <div class="glass-panel interactive-card">
-      <span class="panel-kicker">03 / Innovation</span>
-      <h3 class="panel-title">Humanoids, defense &amp; <em>space exploration.</em></h3>
-      <p class="panel-desc">
-        An open platform featuring prototypes that rarely leave research facilities. Direct interactive access to humanoid bionics, aerospace hardware from ISRO, and brain-machine interface labs.
-      </p>
-      <div class="feature-list">
-        <div class="feature-item">
-          <div class="feature-icon">🔬</div>
-          <div class="feature-text">
-            <h4>Humanoid &amp; Quadruped Robotics</h4>
-            <p>State-of-the-art robotic kinematics showcased by international research teams.</p>
-          </div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">🚀</div>
-          <div class="feature-text">
-            <h4>Aerospace &amp; Defense Pavilion</h4>
-            <p>Rocket propulsion test displays and indigenous technological breakthroughs.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 05: TECHNOHOLIX -->
-  <section class="section align-right" id="technoholix">
-    <div class="glass-panel interactive-card">
-      <span class="panel-kicker">04 / Performance</span>
-      <h3 class="panel-title">Technoholix: <em>Night of spectacle.</em></h3>
-      <p class="panel-desc">
-        The evening climax at IIT Bombay's Open Air Theatre. 10,000 students under open skies for synchronized drone light ballets, world-class pyrotechnics, and live electronic compositions.
-      </p>
-      <div style="display:flex;gap:12px;margin-top:16px">
-        <span style="background:rgba(255,255,255,0.05);color:#fff;padding:6px 14px;border-radius:6px;font-family:'Space Mono',monospace;font-size:0.75rem;border:1px solid var(--border-subtle)">1,000 SYNC DRONES</span>
-        <span style="background:rgba(255,122,26,0.1);color:var(--accent-amber);padding:6px 14px;border-radius:6px;font-family:'Space Mono',monospace;font-size:0.75rem;border:1px solid rgba(255,122,26,0.3)">LASER MAPPING</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- 06: REGISTRATION DECK -->
-  <section class="section align-center" id="register">
-    <div class="deck-card interactive-card">
-      <span class="panel-kicker">05 / Registration</span>
-      <h3 class="panel-title">Join the <em>30th Edition.</em></h3>
-      <p class="panel-desc" style="max-width:500px;margin:0 auto 20px auto">
-        Official campus delegate entry portal for team registrations, accommodation reservations at IIT Bombay, and accredited workshop schedules.
-      </p>
-
-      <div class="access-chip">
-        <div style="text-align:left">
-          <div style="font-size:0.68rem;color:var(--text-dim);font-family:'Space Mono',monospace">DELEGATE CODE</div>
-          <div class="access-val">TECHFEST-IITB-2026</div>
-        </div>
-        <button class="btn-primary" id="copy-btn" style="padding:8px 16px;font-size:0.78rem">Copy Code</button>
-      </div>
-
-      <a href="https://techfest.org" target="_blank" class="btn-primary" style="display:inline-block;padding:14px 40px;font-size:0.95rem">
-        Proceed to Official Registration Portal →
-      </a>
-    </div>
-  </section>
-
-</main>
-
-<footer class="site-footer">
-  <div>Indian Institute of Technology Bombay · Powai, Mumbai 400076</div>
-  <p>Engineered by Anurag Kumar · Built for Techfest 2026 Interactive Submission</p>
-</footer>
-
-<!-- THREE.JS 3D SOLAR SYSTEM ENGINE -->
+<!-- THREE.JS ENGINE -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
 /* ════════════════════════════════════════════════════════════════════
-   1. THREE.JS SCENE SETUP & SOLAR SYSTEM ILLUMINATION
+   1. PROCEDURAL PLANETARY TEXTURE GENERATOR (NO EXTERNAL IMAGES)
 ════════════════════════════════════════════════════════════════════ */
-const canvas = document.getElementById('canvas3d');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+function createProceduralNoiseCanvas(type) {
+  const c = document.createElement('canvas');
+  c.width = 512;
+  c.height = 256;
+  const ctx = c.getContext('2d');
+
+  if (type === 'sun') {
+    // Dynamic solar turbulent gradient
+    const grad = ctx.createRadialGradient(256, 128, 10, 256, 128, 256);
+    grad.addColorStop(0, '#fff4cc');
+    grad.addColorStop(0.3, '#f59e0b');
+    grad.addColorStop(0.7, '#d97706');
+    grad.addColorStop(1, '#9a3412');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 512, 256);
+  } else if (type === 'earth') {
+    // Deep ocean blue with organic continents
+    ctx.fillStyle = '#0f3a7a';
+    ctx.fillRect(0, 0, 512, 256);
+    ctx.fillStyle = '#1e7b4e';
+    for (let i = 0; i < 40; i++) {
+      const x = Math.random() * 512, y = Math.random() * 256, r = 15 + Math.random() * 35;
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    }
+    // Swirling atmospheric white clouds
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+    for (let i = 0; i < 60; i++) {
+      const x = Math.random() * 512, y = Math.random() * 256, w = 40 + Math.random() * 80, h = 10 + Math.random() * 20;
+      ctx.beginPath(); ctx.ellipse(x, y, w, h, 0.2, 0, Math.PI * 2); ctx.fill();
+    }
+  } else if (type === 'jupiter') {
+    // Horizontal fluid bands with Great Red Spot
+    for (let y = 0; y < 256; y++) {
+      const t = y / 256;
+      const shade = Math.sin(t * 30) * 0.5 + 0.5;
+      ctx.fillStyle = shade > 0.5 ? '#c27c38' : '#e0a96d';
+      ctx.fillRect(0, y, 512, 1);
+    }
+    // Great Red Spot
+    ctx.fillStyle = '#b91c1c';
+    ctx.beginPath();
+    ctx.ellipse(340, 160, 35, 20, 0, 0, Math.PI * 2);
+    ctx.fill();
+  } else if (type === 'saturn') {
+    // Cream golden atmospheric gradient
+    for (let y = 0; y < 256; y++) {
+      const t = y / 256;
+      const shade = Math.sin(t * 20) * 0.2;
+      ctx.fillStyle = `rgb(${225 + shade * 30}, ${205 + shade * 20}, ${150 + shade * 10})`;
+      ctx.fillRect(0, y, 512, 1);
+    }
+  } else if (type === 'mars') {
+    // Ochre rust red with canyon variations
+    ctx.fillStyle = '#c2410c';
+    ctx.fillRect(0, 0, 512, 256);
+    ctx.fillStyle = '#9a3412';
+    for (let i = 0; i < 50; i++) {
+      const x = Math.random() * 512, y = Math.random() * 256, r = 10 + Math.random() * 25;
+      ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    }
+    // Polar white cap
+    ctx.fillStyle = '#f8fafc';
+    ctx.beginPath(); ctx.arc(256, 10, 30, 0, Math.PI * 2); ctx.fill();
+  }
+  return new THREE.CanvasTexture(c);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   2. THREE.JS SCENE, CAMERAS & COSMIC LIGHTING
+════════════════════════════════════════════════════════════════════ */
+const canvas = document.getElementById('webgl-canvas');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.2;
+renderer.toneMappingExposure = 1.15;
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x090a0f, 0.012);
+scene.background = new THREE.Color(0x030407);
+scene.fog = new THREE.FogExp2(0x030407, 0.008);
 
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1500);
-camera.position.set(0, 16, 38);
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 2000);
+camera.position.set(0, 30, 65);
 
-// Central Solar Light (Sun shines outward on all planets)
-const sunLight = new THREE.PointLight(0xfff5ea, 3.8, 500, 0.35);
+// The Sun's Omnidirectional Point Light
+const sunLight = new THREE.PointLight(0xffedd5, 3.8, 800, 0.35);
 sunLight.position.set(0, 0, 0);
 scene.add(sunLight);
 
-// Soft Ambient Cosmic Light for dark side visibility
-const ambientLight = new THREE.AmbientLight(0x22283a, 1.4);
+// Deep Space Ambient Lighting
+const ambientLight = new THREE.AmbientLight(0x1e2438, 1.2);
 scene.add(ambientLight);
 
 /* ════════════════════════════════════════════════════════════════════
-   2. 3D SOLAR SYSTEM ARCHITECTURE
+   3. HIGH-END PROCEDURAL SOLAR SYSTEM
 ════════════════════════════════════════════════════════════════════ */
-const solarSystem = new THREE.Group();
-solarSystem.rotation.x = 0.28; // Cinematic 16-degree inclination
-scene.add(solarSystem);
+const solarGroup = new THREE.Group();
+solarGroup.rotation.x = 0.22; // Natural orbital inclination
+scene.add(solarGroup);
 
-// ─── A. THE SUN & CORONA ───
-const sunGroup = new THREE.Group();
-solarSystem.add(sunGroup);
-
-// Sun Core
-const sunGeo = new THREE.SphereGeometry(4.4, 48, 48);
-const sunMat = new THREE.MeshBasicMaterial({ color: 0xffa028 });
+// ─── A. THE SUN & GLOWING ATMOSPHERE ───
+const sunMat = new THREE.MeshBasicMaterial({
+  map: createProceduralNoiseCanvas('sun'),
+  color: 0xffb703
+});
+const sunGeo = new THREE.SphereGeometry(4.8, 48, 48);
 const sunMesh = new THREE.Mesh(sunGeo, sunMat);
-sunGroup.add(sunMesh);
+solarGroup.add(sunMesh);
 
 // Outer Radiant Corona
-const coronaGeo = new THREE.SphereGeometry(5.2, 32, 32);
+const coronaGeo = new THREE.SphereGeometry(5.6, 32, 32);
 const coronaMat = new THREE.MeshBasicMaterial({
-  color: 0xff6200,
+  color: 0xf97316,
   transparent: true,
-  opacity: 0.25,
+  opacity: 0.22,
   side: THREE.BackSide
 });
 const coronaMesh = new THREE.Mesh(coronaGeo, coronaMat);
-sunGroup.add(coronaMesh);
+solarGroup.add(coronaMesh);
 
-// Solar Flare Particle Shell
-const flareCount = 300;
-const flareGeo = new THREE.BufferGeometry();
-const flarePos = new Float32Array(flareCount * 3);
-for (let i = 0; i < flareCount; i++) {
-  const phi = Math.acos(2 * Math.random() - 1);
-  const theta = Math.random() * Math.PI * 2;
-  const r = 4.8 + Math.random() * 1.6;
-  flarePos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-  flarePos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
-  flarePos[i * 3 + 2] = r * Math.cos(phi);
-}
-flareGeo.setAttribute('position', new THREE.BufferAttribute(flarePos, 3));
-const flareMat = new THREE.PointsMaterial({
-  color: 0xffba08,
-  size: 0.24,
-  transparent: true,
-  opacity: 0.8
-});
-const flarePoints = new THREE.Points(flareGeo, flareMat);
-sunGroup.add(flarePoints);
+// ─── B. PLANETARY BODIES & PBR TEXTURING ───
+const planetsData = {
+  system: { name: 'SOLAR SYSTEM', dist: '1.000 AU', period: '365.25 D', radius: '6,371 KM', gravity: '9.81 M/S²', desc: 'Panoramic celestial observatory view of the full solar system. Move mouse or drag anywhere to rotate 360 degrees.' },
+  mercury: { name: 'MERCURY', dist: '0.387 AU', period: '88.0 DAYS', radius: '2,440 KM', gravity: '3.70 M/S²', desc: 'The smallest and innermost planet in the solar system, heavily cratered and enduring extreme thermal variations.', radiusMesh: 0.52, distMesh: 9.0, color: 0x94a3b8, speed: 0.035, roughness: 0.8 },
+  venus: { name: 'VENUS', dist: '0.723 AU', period: '224.7 DAYS', radius: '6,052 KM', gravity: '8.87 M/S²', desc: 'Shrouded by a dense, toxic sulfuric atmosphere creating an intense greenhouse effect with surface temperatures of 465°C.', radiusMesh: 0.9, distMesh: 13.8, color: 0xfde047, speed: 0.024, roughness: 0.35 },
+  earth: { name: 'EARTH', dist: '1.000 AU', period: '365.25 DAYS', radius: '6,371 KM', gravity: '9.81 M/S²', desc: 'The home world. Abundant liquid water oceans, dynamic nitrogen-oxygen atmosphere, and the cradle of human engineering.', radiusMesh: 1.1, distMesh: 19.5, speed: 0.018, roughness: 0.3, hasMoon: true, texture: 'earth' },
+  mars: { name: 'MARS', dist: '1.524 AU', period: '687.0 DAYS', radius: '3,390 KM', gravity: '3.72 M/S²', desc: 'The Red Planet. Iron-oxide dust deserts, extinct giant shield volcanoes, and polar ice caps under investigation for future colonies.', radiusMesh: 0.72, distMesh: 25.5, speed: 0.014, roughness: 0.7, texture: 'mars' },
+  jupiter: { name: 'JUPITER', dist: '5.204 AU', period: '11.86 YEARS', radius: '69,911 KM', gravity: '24.79 M/S²', desc: 'The gas giant king. Massive hydrogen-helium fluid bands with the legendary centuries-old Great Red Spot anticyclonic storm.', radiusMesh: 2.8, distMesh: 38.0, speed: 0.008, roughness: 0.4, texture: 'jupiter' },
+  saturn: { name: 'SATURN', dist: '9.582 AU', period: '29.45 YEARS', radius: '58,232 KM', gravity: '10.44 M/S²', desc: 'The jewel of the solar system, celebrated for its spectacular, highly reflective ice-particle ring structure spanning 282,000 km.', radiusMesh: 2.2, distMesh: 50.0, speed: 0.006, roughness: 0.45, texture: 'saturn', hasRings: true },
+  uranus: { name: 'URANUS', dist: '19.22 AU', period: '84.01 YEARS', radius: '25,362 KM', gravity: '8.69 M/S²', desc: 'An ice giant with a unique 98° axial tilt, rolling along its orbital plane with a pale cyan methane-rich atmosphere.', radiusMesh: 1.45, distMesh: 61.0, color: 0x67e8f9, speed: 0.004, roughness: 0.4 },
+  neptune: { name: 'NEPTUNE', dist: '30.05 AU', period: '164.8 YEARS', radius: '24,622 KM', gravity: '11.15 M/S²', desc: 'The outermost major planet, an azure ice world battered by supersonic atmospheric winds exceeding 2,100 km/h.', radiusMesh: 1.4, distMesh: 72.0, color: 0x1d4ed8, speed: 0.003, roughness: 0.4 }
+};
 
-// ─── B. ORBITAL TRACKS ───
-const orbitTracksGroup = new THREE.Group();
-solarSystem.add(orbitTracksGroup);
+const planetObjects = {};
 
-function createOrbitTrack(distance) {
-  const segments = 120;
+// Build Orbital Line Tracks
+const orbitLinesGroup = new THREE.Group();
+solarGroup.add(orbitLinesGroup);
+
+function createOrbitPath(radius) {
   const points = [];
-  for (let i = 0; i <= segments; i++) {
-    const theta = (i / segments) * Math.PI * 2;
-    points.push(new THREE.Vector3(Math.cos(theta) * distance, 0, Math.sin(theta) * distance));
+  for (let i = 0; i <= 128; i++) {
+    const theta = (i / 128) * Math.PI * 2;
+    points.push(new THREE.Vector3(Math.cos(theta) * radius, 0, Math.sin(theta) * radius));
   }
   const geo = new THREE.BufferGeometry().setFromPoints(points);
-  const mat = new THREE.LineBasicMaterial({
-    color: 0xffffff,
-    transparent: true,
-    opacity: 0.12
-  });
+  const mat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.1 });
   const line = new THREE.Line(geo, mat);
-  orbitTracksGroup.add(line);
-  return line;
+  orbitLinesGroup.add(line);
 }
 
-// ─── C. PLANETARY DATA & MESHES ───
-const planetConfigs = [
-  { name: 'Mercury', distance: 8.5, radius: 0.52, color: 0xa8a29e, roughness: 0.8, orbitSpeed: 0.038, rotSpeed: 0.015 },
-  { name: 'Venus', distance: 12.8, radius: 0.88, color: 0xeab308, roughness: 0.5, orbitSpeed: 0.026, rotSpeed: -0.008 },
-  { name: 'Earth', distance: 18.0, radius: 1.05, color: 0x2563eb, roughness: 0.4, orbitSpeed: 0.02, rotSpeed: 0.025, hasMoon: true },
-  { name: 'Mars', distance: 23.5, radius: 0.68, color: 0xe05638, roughness: 0.7, orbitSpeed: 0.016, rotSpeed: 0.022 },
-  { name: 'Jupiter', distance: 36.5, radius: 2.6, color: 0xd97706, roughness: 0.45, orbitSpeed: 0.009, rotSpeed: 0.04, hasJupiterMoons: true },
-  { name: 'Saturn', distance: 48.0, radius: 2.1, color: 0xfef08a, roughness: 0.5, orbitSpeed: 0.0065, rotSpeed: 0.035, hasRings: true },
-  { name: 'Uranus', distance: 58.0, radius: 1.45, color: 0x38bdf8, roughness: 0.5, orbitSpeed: 0.0045, rotSpeed: 0.02 },
-  { name: 'Neptune', distance: 68.0, radius: 1.38, color: 0x1d4ed8, roughness: 0.5, orbitSpeed: 0.0035, rotSpeed: 0.022 }
-];
-
-const planets = [];
-
-planetConfigs.forEach(cfg => {
-  createOrbitTrack(cfg.distance);
+// Build Each Planet Object
+Object.keys(planetsData).forEach(key => {
+  if (key === 'system') return;
+  const data = planetsData[key];
+  createOrbitPath(data.distMesh);
 
   const pivot = new THREE.Group();
-  solarSystem.add(pivot);
+  solarGroup.add(pivot);
 
-  const mat = new THREE.MeshStandardMaterial({
-    color: cfg.color,
-    roughness: cfg.roughness,
-    metalness: 0.15
-  });
-  const geo = new THREE.SphereGeometry(cfg.radius, 32, 32);
-  const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.x = cfg.distance;
-  pivot.add(mesh);
-
-  let moonObj = null;
-  if (cfg.hasMoon) {
-    const moonGeo = new THREE.SphereGeometry(0.28, 16, 16);
-    const moonMat = new THREE.MeshStandardMaterial({ color: 0xd4d4d8, roughness: 0.9 });
-    const moonMesh = new THREE.Mesh(moonGeo, moonMat);
-    moonMesh.position.x = 2.0;
-    mesh.add(moonMesh);
-    moonObj = { mesh: moonMesh, angle: 0, speed: 0.08 };
+  let pMat;
+  if (data.texture) {
+    pMat = new THREE.MeshStandardMaterial({
+      map: createProceduralNoiseCanvas(data.texture),
+      roughness: data.roughness,
+      metalness: 0.1
+    });
+  } else {
+    pMat = new THREE.MeshStandardMaterial({
+      color: data.color,
+      roughness: data.roughness,
+      metalness: 0.15
+    });
   }
 
-  // Saturn's Iconic Rings
-  if (cfg.hasRings) {
-    const ringGeo = new THREE.RingGeometry(2.7, 5.2, 64);
-    const ringMat = new THREE.MeshStandardMaterial({
-      color: 0xfef3c7,
+  const geo = new THREE.SphereGeometry(data.radiusMesh, 32, 32);
+  const mesh = new THREE.Mesh(geo, pMat);
+  mesh.position.x = data.distMesh;
+  pivot.add(mesh);
+
+  let moonMesh = null;
+  if (data.hasMoon) {
+    const moonGeo = new THREE.SphereGeometry(0.28, 16, 16);
+    const moonMat = new THREE.MeshStandardMaterial({ color: 0xd4d4d8, roughness: 0.8 });
+    moonMesh = new THREE.Mesh(moonGeo, moonMat);
+    mesh.add(moonMesh);
+  }
+
+  // Saturn 3D Rings
+  if (data.hasRings) {
+    const rGeo = new THREE.RingGeometry(2.8, 5.5, 64);
+    const rMat = new THREE.MeshStandardMaterial({
+      color: 0xfde68a,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.75,
+      opacity: 0.78,
       roughness: 0.4
     });
-    const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+    const ringMesh = new THREE.Mesh(rGeo, rMat);
     ringMesh.rotation.x = Math.PI / 2.3;
     mesh.add(ringMesh);
   }
 
-  planets.push({
+  planetObjects[key] = {
     pivot,
     mesh,
+    moonMesh,
     angle: Math.random() * Math.PI * 2,
-    orbitSpeed: cfg.orbitSpeed,
-    rotSpeed: cfg.rotSpeed,
-    moon: moonObj
-  });
+    speed: data.speed,
+    distMesh: data.distMesh,
+    radiusMesh: data.radiusMesh
+  };
 });
 
-// ─── D. ASTEROID BELT (Between Mars & Jupiter) ───
-const asteroidCount = 1400;
-const asteroidGeo = new THREE.BufferGeometry();
-const asteroidPos = new Float32Array(asteroidCount * 3);
-const asteroidColors = new Float32Array(asteroidCount * 3);
-
+// ─── C. ASTEROID ACCRETION BELT ───
+const asteroidCount = 1200;
+const astGeo = new THREE.BufferGeometry();
+const astPos = new Float32Array(asteroidCount * 3);
 for (let i = 0; i < asteroidCount; i++) {
   const theta = Math.random() * Math.PI * 2;
-  const dist = 27.5 + (Math.random() - 0.5) * 5.0;
-  const y = (Math.random() - 0.5) * 2.2;
-
-  asteroidPos[i * 3] = Math.cos(theta) * dist;
-  asteroidPos[i * 3 + 1] = y;
-  asteroidPos[i * 3 + 2] = Math.sin(theta) * dist;
-
-  const rnd = Math.random();
-  if (rnd < 0.3) {
-    asteroidColors[i * 3] = 0.95; asteroidColors[i * 3 + 1] = 0.7; asteroidColors[i * 3 + 2] = 0.4;
-  } else {
-    asteroidColors[i * 3] = 0.7; asteroidColors[i * 3 + 1] = 0.7; asteroidColors[i * 3 + 2] = 0.75;
-  }
+  const dist = 30.5 + (Math.random() - 0.5) * 5.5;
+  const y = (Math.random() - 0.5) * 2.5;
+  astPos[i * 3] = Math.cos(theta) * dist;
+  astPos[i * 3 + 1] = y;
+  astPos[i * 3 + 2] = Math.sin(theta) * dist;
 }
-asteroidGeo.setAttribute('position', new THREE.BufferAttribute(asteroidPos, 3));
-asteroidGeo.setAttribute('color', new THREE.BufferAttribute(asteroidColors, 3));
-const asteroidMat = new THREE.PointsMaterial({
-  size: 0.18,
-  vertexColors: true,
-  transparent: true,
-  opacity: 0.65
-});
-const asteroidBelt = new THREE.Points(asteroidGeo, asteroidMat);
-solarSystem.add(asteroidBelt);
+astGeo.setAttribute('position', new THREE.BufferAttribute(astPos, 3));
+const astMat = new THREE.PointsMaterial({ color: 0x94a3b8, size: 0.18, transparent: true, opacity: 0.65 });
+const asteroidBelt = new THREE.Points(astGeo, astMat);
+solarGroup.add(asteroidBelt);
 
-// ─── E. DEEP SPACE COSMIC STARS ───
-const starCount = 3000;
+// ─── D. DEEP COSMIC STARFIELD ───
+const starCount = 3500;
 const starGeo = new THREE.BufferGeometry();
 const starPos = new Float32Array(starCount * 3);
-const starColors = new Float32Array(starCount * 3);
-
+const starCols = new Float32Array(starCount * 3);
 for (let i = 0; i < starCount; i++) {
-  starPos[i * 3] = (Math.random() - 0.5) * 350;
-  starPos[i * 3 + 1] = (Math.random() - 0.5) * 350;
-  starPos[i * 3 + 2] = (Math.random() - 0.5) * 350;
-
+  starPos[i * 3] = (Math.random() - 0.5) * 500;
+  starPos[i * 3 + 1] = (Math.random() - 0.5) * 500;
+  starPos[i * 3 + 2] = (Math.random() - 0.5) * 500;
   const rnd = Math.random();
-  if (rnd < 0.25) {
-    starColors[i * 3] = 1.0; starColors[i * 3 + 1] = 0.75; starColors[i * 3 + 2] = 0.4;
-  } else {
-    starColors[i * 3] = 0.85; starColors[i * 3 + 1] = 0.92; starColors[i * 3 + 2] = 1.0;
-  }
+  if (rnd < 0.2) { starCols[i * 3] = 1; starCols[i * 3 + 1] = 0.7; starCols[i * 3 + 2] = 0.4; }
+  else { starCols[i * 3] = 0.85; starCols[i * 3 + 1] = 0.92; starCols[i * 3 + 2] = 1.0; }
 }
 starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-starGeo.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
-const starMat = new THREE.PointsMaterial({
-  size: 0.22,
-  vertexColors: true,
-  transparent: true,
-  opacity: 0.7
-});
-const stars = new THREE.Points(starGeo, starMat);
+starGeo.setAttribute('color', new THREE.BufferAttribute(starCols, 3));
+const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ size: 0.24, vertexColors: true, transparent: true, opacity: 0.75 }));
 scene.add(stars);
 
 /* ════════════════════════════════════════════════════════════════════
-   3. SCROLL KINEMATICS & INTERACTIVE 3D ORBIT CONTROLS
+   4. CAMERA ORBIT INTERACTION & PLANET FLY-TO ENGINE
 ════════════════════════════════════════════════════════════════════ */
-let scrollY = 0;
-let scrollProgress = 0;
+let targetCameraPos = new THREE.Vector3(0, 30, 65);
+let targetLookAt = new THREE.Vector3(0, 0, 0);
+let currentLookAt = new THREE.Vector3(0, 0, 0);
+let currentTargetKey = 'system';
 
-window.addEventListener('scroll', () => {
-  scrollY = window.scrollY;
-  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-  scrollProgress = Math.min(Math.max(scrollY / (maxScroll || 1), 0), 1);
-  updateActiveTracker();
-});
-
-// Interactive 3D Parallax & Orbit Drag State
+// Mouse / Drag State
 let mouseX = 0, mouseY = 0;
 let targetMouseX = 0, targetMouseY = 0;
-let mouseTiltX = 0, mouseTiltY = 0;
-
 let isDragging = false;
-let previousMouseX = 0, previousMouseY = 0;
-let dragRotationX = 0, dragRotationY = 0;
+let prevX = 0, prevY = 0;
+let dragX = 0, dragY = 0;
 let dragVelX = 0, dragVelY = 0;
 
 window.addEventListener('mousemove', (e) => {
@@ -1073,113 +848,108 @@ window.addEventListener('mousemove', (e) => {
   targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
 
   if (isDragging) {
-    const deltaX = e.clientX - previousMouseX;
-    const deltaY = e.clientY - previousMouseY;
-
-    dragVelY = deltaX * 0.007;
-    dragVelX = deltaY * 0.007;
-
-    dragRotationY += dragVelY;
-    dragRotationX += dragVelX;
-
-    previousMouseX = e.clientX;
-    previousMouseY = e.clientY;
+    const dx = e.clientX - prevX;
+    const dy = e.clientY - prevY;
+    dragVelY = dx * 0.006;
+    dragVelX = dy * 0.006;
+    dragY += dragVelY;
+    dragX += dragVelX;
+    prevX = e.clientX;
+    prevY = e.clientY;
   }
 });
 
-// Click and drag anywhere to orbit 360°
 window.addEventListener('mousedown', (e) => {
-  if (e.target.closest('a, button, input, select, .interactive-card')) return;
+  if (e.target.closest('button, a, input, .planet-hud, .modal-content')) return;
   isDragging = true;
-  previousMouseX = e.clientX;
-  previousMouseY = e.clientY;
+  prevX = e.clientX;
+  prevY = e.clientY;
 });
 
-window.addEventListener('mouseup', () => {
-  isDragging = false;
-});
+window.addEventListener('mouseup', () => { isDragging = false; });
 
-// Touch support for mobile devices
+// Touch support
 window.addEventListener('touchstart', (e) => {
-  if (e.touches.length === 1 && !e.target.closest('a, button, input, select, .interactive-card')) {
+  if (e.touches.length === 1 && !e.target.closest('button, a, input, .planet-hud, .modal-content')) {
     isDragging = true;
-    previousMouseX = e.touches[0].clientX;
-    previousMouseY = e.touches[0].clientY;
+    prevX = e.touches[0].clientX;
+    prevY = e.touches[0].clientY;
   }
 }, { passive: true });
 
 window.addEventListener('touchmove', (e) => {
   if (isDragging && e.touches.length === 1) {
-    const deltaX = e.touches[0].clientX - previousMouseX;
-    const deltaY = e.touches[0].clientY - previousMouseY;
-
-    dragVelY = deltaX * 0.007;
-    dragVelX = deltaY * 0.007;
-
-    dragRotationY += dragVelY;
-    dragRotationX += dragVelX;
-
-    previousMouseX = e.touches[0].clientX;
-    previousMouseY = e.touches[0].clientY;
+    const dx = e.touches[0].clientX - prevX;
+    const dy = e.touches[0].clientY - prevY;
+    dragVelY = dx * 0.006;
+    dragVelX = dy * 0.006;
+    dragY += dragVelY;
+    dragX += dragVelX;
+    prevX = e.touches[0].clientX;
+    prevY = e.touches[0].clientY;
   }
 }, { passive: true });
 
-window.addEventListener('touchend', () => {
-  isDragging = false;
+window.addEventListener('touchend', () => { isDragging = false; });
+
+// Zoom with mouse scroll wheel
+window.addEventListener('wheel', (e) => {
+  if (currentTargetKey === 'system') {
+    targetCameraPos.z = Math.min(Math.max(targetCameraPos.z + e.deltaY * 0.05, 25), 140);
+    targetCameraPos.y = targetCameraPos.z * 0.46;
+  }
+}, { passive: true });
+
+// Fly camera to focused planetary body
+function focusPlanet(key) {
+  currentTargetKey = key;
+  const info = planetsData[key];
+
+  // Update HUD Display
+  document.getElementById('hud-name').textContent = info.name;
+  document.getElementById('hud-dist').textContent = info.dist;
+  document.getElementById('hud-period').textContent = info.period;
+  document.getElementById('hud-radius').textContent = info.radius;
+  document.getElementById('hud-gravity').textContent = info.gravity;
+  document.getElementById('hud-desc').textContent = info.desc;
+
+  // Update Active Tab State
+  document.querySelectorAll('.planet-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.target === key);
+  });
+
+  if (key === 'system') {
+    targetCameraPos.set(0, 30, 65);
+    targetLookAt.set(0, 0, 0);
+  }
+}
+
+// Click handlers for dock buttons
+document.querySelectorAll('.planet-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    focusPlanet(tab.dataset.target);
+  });
 });
 
-// Solar Flare Burst
-let flarePulse = 0;
-document.getElementById('btn-solar-flare').addEventListener('click', () => {
-  flarePulse = 1.0;
-  sunLight.intensity = 8.0;
+document.getElementById('btn-hero-explore').addEventListener('click', () => {
+  focusPlanet('earth');
 });
 
-// Toggle Orbit Tracks
-let orbitsVisible = true;
-const orbitBtn = document.getElementById('btn-toggle-orbits');
-orbitBtn.addEventListener('click', () => {
-  orbitsVisible = !orbitsVisible;
-  orbitTracksGroup.visible = orbitsVisible;
-  orbitBtn.classList.toggle('active', orbitsVisible);
-});
+// Modal Controls
+const modal = document.getElementById('modal');
+document.getElementById('btn-open-modal').addEventListener('click', () => modal.classList.add('open'));
+document.getElementById('btn-hero-info').addEventListener('click', () => modal.classList.add('open'));
+document.getElementById('btn-close-modal').addEventListener('click', () => modal.classList.remove('open'));
 
-// Speed Toggle
-let speedMultiplier = 1.0;
-const speedBtn = document.getElementById('btn-speed-toggle');
-speedBtn.addEventListener('click', () => {
-  speedMultiplier = speedMultiplier === 1.0 ? 3.0 : 1.0;
-  speedBtn.textContent = 'SPEED: ' + speedMultiplier + 'X';
-  speedBtn.classList.toggle('active', speedMultiplier > 1.0);
-});
-
-// Copy referral code
-document.getElementById('copy-btn').addEventListener('click', () => {
+document.getElementById('btn-copy-code').addEventListener('click', () => {
   navigator.clipboard.writeText('TECHFEST-IITB-2026');
-  const btn = document.getElementById('copy-btn');
+  const btn = document.getElementById('btn-copy-code');
   btn.textContent = 'Copied!';
   setTimeout(() => { btn.textContent = 'Copy Code'; }, 2000);
 });
 
-// Tracker navigation
-const trackerPoints = document.querySelectorAll('.tracker-point');
-function updateActiveTracker() {
-  const sections = ['hero', 'about', 'competitions', 'exhibitions', 'technoholix', 'register'];
-  const index = Math.min(Math.floor(scrollProgress * sections.length), sections.length - 1);
-  trackerPoints.forEach((pt, i) => {
-    pt.classList.toggle('active', i === index);
-  });
-}
-
-trackerPoints.forEach(pt => {
-  pt.addEventListener('click', () => {
-    const target = document.getElementById(pt.dataset.sec);
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
-  });
-});
-
 /* ════════════════════════════════════════════════════════════════════
-   4. RENDER LOOP (PLANETARY MECHANICS & 3D DYNAMICS)
+   5. MASTER 60 FPS RENDER LOOP
 ════════════════════════════════════════════════════════════════════ */
 const clock = new THREE.Clock();
 
@@ -1187,81 +957,69 @@ function animate() {
   requestAnimationFrame(animate);
 
   const delta = clock.getDelta();
-  const time = clock.getElapsedTime() * speedMultiplier;
+  const time = clock.getElapsedTime();
 
   // Smooth mouse damping
   mouseX += (targetMouseX - mouseX) * 0.05;
   mouseY += (targetMouseY - mouseY) * 0.05;
 
-  // Drag inertia damping
+  // Momentum damping
   if (!isDragging) {
     dragVelX *= 0.94;
     dragVelY *= 0.94;
-    dragRotationX += dragVelX;
-    dragRotationY += dragVelY;
+    dragX += dragVelX;
+    dragY += dragVelY;
   }
 
-  // Responsive 3D Cursor Tilt
-  mouseTiltX += (targetMouseY * 0.55 - mouseTiltX) * 0.08;
-  mouseTiltY += (targetMouseX * 0.85 - mouseTiltY) * 0.08;
+  // Sun subtle rotation & corona breathing
+  sunMesh.rotation.y = time * 0.04;
+  coronaMesh.rotation.y = -time * 0.02;
+  const coronaScale = 1.0 + Math.sin(time * 2) * 0.04;
+  coronaMesh.scale.set(coronaScale, coronaScale, coronaScale);
 
-  // Direct 3D Rotation applied to the entire Solar System
-  solarSystem.rotation.x = 0.28 + mouseTiltX + dragRotationX;
-  solarSystem.rotation.y = time * 0.03 + mouseTiltY + dragRotationY;
-  solarSystem.rotation.z = Math.sin(time * 0.1) * 0.04 - targetMouseX * 0.08;
-
-  // 3D Parallax Shift (the solar system drifts with cursor position)
-  solarSystem.position.x = mouseX * 2.8;
-  solarSystem.position.y = -mouseY * 2.0;
-
-  // Camera flight trajectory driven by natural page scroll:
-  // Starts near Earth/Sun -> flies past Mars -> sweeps past Jupiter & Saturn
-  const camX = Math.sin(scrollProgress * Math.PI * 1.8) * 10 + mouseX * 1.6;
-  const camY = 16 - scrollProgress * 14 - mouseY * 1.2;
-  const camZ = 38 - scrollProgress * 12;
-
-  camera.position.x += (camX - camera.position.x) * 0.06;
-  camera.position.y += (camY - camera.position.y) * 0.06;
-  camera.position.z += (camZ - camera.position.z) * 0.06;
-  camera.lookAt(0, -scrollProgress * 8, 0);
-
-  // Sun subtle rotation & corona pulsation
-  sunMesh.rotation.y = time * 0.08;
-  coronaMesh.rotation.y = -time * 0.05;
-  flarePoints.rotation.y = time * 0.12;
-
-  // Solar Flare Decay
-  if (flarePulse > 0.01) {
-    flarePulse *= 0.92;
-    const scale = 1.0 + flarePulse * 0.45;
-    sunGroup.scale.set(scale, scale, scale);
-    sunLight.intensity = 3.8 + flarePulse * 5.0;
-  } else {
-    // Gentle heartbeat
-    const breath = 1.0 + Math.sin(time * 2) * 0.03;
-    sunGroup.scale.set(breath, breath, breath);
-    sunLight.intensity = 3.8;
-  }
-
-  // Planetary Revolutions & Self-Rotations
-  planets.forEach(p => {
-    p.angle += p.orbitSpeed * delta * speedMultiplier * 1.8;
+  // Update Planetary Orbits
+  Object.keys(planetObjects).forEach(key => {
+    const p = planetObjects[key];
+    p.angle += p.speed * delta * 1.5;
     p.pivot.rotation.y = p.angle;
-    p.mesh.rotation.y += p.rotSpeed * delta * 50;
+    p.mesh.rotation.y += 0.02;
 
-    if (p.moon) {
-      p.moon.angle += p.moon.speed * delta * 60;
-      p.moon.mesh.position.x = Math.cos(p.moon.angle) * 2.2;
-      p.moon.mesh.position.z = Math.sin(p.moon.angle) * 2.2;
+    if (p.moonMesh) {
+      const mAngle = time * 2.5;
+      p.moonMesh.position.set(Math.cos(mAngle) * 2.2, 0, Math.sin(mAngle) * 2.2);
     }
   });
 
-  // Asteroid Belt gentle drift
-  asteroidBelt.rotation.y = time * 0.012;
+  // Asteroid belt gentle drift
+  asteroidBelt.rotation.y = time * 0.008;
 
-  // Cosmic Stars subtle twinkle & drift
-  stars.rotation.y = time * 0.003 + mouseX * 0.04;
-  stars.rotation.x = time * 0.002 + mouseY * 0.03;
+  // If focused on a specific planet, dynamically follow its world position
+  if (currentTargetKey !== 'system' && planetObjects[currentTargetKey]) {
+    const p = planetObjects[currentTargetKey];
+    const worldPos = new THREE.Vector3();
+    p.mesh.getWorldPosition(worldPos);
+
+    targetLookAt.copy(worldPos);
+
+    const orbitOffset = p.radiusMesh * 4.2 + 3.0;
+    targetCameraPos.set(
+      worldPos.x + Math.sin(time * 0.2 + mouseX) * orbitOffset,
+      worldPos.y + orbitOffset * 0.5 - mouseY * 2,
+      worldPos.z + Math.cos(time * 0.2 + mouseX) * orbitOffset
+    );
+  } else {
+    // Free system overview with mouse tilt & drag
+    solarGroup.rotation.x = 0.22 + dragX + mouseY * 0.2;
+    solarGroup.rotation.y = time * 0.015 + dragY + mouseX * 0.3;
+  }
+
+  // Smooth camera interpolation (Fly-to transitions)
+  camera.position.lerp(targetCameraPos, 0.05);
+  currentLookAt.lerp(targetLookAt, 0.06);
+  camera.lookAt(currentLookAt);
+
+  // Stars drift
+  stars.rotation.y = time * 0.002;
 
   renderer.render(scene, camera);
 }

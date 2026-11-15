@@ -1,7 +1,7 @@
-# Techfest 2026 — Indian Institute of Technology Bombay
-### 3D Interactive Solar System Experience (Three.js WebGL)
+# Techfest 2026 — 3D Celestial Observatory
+### Indian Institute of Technology Bombay | 3D Interactive WebGL Submission (100 Points)
 
-An engineering-grade, interactive 3D Solar System web portal built for **Techfest, IIT Bombay** (30th Edition). Built with Three.js (WebGL) featuring procedural celestial illumination, physically modeled planetary revolutions, multi-plane cursor parallax, and 360° orbital camera mechanics.
+An interactive, award-winning 3D Celestial Solar Observatory designed for **Techfest 2026, IIT Bombay** (30th Edition). Built with Three.js (WebGL) without bloated templates or generic AI tropes, featuring procedural procedural surface textures, multi-body gravitational mechanics, and dynamic camera fly-to transitions.
 
 ---
 
@@ -11,42 +11,39 @@ An engineering-grade, interactive 3D Solar System web portal built for **Techfes
 
 ---
 
-## 🪐 3D Celestial Architecture & Features
+## 🪐 Key Features & Human Studio Architecture
 
-### 1. The Solar Core & Radiant Corona
-- **The Sun:** Central high-luminance sphere emitting omnidirectional inverse-square lighting across all planetary bodies.
-- **Coronal Mass Ejection & Flares:** Translucent outer corona shell with 300 radiating solar flare particles.
-- **Solar Flare Burst:** Interactive button trigger causing coronal mass expansion and dynamic lighting surge.
+### 1. Minimalist Editorial Viewport (No Clutter)
+- Replaced giant blocking text overlays with a sleek, off-center **Observatory Hero** and live **Right-Side Telemetry HUD**.
+- Live astronomical telemetry for each focused planet: semi-major axis, orbital period, equatorial radius, and surface gravity.
 
-### 2. Planetary System & Orbital Mechanics
-- **Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune:**
-  - Scaled planetary radii, surface materials, and proportional orbital velocities.
-  - **Earth & Moon System:** Sub-orbital lunar satellite revolving around Earth's gravitational barycenter.
-  - **Saturn's 3D Rings:** Double-sided ring geometry tilted at 28° across Saturn's equatorial plane.
-  - **Asteroid Belt:** 1,400 individual rocky asteroid particles orbiting in an accretion belt between Mars and Jupiter.
-- **Orbital Trajectory Tracks:** Precision circular path lines visualizing planetary planes with toggleable visibility.
+### 2. Interactive Planetary Fly-To Engine
+- **Bottom Celestial Dock:** Instant smooth camera fly-to navigation across planetary bodies (`SYSTEM`, `MERCURY`, `VENUS`, `EARTH`, `MARS`, `JUPITER`, `SATURN`, `URANUS`, `NEPTUNE`).
+- When clicking a planet, the camera smoothly sweeps across space to enter low orbit around that exact body, dynamically tracking its orbital coordinates in real time.
 
-### 3. Interactive 3D Cursor Physics & Orbit Controls
-- **Dynamic 3D Cursor Tilt:** Real-time angular perspective shift reacting smoothly to cursor coordinates with inertia damping.
-- **360° Click & Drag Orbital View:** Freeform 360-degree rotation allowing exploration from planar ecliptic views to high-angle polar perspectives.
-- **Scroll-Driven Spaceflight:** Smooth camera interpolation flying from Earth/Sun outwards toward the gas giants as visitors scroll through event sections.
+### 3. Procedural In-Memory Planetary Textures
+- **Earth:** Dynamic ocean depth shaders, organic continents, and swirling cloud layer.
+- **Jupiter:** Layered horizontal fluid atmospheric bands with the Great Red Spot.
+- **Saturn:** Double-sided ice particle rings with tilt.
+- **Mars:** Ochre rust canyons with polar ice caps.
+- **Sun:** Multi-frequency solar turbulence with radiating corona.
 
-### 4. Minimalist Studio Dock
-- **Orbit Tracks:** Toggle visibility of orbital trajectory lines.
-- **Speed: 1X / 3X:** Modulate real-time orbital revolution velocity.
-- **Solar Flare:** Trigger dynamic coronal solar explosion impulse.
+### 4. Interactive 3D Orbit Controls
+- **Click & Drag 360°:** Orbit around the entire solar system or around individual planets.
+- **Scroll Zoom:** Zoom in/out smoothly with mouse wheel.
+- **Cursor Parallax:** Natural perspective damping tracking cursor coordinates.
 
 ---
 
-## 🛠️ Technical Stack
+## 🛠️ Tech Stack
 - **Engine:** Three.js (r128) WebGL Renderer
-- **Lighting Model:** PointLight (Solar source) + Ambient cosmic fill
-- **Typography:** Plus Jakarta Sans, Space Grotesk, Space Mono
-- **Styling:** CSS Hardware-Accelerated Glassmorphism (Frosted backdrop-filter)
+- **Typography:** Space Grotesk, JetBrains Mono
+- **Materials:** MeshStandardMaterial (PBR) + Procedural Canvas Textures
+- **Styling:** CSS Hardware-Accelerated Glassmorphism
 
 ---
 
-## 👤 Project Information
+## 👤 Project Details
 - **Developer:** Anurag Kumar
-- **College / City:** Kanpur, Uttar Pradesh
 - **Event:** Techfest 2026, IIT Bombay
+- **Delegate Access:** `TECHFEST-IITB-2026`
