@@ -50,7 +50,7 @@ html, body {
   inset: 0;
   pointer-events: none;
   z-index: 2;
-  background: radial-gradient(circle at center, transparent 40%, rgba(3, 4, 7, 0.8) 100%);
+  background: radial-gradient(circle at center, transparent 40%, rgba(3, 4, 7, 0.82) 100%);
 }
 
 /* ─── MINIMALIST STUDIO HEADER ─── */
@@ -59,18 +59,20 @@ html, body {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 20px 36px;
+  padding: 18px 36px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 20;
   pointer-events: auto;
+  background: linear-gradient(180deg, rgba(3,4,7,0.7) 0%, transparent 100%);
 }
 
 .brand-badge {
   display: flex;
   align-items: center;
   gap: 14px;
+  cursor: pointer;
 }
 
 .brand-emblem {
@@ -101,7 +103,7 @@ html, body {
 .header-nav-tabs {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   list-style: none;
 }
 
@@ -110,12 +112,12 @@ html, body {
   border: 1px solid transparent;
   color: #94a3b8;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  padding: 6px 12px;
+  font-size: 0.7rem;
+  padding: 6px 11px;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
 }
 
 .nav-tab-btn:hover {
@@ -134,9 +136,9 @@ html, body {
 .header-telemetry {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   color: var(--text-muted);
 }
 
@@ -145,31 +147,53 @@ html, body {
   font-weight: 500;
 }
 
-.btn-portal {
-  padding: 8px 16px;
+.btn-header-ctl {
+  padding: 7px 14px;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-glass);
-  color: #fff;
+  color: #94a3b8;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  text-decoration: none;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-header-ctl:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.btn-header-ctl.active {
+  color: #22c55e;
+  border-color: rgba(34, 197, 94, 0.4);
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.btn-portal {
+  padding: 7px 16px;
+  border-radius: 6px;
+  background: rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.35);
+  color: #fb923c;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
   transition: all 0.2s ease;
   letter-spacing: 0.5px;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .btn-portal:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.25);
+  background: #f97316;
+  color: #fff;
 }
 
 /* ─── ELEGANT FLOATING HERO TITLE (MINIMAL, OFF-CENTER) ─── */
 .hero-overlay {
   position: absolute;
-  top: 14%;
-  left: 5vw;
-  max-width: 460px;
+  top: 13%;
+  left: 4.5vw;
+  max-width: 440px;
   z-index: 10;
   pointer-events: none;
 }
@@ -186,16 +210,16 @@ html, body {
   font-size: 0.68rem;
   color: var(--accent-orange);
   letter-spacing: 1.5px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .hero-title {
-  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
   font-weight: 700;
   line-height: 1.05;
   color: #fff;
   letter-spacing: -1.5px;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 }
 
 .hero-title em {
@@ -206,11 +230,11 @@ html, body {
 }
 
 .hero-desc {
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   line-height: 1.6;
   color: #94a3b8;
   font-weight: 400;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 }
 
 .hero-actions {
@@ -258,15 +282,15 @@ html, body {
 /* ─── LIVE PLANET TELEMETRY HUD (RIGHT SIDE) ─── */
 .planet-hud {
   position: absolute;
-  top: 14%;
-  right: 5vw;
+  top: 13%;
+  right: 4.5vw;
   width: 320px;
-  background: rgba(8, 11, 18, 0.75);
+  background: rgba(8, 11, 18, 0.8);
   border: 1px solid var(--border-glass);
   border-radius: 12px;
-  padding: 24px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  padding: 22px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   z-index: 10;
   pointer-events: auto;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
@@ -279,11 +303,11 @@ html, body {
   align-items: center;
   border-bottom: 1px solid var(--border-glass);
   padding-bottom: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .hud-target-name {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #fff;
   letter-spacing: -0.5px;
@@ -299,9 +323,9 @@ html, body {
 .hud-metrics {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 9px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
 }
 
 .metric-line {
@@ -316,25 +340,76 @@ html, body {
 }
 
 .hud-planet-desc {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: #94a3b8;
   line-height: 1.55;
-  margin-top: 16px;
-  padding-top: 14px;
+  margin-top: 14px;
+  padding-top: 12px;
   border-top: 1px solid var(--border-glass);
   font-family: 'Space Grotesk', sans-serif;
+}
+
+/* HUD Controls Bar (Speed & Orbit) */
+.hud-controls-row {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-glass);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.speed-pill-group {
+  display: flex;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  padding: 2px;
+  gap: 2px;
+}
+.speed-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  padding: 3px 7px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.speed-btn:hover { color: #fff; }
+.speed-btn.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-weight: 600;
+}
+.hud-btn-toggle {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-glass);
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.hud-btn-toggle.active {
+  color: #e2e8f0;
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* ─── BOTTOM PLANET SELECTOR BAR (HUMAN STUDIO DOCK) ─── */
 .planet-selector-bar {
   position: absolute;
-  bottom: 24px;
+  bottom: 22px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(8, 11, 18, 0.82);
+  gap: 5px;
+  background: rgba(8, 11, 18, 0.85);
   border: 1px solid var(--border-glass);
   padding: 6px 8px;
   border-radius: 40px;
@@ -343,6 +418,8 @@ html, body {
   z-index: 20;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
   pointer-events: auto;
+  max-width: 95vw;
+  overflow-x: auto;
 }
 
 .planet-tab {
@@ -350,15 +427,16 @@ html, body {
   border: none;
   color: var(--text-muted);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  padding: 8px 14px;
+  font-size: 0.68rem;
+  padding: 7px 12px;
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 6px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
 }
 
 .planet-tab:hover {
@@ -377,6 +455,7 @@ html, body {
   height: 16px;
   background: var(--border-glass);
   margin: 0 2px;
+  flex-shrink: 0;
 }
 
 .btn-overview {
@@ -394,16 +473,17 @@ html, body {
 /* ─── DRAG HINT ─── */
 .drag-hint {
   position: absolute;
-  bottom: 80px;
+  bottom: 74px;
   left: 50%;
   transform: translateX(-50%);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   color: rgba(255, 255, 255, 0.25);
   letter-spacing: 2px;
   pointer-events: none;
   z-index: 10;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 /* ─── MODAL DIALOGS (RICH TECHFEST PANELS) ─── */
@@ -425,9 +505,9 @@ html, body {
 }
 
 .modal-content {
-  max-width: 820px;
+  max-width: 860px;
   width: 95%;
-  max-height: 86vh;
+  max-height: 88vh;
   overflow-y: auto;
   background: #0b0e17;
   border: 1px solid var(--border-glass);
@@ -467,47 +547,69 @@ html, body {
   font-size: 1.75rem;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   letter-spacing: -0.5px;
 }
 
 .modal-desc {
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   color: #94a3b8;
-  line-height: 1.65;
-  margin-bottom: 24px;
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
 
-/* Modal Tab Bar */
-.modal-tabs {
+/* Modal Search & Filter Bar */
+.modal-filter-bar {
   display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
-  border-bottom: 1px solid var(--border-glass);
-  padding-bottom: 12px;
-  overflow-x: auto;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
 }
-.modal-tab-btn {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
+
+.modal-search-input {
+  flex: 1;
+  min-width: 220px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-glass);
+  color: #fff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  padding: 9px 14px;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.modal-search-input:focus {
+  border-color: rgba(249, 115, 22, 0.6);
+  background: rgba(255, 255, 255, 0.05);
+}
+.modal-search-input::placeholder {
+  color: #64748b;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.75rem;
-  padding: 8px 16px;
+}
+
+.filter-btn-pill {
+  background: transparent;
+  border: 1px solid var(--border-glass);
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s;
-  white-space: nowrap;
 }
-.modal-tab-btn:hover {
+.filter-btn-pill:hover {
   color: #fff;
-  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
 }
-.modal-tab-btn.active {
+.filter-btn-pill.active {
   background: rgba(249, 115, 22, 0.15);
   color: var(--accent-orange);
+  border-color: rgba(249, 115, 22, 0.4);
   font-weight: 600;
-  border: 1px solid rgba(249, 115, 22, 0.35);
 }
 
 /* Modal Content Cards Grid */
@@ -515,7 +617,7 @@ html, body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  margin-top: 16px;
+  margin-top: 14px;
 }
 .content-card-mini {
   background: rgba(255, 255, 255, 0.02);
@@ -585,6 +687,11 @@ html, body {
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: all 0.2s ease;
+}
+.timeline-slot:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 .slot-time {
   font-family: 'JetBrains Mono', monospace;
@@ -673,20 +780,91 @@ html, body {
   letter-spacing: 1.5px;
 }
 
-@media (max-width: 900px) {
-  .modal-grid-2 { grid-template-columns: 1fr; }
-  .header-nav-tabs { display: none; }
-  .modal-content { padding: 24px 20px; }
+/* Campus Venues Guide */
+.campus-zone-card {
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-glass);
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+.campus-zone-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.campus-zone-card h4 {
+  font-size: 0.98rem;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.campus-zone-card span {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent-orange);
+  display: block;
+  margin-bottom: 6px;
+}
+.campus-zone-card p {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  line-height: 1.5;
 }
 
-/* ─── RESPONSIVE ─── */
+/* Transit routes */
+.transit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+.transit-card {
+  padding: 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-glass);
+}
+.transit-card h5 {
+  font-size: 0.85rem;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.transit-card p {
+  font-size: 0.76rem;
+  color: #94a3b8;
+  line-height: 1.45;
+}
+
+/* FAQ Accordion */
+.faq-item {
+  border-bottom: 1px solid var(--border-glass);
+  padding: 14px 0;
+}
+.faq-q {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.faq-a {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  line-height: 1.55;
+  margin-top: 8px;
+}
+
 @media (max-width: 900px) {
-  .top-nav { padding: 18px 20px; }
+  .top-nav { padding: 14px 18px; }
+  .header-nav-tabs { display: none; }
   .header-telemetry { display: none; }
-  .hero-overlay { top: 12%; left: 6vw; right: 6vw; max-width: none; }
+  .hero-overlay { top: 11%; left: 5vw; right: 5vw; max-width: none; }
   .planet-hud { display: none; }
   .planet-selector-bar { width: 92%; overflow-x: auto; justify-content: flex-start; border-radius: 20px; }
   .drag-hint { bottom: 85px; }
+  .modal-grid-2 { grid-template-columns: 1fr; }
+  .modal-content { padding: 24px 20px; }
 }
 </style>
 </head>
@@ -700,7 +878,7 @@ html, body {
 
 <!-- NAVIGATION -->
 <nav class="top-nav">
-  <div class="brand-badge">
+  <div class="brand-badge" id="nav-brand-click">
     <div class="brand-emblem"></div>
     <div class="brand-text">
       <h1>Techfest 2026</h1>
@@ -712,6 +890,8 @@ html, body {
     <li><button class="nav-tab-btn active" id="nav-btn-constellation">🌌 3D GALAXY</button></li>
     <li><button class="nav-tab-btn" id="nav-btn-competitions">⚔️ ARENAS &amp; RULES</button></li>
     <li><button class="nav-tab-btn" id="nav-btn-schedule">🗓️ 3-DAY SCHEDULE</button></li>
+    <li><button class="nav-tab-btn" id="nav-btn-expo">🔬 EXPO &amp; WORKSHOPS</button></li>
+    <li><button class="nav-tab-btn" id="nav-btn-campus">📍 CAMPUS MAP</button></li>
     <li><button class="nav-tab-btn" id="nav-btn-speakers">🎓 LUMINARIES</button></li>
     <li><button class="nav-tab-btn" id="nav-btn-accreditation">🎟️ DELEGATION PASS</button></li>
   </ul>
@@ -721,8 +901,9 @@ html, body {
     <div>EPOCH: <strong>DEC 18–20, 2026</strong></div>
   </div>
 
-  <div style="display:flex;gap:10px">
-    <button class="btn-portal" id="btn-open-modal">FESTIVAL BRIEF</button>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn-header-ctl" id="btn-audio-toggle">AUDIO: OFF</button>
+    <button class="btn-portal" id="btn-open-modal">FESTIVAL DOSSIER</button>
   </div>
 </nav>
 
@@ -771,7 +952,19 @@ html, body {
   <p class="hud-planet-desc" id="hud-desc">
     Techfest constellation overview active. The central core powers Asia's largest tech festival, while each planetary body represents a flagship competition arena, summit, or global exhibition. Click any sector to enter orbit.
   </p>
-  <button class="btn-explore" id="btn-open-dossier" style="width:100%;margin-top:16px;padding:9px;font-size:0.75rem;cursor:pointer">
+
+  <!-- Live Controls Pill Row -->
+  <div class="hud-controls-row">
+    <div class="speed-pill-group">
+      <button class="speed-btn" data-speed="0">⏸</button>
+      <button class="speed-btn" data-speed="0.5">0.5x</button>
+      <button class="speed-btn active" data-speed="1">1x</button>
+      <button class="speed-btn" data-speed="2">2x</button>
+    </div>
+    <button class="hud-btn-toggle active" id="btn-toggle-orbits">ORBITS: ON</button>
+  </div>
+
+  <button class="btn-explore" id="btn-open-dossier" style="width:100%;margin-top:14px;padding:9px;font-size:0.75rem;cursor:pointer">
     Inspect Sector Dossier &amp; Rules →
   </button>
 </aside>
@@ -790,7 +983,7 @@ html, body {
   <button class="planet-tab" data-target="neptune">💻 HACKATHON</button>
 </div>
 
-<div class="drag-hint">✦ DRAG TO ROTATE 360° · SCROLL TO ZOOM · CLICK SECTORS TO ENTER ORBIT</div>
+<div class="drag-hint">✦ DRAG TO ROTATE 360° · SCROLL TO ZOOM · CLICK 3D PLANETS TO ENTER ORBIT</div>
 
 <!-- 1. FESTIVAL INFO MODAL -->
 <div class="techfest-modal" id="modal">
@@ -808,7 +1001,7 @@ html, body {
       </div>
       <button class="btn-explore" id="btn-copy-code" style="padding:8px 16px;font-size:0.75rem">Copy Code</button>
     </div>
-    <div style="display:flex;gap:12px">
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
       <button class="btn-explore" id="btn-open-comp-from-brief" style="flex:1;text-align:center;padding:12px">Explore Competitions</button>
       <a href="https://techfest.org" target="_blank" class="btn-details" style="flex:1;text-align:center;padding:12px">Official Techfest.org →</a>
     </div>
@@ -825,8 +1018,17 @@ html, body {
       Official challenge categories and engineering specifications for Techfest 2026. All shortlisted zonal and online teams qualify for the national finals at the IIT Bombay campus.
     </p>
 
-    <div class="modal-grid-2">
-      <div class="content-card-mini">
+    <!-- Filter & Search Bar -->
+    <div class="modal-filter-bar">
+      <input type="text" class="modal-search-input" id="search-competitions" placeholder="Search arenas, rules, prizes (e.g. Robowars, 60kg, AI)...">
+      <button class="filter-btn-pill active" data-comp-filter="all">All Arenas</button>
+      <button class="filter-btn-pill" data-comp-filter="robotics">Robotics</button>
+      <button class="filter-btn-pill" data-comp-filter="software">AI &amp; Coding</button>
+      <button class="filter-btn-pill" data-comp-filter="aerospace">Aerospace</button>
+    </div>
+
+    <div class="modal-grid-2" id="grid-competitions">
+      <div class="content-card-mini" data-category="robotics" data-keywords="robowars combat 60kg 15kg heavyweight flipper spinner arena">
         <h4>⚔️ International Robowars <span class="card-badge-pill">₹12 LAKH</span></h4>
         <p>Heavyweight combat robotics inside a 10m x 10m x 4m bulletproof polycarbonate cage. Bots battle with active spinners, drums, and pneumatic flippers.</p>
         <div class="card-meta-list">
@@ -836,7 +1038,7 @@ html, body {
         </div>
       </div>
 
-      <div class="content-card-mini">
+      <div class="content-card-mini" data-category="software" data-keywords="hackathon 36-hour sprint coding ai web3 fintech cloud ppo">
         <h4>💻 National 36-Hour Hackathon <span class="card-badge-pill">₹10 LAKH</span></h4>
         <p>Non-stop prototype sprint. Engineering teams build production-grade web applications, generative AI workflows, and decentralized protocols under senior tech mentors.</p>
         <div class="card-meta-list">
@@ -846,7 +1048,7 @@ html, body {
         </div>
       </div>
 
-      <div class="content-card-mini">
+      <div class="content-card-mini" data-category="robotics" data-keywords="meshmerize autonomous line follower pid maze sensors">
         <h4>🤖 Meshmerize Autonomous <span class="card-badge-pill">₹4.5 LAKH</span></h4>
         <p>Ultra-responsive autonomous robots navigating dynamic maze layouts and shifting grid tracks using onboard PID controllers and IR sensor arrays.</p>
         <div class="card-meta-list">
@@ -856,7 +1058,7 @@ html, body {
         </div>
       </div>
 
-      <div class="content-card-mini">
+      <div class="content-card-mini" data-category="aerospace" data-keywords="drone prix obstacle fpv quad racing 120kmh aerial">
         <h4>🛸 Drone Prix Obstacle Cup <span class="card-badge-pill">₹8 LAKH</span></h4>
         <p>High-velocity FPV drone racing through illuminated multi-tier aerial rings, slalom gates, and tunnel hazards at speeds reaching 120 km/h.</p>
         <div class="card-meta-list">
@@ -866,7 +1068,7 @@ html, body {
         </div>
       </div>
 
-      <div class="content-card-mini">
+      <div class="content-card-mini" data-category="software" data-keywords="ai quantum computer vision llm edge nvidia neural">
         <h4>🧠 AI &amp; Quantum Track <span class="card-badge-pill">₹6.5 LAKH</span></h4>
         <p>Build enterprise computer vision, real-time edge speech models, and optimization algorithms for automated industrial environments.</p>
         <div class="card-meta-list">
@@ -876,7 +1078,7 @@ html, body {
         </div>
       </div>
 
-      <div class="content-card-mini">
+      <div class="content-card-mini" data-category="robotics" data-keywords="cozmo clench gripper obstacle payload servo stepper">
         <h4>🦾 Cozmo Clench Robotics <span class="card-badge-pill">₹4 LAKH</span></h4>
         <p>Precision pick-and-place gripper robotics maneuvering complex obstacle courses and delivering fragile payloads against a strict chronometer.</p>
         <div class="card-meta-list">
@@ -899,120 +1101,351 @@ html, body {
       Complete schedule of keynotes, combat matches, hackathon sprints, exhibitions, and pro-night shows across the IIT Bombay Powai campus.
     </p>
 
-    <!-- Day 1 -->
-    <div class="schedule-day-block">
-      <div class="schedule-day-heading">DAY 01 // FRIDAY, DECEMBER 18 — INAUGURAL SPRINT</div>
-      <div class="timeline-slot">
-        <div class="slot-time">09:00 – 10:30</div>
-        <div class="slot-info">
-          <h5>Grand Inaugural Ceremony</h5>
-          <span>CONVOCATION HALL · CAMPUS CORE</span>
-          <p>Official welcome address by IIT Bombay Director, lighting of the lamp, and unveiling of the 30th Edition festival monument.</p>
-        </div>
-      </div>
-      <div class="timeline-slot">
-        <div class="slot-time">11:00 – 14:00</div>
-        <div class="slot-info">
-          <h5>International Robowars — Round 1 Qualifiers</h5>
-          <span>GYMKHANA INDOOR STADIUM · ROBOWARS ARENA</span>
-          <p>60kg Heavyweight battle rounds begin in the bulletproof cage. Over 40 national and international combat teams face off.</p>
-        </div>
-      </div>
-      <div class="timeline-slot">
-        <div class="slot-time">14:30 – 17:30</div>
-        <div class="slot-info">
-          <h5>International Exhibitions &amp; ISRO Aerospace Openings</h5>
-          <span>SAC INDOOR EXPO PAVILION</span>
-          <p>First public walkthrough of full-scale humanoid robots, bionic arm prosthetics, and ISRO lunar rover prototypes.</p>
-        </div>
-      </div>
-      <div class="timeline-slot">
-        <div class="slot-time">18:00 – 19:30</div>
-        <div class="slot-info">
-          <h5>Keynote Address 01: The Future of Quantum Architecture</h5>
-          <span>CONVOCATION AUDITORIUM</span>
-          <p>Special address by Nobel laureate and leading quantum researchers on room-temperature superconducting qubits.</p>
-        </div>
-      </div>
+    <!-- Day Filter -->
+    <div class="modal-filter-bar">
+      <input type="text" class="modal-search-input" id="search-schedule" placeholder="Filter schedule by event, speaker, or venue...">
+      <button class="filter-btn-pill active" data-day-filter="all">All 3 Days</button>
+      <button class="filter-btn-pill" data-day-filter="day1">Day 1 (Dec 18)</button>
+      <button class="filter-btn-pill" data-day-filter="day2">Day 2 (Dec 19)</button>
+      <button class="filter-btn-pill" data-day-filter="day3">Day 3 (Dec 20)</button>
     </div>
 
-    <!-- Day 2 -->
-    <div class="schedule-day-block">
-      <div class="schedule-day-heading">DAY 02 // SATURDAY, DECEMBER 19 — PEAK ACTION</div>
-      <div class="timeline-slot">
-        <div class="slot-time">09:00 ONWARD</div>
-        <div class="slot-info">
-          <h5>National 36-Hour Hackathon Kickoff</h5>
-          <span>COMPUTER CENTER // LAB 1 &amp; 2</span>
-          <p>300 shortlisted engineering teams receive enterprise problem statements and begin continuous code sprint under cloud mentors.</p>
+    <div id="schedule-container">
+      <!-- Day 1 -->
+      <div class="schedule-day-block" data-day="day1">
+        <div class="schedule-day-heading">DAY 01 // FRIDAY, DECEMBER 18 — INAUGURAL SPRINT</div>
+        <div class="timeline-slot" data-slot-text="grand inaugural ceremony convocation hall welcome address iit bombay director 30th edition">
+          <div class="slot-time">09:00 – 10:30</div>
+          <div class="slot-info">
+            <h5>Grand Inaugural Ceremony</h5>
+            <span>CONVOCATION HALL · CAMPUS CORE</span>
+            <p>Official welcome address by IIT Bombay Director, lighting of the lamp, and unveiling of the 30th Edition festival monument.</p>
+          </div>
+        </div>
+        <div class="timeline-slot" data-slot-text="international robowars round 1 qualifiers gymkhana indoor stadium 60kg heavyweight combat">
+          <div class="slot-time">11:00 – 14:00</div>
+          <div class="slot-info">
+            <h5>International Robowars — Round 1 Qualifiers</h5>
+            <span>GYMKHANA INDOOR STADIUM · ROBOWARS ARENA</span>
+            <p>60kg Heavyweight battle rounds begin in the bulletproof cage. Over 40 national and international combat teams face off.</p>
+          </div>
+        </div>
+        <div class="timeline-slot" data-slot-text="international exhibitions isro aerospace openings sac indoor expo pavilion humanoid rover">
+          <div class="slot-time">14:30 – 17:30</div>
+          <div class="slot-info">
+            <h5>International Exhibitions &amp; ISRO Aerospace Openings</h5>
+            <span>SAC INDOOR EXPO PAVILION</span>
+            <p>First public walkthrough of full-scale humanoid robots, bionic arm prosthetics, and ISRO lunar rover prototypes.</p>
+          </div>
+        </div>
+        <div class="timeline-slot" data-slot-text="keynote address quantum architecture convocation auditorium nobel laureate superconducting">
+          <div class="slot-time">18:00 – 19:30</div>
+          <div class="slot-info">
+            <h5>Keynote Address 01: The Future of Quantum Architecture</h5>
+            <span>CONVOCATION AUDITORIUM</span>
+            <p>Special address by leading quantum researchers on room-temperature superconducting qubits and neural network accelerators.</p>
+          </div>
         </div>
       </div>
-      <div class="timeline-slot">
-        <div class="slot-time">11:30 – 15:30</div>
-        <div class="slot-info">
-          <h5>Robowars Quarter-Finals &amp; Meshmerize Maze Finals</h5>
-          <span>ROBOWARS ARENA &amp; MAIN DECK</span>
-          <p>High-stakes knockout rounds. Autonomous line followers solve dynamic shifting mazes in sub-second split timings.</p>
-        </div>
-      </div>
-      <div class="timeline-slot">
-        <div class="slot-time">16:30 – 18:30</div>
-        <div class="slot-info">
-          <h5>Drone Prix Obstacle Elimination Gauntlets</h5>
-          <span>ATHLETIC GROUNDS FLY ZONE</span>
-          <p>FPV pilots navigate three-dimensional LED gates at 100+ km/h under high-definition wireless telemetry feeds.</p>
-        </div>
-      </div>
-      <div class="timeline-slot">
-        <div class="slot-time">19:30 – 22:30</div>
-        <div class="slot-info">
-          <h5>Technoholix Night 01: Pyrotechnics &amp; Laser Mapping</h5>
-          <span>OPEN AIR THEATRE (OAT)</span>
-          <p>3D architectural projection mapping across the campus facade, aerial acrobatics, and electronic music headliners.</p>
-        </div>
-      </div>
-    </div>
 
-    <!-- Day 3 -->
-    <div class="schedule-day-block">
-      <div class="schedule-day-heading">DAY 03 // SUNDAY, DECEMBER 20 — GRAND FINALE</div>
-      <div class="timeline-slot">
-        <div class="slot-time">10:00 – 12:30</div>
-        <div class="slot-info">
-          <h5>Hackathon Final Investor Pitches</h5>
-          <span>MANAGEMENT AUDITORIUM</span>
-          <p>Top 10 hackathon teams present working code prototypes to partner venture capitalists and engineering directors.</p>
+      <!-- Day 2 -->
+      <div class="schedule-day-block" data-day="day2">
+        <div class="schedule-day-heading">DAY 02 // SATURDAY, DECEMBER 19 — PEAK ACTION</div>
+        <div class="timeline-slot" data-slot-text="national 36-hour hackathon kickoff computer center lab code sprint cloud enterprise">
+          <div class="slot-time">09:00 ONWARD</div>
+          <div class="slot-info">
+            <h5>National 36-Hour Hackathon Kickoff</h5>
+            <span>COMPUTER CENTER // LAB 1 &amp; 2</span>
+            <p>300 shortlisted engineering teams receive enterprise problem statements and begin continuous code sprint under cloud mentors.</p>
+          </div>
+        </div>
+        <div class="timeline-slot" data-slot-text="robowars quarter-finals meshmerize maze finals robowars arena main deck autonomous line followers">
+          <div class="slot-time">11:30 – 15:30</div>
+          <div class="slot-info">
+            <h5>Robowars Quarter-Finals &amp; Meshmerize Maze Finals</h5>
+            <span>ROBOWARS ARENA &amp; MAIN DECK</span>
+            <p>High-stakes knockout rounds. Autonomous line followers solve dynamic shifting mazes in sub-second split timings.</p>
+          </div>
+        </div>
+        <div class="timeline-slot" data-slot-text="drone prix obstacle elimination athletic grounds fly zone fpv led gates 100 kmh">
+          <div class="slot-time">16:30 – 18:30</div>
+          <div class="slot-info">
+            <h5>Drone Prix Obstacle Elimination Gauntlets</h5>
+            <span>ATHLETIC GROUNDS FLY ZONE</span>
+            <p>FPV pilots navigate three-dimensional LED gates at 100+ km/h under high-definition wireless telemetry feeds.</p>
+          </div>
+        </div>
+        <div class="timeline-slot" data-slot-text="technoholix night pyrotechnics laser mapping open air theatre oat electronic music pro-night">
+          <div class="slot-time">19:30 – 22:30</div>
+          <div class="slot-info">
+            <h5>Technoholix Night 01: Pyrotechnics &amp; Laser Mapping</h5>
+            <span>OPEN AIR THEATRE (OAT)</span>
+            <p>3D architectural projection mapping across the campus facade, aerial acrobatics, and electronic music headliners.</p>
+          </div>
         </div>
       </div>
-      <div class="timeline-slot">
-        <div class="slot-time">13:30 – 16:30</div>
-        <div class="slot-info">
-          <h5>International Robowars Grand Championship Final</h5>
-          <span>MAIN COMBAT ARENA</span>
-          <p>The ultimate 60kg combat showdown for the Techfest National Trophy and ₹12 Lakh prize pool under full media broadcast.</p>
+
+      <!-- Day 3 -->
+      <div class="schedule-day-block" data-day="day3">
+        <div class="schedule-day-heading">DAY 03 // SUNDAY, DECEMBER 20 — GRAND FINALE</div>
+        <div class="timeline-slot" data-slot-text="hackathon final investor pitches management auditorium venture capitalists code prototype">
+          <div class="slot-time">10:00 – 12:30</div>
+          <div class="slot-info">
+            <h5>Hackathon Final Investor Pitches</h5>
+            <span>MANAGEMENT AUDITORIUM</span>
+            <p>Top 10 hackathon teams present working code prototypes to partner venture capitalists and engineering directors.</p>
+          </div>
         </div>
-      </div>
-      <div class="timeline-slot">
-        <div class="slot-time">17:00 – 18:30</div>
-        <div class="slot-info">
-          <h5>National Valedictory &amp; Prize Distribution</h5>
-          <span>CONVOCATION HALL</span>
-          <p>Presentation of certificates, trophies, and research grants to national championship winners across all tracks.</p>
+        <div class="timeline-slot" data-slot-text="international robowars grand championship final main combat arena 60kg combat trophy 12 lakh">
+          <div class="slot-time">13:30 – 16:30</div>
+          <div class="slot-info">
+            <h5>International Robowars Grand Championship Final</h5>
+            <span>MAIN COMBAT ARENA</span>
+            <p>The ultimate 60kg combat showdown for the Techfest National Trophy and ₹12 Lakh prize pool under full media broadcast.</p>
+          </div>
         </div>
-      </div>
-      <div class="timeline-slot">
-        <div class="slot-time">19:00 – 23:30</div>
-        <div class="slot-info">
-          <h5>Technoholix Grand Finale: 1,000-Drone Sky Symphony</h5>
-          <span>OPEN AIR THEATRE (OAT)</span>
-          <p>10,000 students gather for the synchronized 1,000-drone formation light show over Mumbai, followed by the international EDM festival.</p>
+        <div class="timeline-slot" data-slot-text="national valedictory prize distribution convocation hall trophies grants certificates">
+          <div class="slot-time">17:00 – 18:30</div>
+          <div class="slot-info">
+            <h5>National Valedictory &amp; Prize Distribution</h5>
+            <span>CONVOCATION HALL</span>
+            <p>Presentation of certificates, trophies, and research grants to national championship winners across all tracks.</p>
+          </div>
+        </div>
+        <div class="timeline-slot" data-slot-text="technoholix grand finale 1000-drone sky symphony open air theatre oat light show edm festival">
+          <div class="slot-time">19:00 – 23:30</div>
+          <div class="slot-info">
+            <h5>Technoholix Grand Finale: 1,000-Drone Sky Symphony</h5>
+            <span>OPEN AIR THEATRE (OAT)</span>
+            <p>10,000 students gather for the synchronized 1,000-drone formation light show over Mumbai, followed by the international EDM festival.</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- 4. KEYNOTE LUMINARIES & SPEAKERS MODAL -->
+<!-- 4. EXPO & WORKSHOPS MODAL (NEW EXPANSION) -->
+<div class="techfest-modal" id="modal-expo">
+  <div class="modal-content">
+    <button class="modal-close" data-close-modal>✕</button>
+    <div class="hero-pill" style="margin-bottom:12px">SAC PAVILION &amp; WORKSHOP AUDITORIUMS</div>
+    <h3 class="modal-title">International Expo &amp; Certified Masterclasses</h3>
+    <p class="modal-desc">
+      Explore breakthrough physical prototypes from 78 nations and enroll in hands-on engineering masterclasses led by industry pioneers.
+    </p>
+
+    <!-- Tab switcher for Expo vs Workshops -->
+    <div class="modal-filter-bar">
+      <input type="text" class="modal-search-input" id="search-expo" placeholder="Search exhibits & masterclasses (e.g. Unitree, Quantum, ROS)...">
+      <button class="filter-btn-pill active" id="filter-btn-exhibits">Global Exhibits (6)</button>
+      <button class="filter-btn-pill" id="filter-btn-workshops">Certified Masterclasses (6)</button>
+    </div>
+
+    <!-- Exhibits Section -->
+    <div id="section-exhibits" class="modal-grid-2">
+      <div class="content-card-mini" data-expo-text="unitree h1 humanoid quadruped robotics dynamic balance bipedal locomotion">
+        <h4>🤖 Unitree H1 &amp; B2 Robotics <span class="card-badge-pill">CHINA / GLOBAL</span></h4>
+        <p>Full-size bipedal humanoid robot demonstrating 360° dynamic balance, terrain adaptation, and high-torque electric joint actuation.</p>
+        <div class="card-meta-list">
+          <div>Kinematics: <strong>34 Degrees of Freedom</strong></div>
+          <div>Actuators: <strong>M107 High-Torque Motors (360 N.m)</strong></div>
+          <div>Venue: <strong>SAC Central Arena Dome</strong></div>
+        </div>
+      </div>
+
+      <div class="content-card-mini" data-expo-text="sophia humanoid embodied ai hanson robotics conversation vision">
+        <h4>🧠 Sophia the Humanoid <span class="card-badge-pill">HANSON ROBOTICS</span></h4>
+        <p>The iconic conversational humanoid with expressive Frubber facial kinematics, multi-modal vision perception, and conversational AI.</p>
+        <div class="card-meta-list">
+          <div>Perception: <strong>Stereo Facial Recognition</strong></div>
+          <div>Format: <strong>Live Interactive Student Q&amp;A</strong></div>
+          <div>Venue: <strong>Convocation Exhibition Hall</strong></div>
+        </div>
+      </div>
+
+      <div class="content-card-mini" data-expo-text="isro chandrayaan pragyan lunar rover aerospace space satellite prototype">
+        <h4>🚀 ISRO Spaceflight Pavilion <span class="card-badge-pill">ISRO INDIGENOUS</span></h4>
+        <p>Authentic 1:1 scale engineering models of the Chandrayaan lunar landing module, Pragyan rover wheel mechanisms, and cryogenic rocket engines.</p>
+        <div class="card-meta-list">
+          <div>Artifacts: <strong>Lunar Regolith Drill, Cryo Upper Stage</strong></div>
+          <div>Special: <strong>ISRO Senior Scientists Onsite</strong></div>
+          <div>Venue: <strong>Aerospace Quadrangle</strong></div>
+        </div>
+      </div>
+
+      <div class="content-card-mini" data-expo-text="bionic neural arm prosthetics myoelectric bci exoskeleton">
+        <h4>🦾 Neuro-Prosthetic Bionic Arms <span class="card-badge-pill">BIO-MECHATRONICS</span></h4>
+        <p>Ultra-lightweight multi-articulating bionic hands controlled by surface electromyography (EMG) and neural impulse pattern classifiers.</p>
+        <div class="card-meta-list">
+          <div>Control: <strong>16-Channel EMG Array + Neural Net</strong></div>
+          <div>Payload: <strong>Individual Finger Articulation</strong></div>
+          <div>Venue: <strong>Biomedical Pavilion C</strong></div>
+        </div>
+      </div>
+
+      <div class="content-card-mini" data-expo-text="formula student electric racecar evt iit bombay telemetry carbon fiber">
+        <h4>🏎️ EVT IIT Bombay Electric Racecar <span class="card-badge-pill">STUDENT BUILT</span></h4>
+        <p>Precision-engineered electric formula racing vehicle built by IIT Bombay engineering undergrads. 0-100 km/h in 2.2 seconds.</p>
+        <div class="card-meta-list">
+          <div>Chassis: <strong>Full Carbon-Fiber Monocoque</strong></div>
+          <div>Powertrain: <strong>Four-Wheel Independent In-Hub Motors</strong></div>
+          <div>Venue: <strong>Automotive Courtyard</strong></div>
+        </div>
+      </div>
+
+      <div class="content-card-mini" data-expo-text="micro aerial swarm robotics decentralized optical flow drone defense">
+        <h4>🛸 Autonomous Micro-Swarm <span class="card-badge-pill">SWARM DRONES</span></h4>
+        <p>Synchronized fleet of 30 autonomous nano-quadcopters navigating GPS-denied indoor spaces using optical flow and ultra-wideband mesh localization.</p>
+        <div class="card-meta-list">
+          <div>Flight Mode: <strong>Decentralized Flocking Algorithms</strong></div>
+          <div>Hardware: <strong>Custom STM32 + ESP32 Nodes</strong></div>
+          <div>Venue: <strong>Indoor Flight Cage 2</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Masterclasses Section -->
+    <div id="section-workshops" class="modal-grid-2" style="display:none">
+      <div class="content-card-mini" data-expo-text="quantum computing masterclass ibm qiskit qubits algorithms superposition">
+        <h4>⚛️ Quantum Circuit Masterclass <span class="card-badge-pill">CERTIFIED</span></h4>
+        <p>Hands-on development of quantum circuits, Grover's search, and Shor's algorithm on real IBM quantum hardware via Qiskit cloud runtimes.</p>
+        <div class="card-meta-list">
+          <div>Duration: <strong>6 Hours Practical Lab</strong></div>
+          <div>Prerequisite: <strong>Python &amp; Linear Algebra</strong></div>
+          <div>Certification: <strong>IIT Bombay &amp; Partner Endorsed</strong></div>
+        </div>
+      </div>
+
+      <div class="content-card-mini" data-expo-text="ros2 humanoid kinematics robotics quadruped locomotion urdf gazebo simulation">
+        <h4>🤖 ROS 2 &amp; Bipedal Kinematics <span class="card-badge-pill">CERTIFIED</span></h4>
+        <p>Design inverse kinematics solvers, state estimators, and balance controllers in ROS 2 Iron and Gazebo physics simulator for walking robots.</p>
+        <div class="card-meta-list">
+          <div>Tools: <strong>ROS 2, C++, URDF, Gazebo</strong></div>
+          <div>Takeaway: <strong>Functional Simulator Repo</strong></div>
+          <div>Certification: <strong>Techfest Engineering Credential</strong></div>
+        </div>
+      </div>
+
+      <div class="content-card-mini" data-expo-text="edge ai computer vision nvidia jetson tensorrt real-time inference">
+        <h4>⚡ Edge AI &amp; TensorRT Pipelines <span class="card-badge-pill">CERTIFIED</span></h4>
+        <p>Optimizing multi-camera neural object detection and segmentation on NVIDIA Jetson embedded GPUs using TensorRT quantization (INT8/FP16).</p>
+        <div class="card-meta-list">
+          <div>Hardware: <strong>NVIDIA Jetson Orin Dev Kits</strong></div>
+          <div>Focus: <strong>Sub-10ms Inference Latency</strong></div>
+          <div>Certification: <strong>Deep Learning Institute Voucher</strong></div>
+        </div>
+      </div>
+
+      <div class="content-card-mini" data-expo-text="rocket propulsion orbital mechanics isro solids liquids trajectory aerodynamics">
+        <h4>🚀 High-Altitude Rocket Propulsion <span class="card-badge-pill">AEROSPACE</span></h4>
+        <p>Solid-fuel motor nozzle design, propellant burn rate optimization, and aerodynamic stability calculation for multi-stage sounding rockets.</p>
+        <div class="card-meta-list">
+          <div>Instructor: <strong>Former ISRO Propulsion Scientists</strong></div>
+          <div>Format: <strong>Design Lab + Live Static Fire Demo</strong></div>
+          <div>Certification: <strong>Official Aerospace Dossier Pass</strong></div>
+        </div>
+      </div>
+
+      <div class="content-card-mini" data-expo-text="zero knowledge zk snarks cryptography blockchain rollups privacy">
+        <h4>🔐 Zero-Knowledge Cryptography <span class="card-badge-pill">WEB3 &amp; MATH</span></h4>
+        <p>Mathematical principles and code implementation of zk-SNARKs and zk-STARKs for verifiable off-chain computation and privacy rollups.</p>
+        <div class="card-meta-list">
+          <div>Languages: <strong>Circom, Rust, Solidity</strong></div>
+          <div>Mentors: <strong>Ethereum &amp; L2 Research Fellows</strong></div>
+          <div>Certification: <strong>Verifiable On-Chain NFT Badge</strong></div>
+        </div>
+      </div>
+
+      <div class="content-card-mini" data-expo-text="cybersecurity ethical hacking offensive red team reverse engineering">
+        <h4>🛡️ Advanced Offensive Red-Teaming <span class="card-badge-pill">CYBER DEFENSE</span></h4>
+        <p>Live Capture-the-Flag (CTF) environments targeting binary exploitation, memory corruption, reverse engineering, and cloud privilege escalation.</p>
+        <div class="card-meta-list">
+          <div>Sandbox: <strong>Isolated Virtual Attack Grid</strong></div>
+          <div>Format: <strong>Real-World Enterprise Vuln Scenarios</strong></div>
+          <div>Certification: <strong>Certified Security Delegate</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 5. CAMPUS MAP & VENUES MODAL (NEW EXPANSION) -->
+<div class="techfest-modal" id="modal-campus">
+  <div class="modal-content">
+    <button class="modal-close" data-close-modal>✕</button>
+    <div class="hero-pill" style="margin-bottom:12px">POWAI, MUMBAI // 550-ACRE LAKESHORE CAMPUS</div>
+    <h3 class="modal-title">Campus Venues &amp; Powai Navigation Guide</h3>
+    <p class="modal-desc">
+      A 550-acre academic campus bordered by Powai Lake and Sanjay Gandhi National Park. Review venue locations, entry checkpoints, and Mumbai transit routes.
+    </p>
+
+    <!-- 6 Primary Campus Venues -->
+    <div class="modal-grid-2">
+      <div class="campus-zone-card">
+        <h4>🏛️ Convocation Hall</h4>
+        <span>CAMPUS CORE // SEATS 2,200</span>
+        <p>Flagship venue for the Grand Inaugural, Nobel Laureate keynotes, and the National Valedictory Ceremony. Fully climate-controlled amphitheater.</p>
+      </div>
+
+      <div class="campus-zone-card">
+        <h4>⚔️ Gymkhana Indoor Stadium</h4>
+        <span>SPORTS COMPLEX // ROBOWARS ARENA</span>
+        <p>Home of International Robowars. Contains the multi-layer bulletproof polycarbonate combat cage, pit crew benches, and blast walls.</p>
+      </div>
+
+      <div class="campus-zone-card">
+        <h4>🎆 Open Air Theatre (OAT)</h4>
+        <span>MAIN AUDITORIUM // CAPACITY 10,000+</span>
+        <p>Epic amphitheater stage for Technoholix pro-nights, 3D laser facade projection mapping, and the 1,000-drone formation light symphony.</p>
+      </div>
+
+      <div class="campus-zone-card">
+        <h4>🔬 Student Activity Centre (SAC)</h4>
+        <span>SAC COMPLEX // INTERNATIONAL EXPO</span>
+        <p>150+ international innovation stalls, full-scale humanoid robots, autonomous drone flight cages, and bionic medical prosthetics exhibits.</p>
+      </div>
+
+      <div class="campus-zone-card">
+        <h4>💻 Computer Centre (CC)</h4>
+        <span>ACADEMIC DECK // LABS 1, 2 &amp; 3</span>
+        <p>High-speed gigabit fiber hubs hosting the National 36-Hour Hackathon with uninterrupted cloud compute and round-the-clock coffee lounges.</p>
+      </div>
+
+      <div class="campus-zone-card">
+        <h4>🏢 VMCC Convention Centre</h4>
+        <span>ACADEMIC COMPLEX // SUMMIT HALLS</span>
+        <p>Victor Menezes Convention Centre. Modern auditoriums hosting the AI &amp; Quantum Track, investor pitch rounds, and academic symposiums.</p>
+      </div>
+    </div>
+
+    <!-- Transit Directions -->
+    <div style="margin-top:24px;border-top:1px solid var(--border-glass);padding-top:16px">
+      <h4 style="font-size:1rem;color:#fff;margin-bottom:4px">Transit &amp; Getting to IIT Bombay</h4>
+      <p style="font-size:0.8rem;color:#94a3b8">Powai is accessible from Mumbai's international airport and local suburban train terminals.</p>
+      <div class="transit-grid">
+        <div class="transit-card">
+          <h5>✈️ Mumbai Airport (BOM)</h5>
+          <p>Terminal 2 is just 8 km from IIT Bombay Main Gate. Pre-paid taxis and Uber take ~25 minutes via JVLR.</p>
+        </div>
+        <div class="transit-card">
+          <h5>🚆 Kanjurmarg Station</h5>
+          <p>Nearest Central Railway hub (3 km). Auto-rickshaws and BEST buses (Route 399/422) reach Main Gate in 10 minutes.</p>
+        </div>
+        <div class="transit-card">
+          <h5>🚇 Metro Line 6 / Ghatkopar</h5>
+          <p>Connect via Ghatkopar Metro (Line 1) or direct autorickshaws along the Powai Lake promenade.</p>
+        </div>
+        <div class="transit-card">
+          <h5>🛡️ Gate Protocols</h5>
+          <p>Main Gate &amp; Y-Point Gate are 24/7 security checkpoints. Present your Delegation Pass code for access.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 6. KEYNOTE LUMINARIES & SPEAKERS MODAL -->
 <div class="techfest-modal" id="modal-speakers">
   <div class="modal-content">
     <button class="modal-close" data-close-modal>✕</button>
@@ -1080,7 +1513,7 @@ html, body {
   </div>
 </div>
 
-<!-- 5. AMBASSADOR & DELEGATION PERKS MODAL -->
+<!-- 7. AMBASSADOR & DELEGATION PERKS MODAL -->
 <div class="techfest-modal" id="modal-accreditation">
   <div class="modal-content">
     <button class="modal-close" data-close-modal>✕</button>
@@ -1120,6 +1553,26 @@ html, body {
       </div>
     </div>
 
+    <!-- FAQ Accordion -->
+    <div style="margin-top:24px;border-top:1px solid var(--border-glass);padding-top:16px">
+      <h4 style="font-size:1rem;color:#fff;margin-bottom:12px">Frequently Asked Delegate Questions</h4>
+      
+      <div class="faq-item">
+        <div class="faq-q">Who is eligible to participate in Techfest competitions? <span>+</span></div>
+        <div class="faq-a">Any bona fide student enrolled in an undergraduate, postgraduate, or research program at a recognized university worldwide is eligible. Teams can also comprise students from different colleges.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">How does hostel accommodation work during the festival? <span>+</span></div>
+        <div class="faq-a">Shortlisted teams and delegates with approved passes are allocated student hostel rooms across Hostels 12, 13, 14, 15, and 16, complete with bedding and campus dining access.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q">Are Technoholix night shows free for registered delegates? <span>+</span></div>
+        <div class="faq-a">Yes! Registered participants wearing their official Techfest 2026 RFID badges receive complimentary general access to all Technoholix pro-nights and drone shows at the Open Air Theatre.</div>
+      </div>
+    </div>
+
     <div style="margin-top:24px;text-align:center">
       <a href="https://techfest.org" target="_blank" class="btn-explore" style="display:inline-block;padding:12px 36px">
         Complete Team Registration on Techfest.org →
@@ -1142,7 +1595,6 @@ function createProceduralNoiseCanvas(type) {
   const ctx = c.getContext('2d');
 
   if (type === 'sun') {
-    // Dynamic solar turbulent gradient
     const grad = ctx.createRadialGradient(256, 128, 10, 256, 128, 256);
     grad.addColorStop(0, '#fff4cc');
     grad.addColorStop(0.3, '#f59e0b');
@@ -1151,7 +1603,6 @@ function createProceduralNoiseCanvas(type) {
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 512, 256);
   } else if (type === 'earth') {
-    // Deep ocean blue with organic continents
     ctx.fillStyle = '#0f3a7a';
     ctx.fillRect(0, 0, 512, 256);
     ctx.fillStyle = '#1e7b4e';
@@ -1159,27 +1610,23 @@ function createProceduralNoiseCanvas(type) {
       const x = Math.random() * 512, y = Math.random() * 256, r = 15 + Math.random() * 35;
       ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
     }
-    // Swirling atmospheric white clouds
     ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
     for (let i = 0; i < 60; i++) {
       const x = Math.random() * 512, y = Math.random() * 256, w = 40 + Math.random() * 80, h = 10 + Math.random() * 20;
       ctx.beginPath(); ctx.ellipse(x, y, w, h, 0.2, 0, Math.PI * 2); ctx.fill();
     }
   } else if (type === 'jupiter') {
-    // Horizontal fluid bands with Great Red Spot
     for (let y = 0; y < 256; y++) {
       const t = y / 256;
       const shade = Math.sin(t * 30) * 0.5 + 0.5;
       ctx.fillStyle = shade > 0.5 ? '#c27c38' : '#e0a96d';
       ctx.fillRect(0, y, 512, 1);
     }
-    // Great Red Spot
     ctx.fillStyle = '#b91c1c';
     ctx.beginPath();
     ctx.ellipse(340, 160, 35, 20, 0, 0, Math.PI * 2);
     ctx.fill();
   } else if (type === 'saturn') {
-    // Cream golden atmospheric gradient
     for (let y = 0; y < 256; y++) {
       const t = y / 256;
       const shade = Math.sin(t * 20) * 0.2;
@@ -1187,7 +1634,6 @@ function createProceduralNoiseCanvas(type) {
       ctx.fillRect(0, y, 512, 1);
     }
   } else if (type === 'mars') {
-    // Ochre rust red with canyon variations
     ctx.fillStyle = '#c2410c';
     ctx.fillRect(0, 0, 512, 256);
     ctx.fillStyle = '#9a3412';
@@ -1195,7 +1641,6 @@ function createProceduralNoiseCanvas(type) {
       const x = Math.random() * 512, y = Math.random() * 256, r = 10 + Math.random() * 25;
       ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
     }
-    // Polar white cap
     ctx.fillStyle = '#f8fafc';
     ctx.beginPath(); ctx.arc(256, 10, 30, 0, Math.PI * 2); ctx.fill();
   }
@@ -1229,19 +1674,20 @@ const ambientLight = new THREE.AmbientLight(0x1e2438, 1.2);
 scene.add(ambientLight);
 
 /* ════════════════════════════════════════════════════════════════════
-   3. HIGH-END PROCEDURAL SOLAR SYSTEM
+   3. HIGH-END PROCEDURAL SOLAR SYSTEM & CELESTIAL MAPPING
 ════════════════════════════════════════════════════════════════════ */
 const solarGroup = new THREE.Group();
-solarGroup.rotation.x = 0.22; // Natural orbital inclination
+solarGroup.rotation.x = 0.22;
 scene.add(solarGroup);
 
-// ─── A. THE SUN & GLOWING ATMOSPHERE ───
+// The Sun & Glowing Atmosphere
 const sunMat = new THREE.MeshBasicMaterial({
   map: createProceduralNoiseCanvas('sun'),
   color: 0xffb703
 });
 const sunGeo = new THREE.SphereGeometry(4.8, 48, 48);
 const sunMesh = new THREE.Mesh(sunGeo, sunMat);
+sunMesh.userData = { key: 'system' };
 solarGroup.add(sunMesh);
 
 // Outer Radiant Corona
@@ -1255,7 +1701,7 @@ const coronaMat = new THREE.MeshBasicMaterial({
 const coronaMesh = new THREE.Mesh(coronaGeo, coronaMat);
 solarGroup.add(coronaMesh);
 
-// ─── B. PLANETARY BODIES & PBR TEXTURING ───
+// Planetary Bodies & Techfest Sector Data
 const planetsData = {
   system: {
     name: 'TECHFEST CONSTELLATION',
@@ -1349,6 +1795,7 @@ const planetsData = {
 };
 
 const planetObjects = {};
+const clickableMeshes = [sunMesh];
 
 // Build Orbital Line Tracks
 const orbitLinesGroup = new THREE.Group();
@@ -1393,7 +1840,9 @@ Object.keys(planetsData).forEach(key => {
   const geo = new THREE.SphereGeometry(data.radiusMesh, 32, 32);
   const mesh = new THREE.Mesh(geo, pMat);
   mesh.position.x = data.distMesh;
+  mesh.userData = { key: key };
   pivot.add(mesh);
+  clickableMeshes.push(mesh);
 
   let moonMesh = null;
   if (data.hasMoon) {
@@ -1429,7 +1878,7 @@ Object.keys(planetsData).forEach(key => {
   };
 });
 
-// ─── C. ASTEROID ACCRETION BELT ───
+// Asteroid Accretion Belt
 const asteroidCount = 1200;
 const astGeo = new THREE.BufferGeometry();
 const astPos = new Float32Array(asteroidCount * 3);
@@ -1446,7 +1895,7 @@ const astMat = new THREE.PointsMaterial({ color: 0x94a3b8, size: 0.18, transpare
 const asteroidBelt = new THREE.Points(astGeo, astMat);
 solarGroup.add(asteroidBelt);
 
-// ─── D. DEEP COSMIC STARFIELD ───
+// Deep Cosmic Starfield
 const starCount = 3500;
 const starGeo = new THREE.BufferGeometry();
 const starPos = new Float32Array(starCount * 3);
@@ -1465,12 +1914,13 @@ const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ size: 0.24, v
 scene.add(stars);
 
 /* ════════════════════════════════════════════════════════════════════
-   4. CAMERA ORBIT INTERACTION & PLANET FLY-TO ENGINE
+   4. CAMERA ORBIT INTERACTION & 3D RAYCASTING
 ════════════════════════════════════════════════════════════════════ */
 let targetCameraPos = new THREE.Vector3(0, 30, 65);
 let targetLookAt = new THREE.Vector3(0, 0, 0);
 let currentLookAt = new THREE.Vector3(0, 0, 0);
 let currentTargetKey = 'system';
+let simulationSpeed = 1.0;
 
 // Mouse / Drag State
 let mouseX = 0, mouseY = 0;
@@ -1479,10 +1929,17 @@ let isDragging = false;
 let prevX = 0, prevY = 0;
 let dragX = 0, dragY = 0;
 let dragVelX = 0, dragVelY = 0;
+let pointerDownPos = { x: 0, y: 0 };
+
+// Raycaster for clicking directly on 3D celestial bodies
+const raycaster = new THREE.Raycaster();
+const mouseVec = new THREE.Vector2();
 
 window.addEventListener('mousemove', (e) => {
   targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
   targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+  mouseVec.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouseVec.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
   if (isDragging) {
     const dx = e.clientX - prevX;
@@ -1493,21 +1950,45 @@ window.addEventListener('mousemove', (e) => {
     dragX += dragVelX;
     prevX = e.clientX;
     prevY = e.clientY;
+  } else {
+    // Check hover over planets for pointer cursor
+    raycaster.setFromCamera(mouseVec, camera);
+    const intersects = raycaster.intersectObjects(clickableMeshes);
+    canvas.style.cursor = intersects.length > 0 ? 'pointer' : 'default';
   }
 });
 
 window.addEventListener('mousedown', (e) => {
-  if (e.target.closest('button, a, input, .planet-hud, .modal-content')) return;
+  if (e.target.closest('button, a, input, .planet-hud, .modal-content, .planet-selector-bar')) return;
   isDragging = true;
   prevX = e.clientX;
   prevY = e.clientY;
+  pointerDownPos = { x: e.clientX, y: e.clientY };
 });
 
-window.addEventListener('mouseup', () => { isDragging = false; });
+window.addEventListener('mouseup', (e) => {
+  if (isDragging) {
+    isDragging = false;
+    const distMoved = Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y);
+    // If it was a clean click without dragging, perform raycast selection
+    if (distMoved < 6 && !e.target.closest('button, a, input, .planet-hud, .modal-content, .planet-selector-bar')) {
+      mouseVec.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseVec.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      raycaster.setFromCamera(mouseVec, camera);
+      const intersects = raycaster.intersectObjects(clickableMeshes);
+      if (intersects.length > 0) {
+        const hit = intersects[0].object;
+        if (hit.userData && hit.userData.key) {
+          focusPlanet(hit.userData.key);
+        }
+      }
+    }
+  }
+});
 
 // Touch support
 window.addEventListener('touchstart', (e) => {
-  if (e.touches.length === 1 && !e.target.closest('button, a, input, .planet-hud, .modal-content')) {
+  if (e.touches.length === 1 && !e.target.closest('button, a, input, .planet-hud, .modal-content, .planet-selector-bar')) {
     isDragging = true;
     prevX = e.touches[0].clientX;
     prevY = e.touches[0].clientY;
@@ -1577,7 +2058,95 @@ document.getElementById('btn-hero-explore').addEventListener('click', () => {
   focusPlanet('mercury');
 });
 
-// Modal Controls & Tab Handlers
+// Speed Controls
+document.querySelectorAll('.speed-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    simulationSpeed = parseFloat(btn.dataset.speed);
+  });
+});
+
+// Orbit Lines Toggle
+let orbitLinesVisible = true;
+const btnToggleOrbits = document.getElementById('btn-toggle-orbits');
+btnToggleOrbits.addEventListener('click', () => {
+  orbitLinesVisible = !orbitLinesVisible;
+  orbitLinesGroup.visible = orbitLinesVisible;
+  btnToggleOrbits.classList.toggle('active', orbitLinesVisible);
+  btnToggleOrbits.textContent = orbitLinesVisible ? 'ORBITS: ON' : 'ORBITS: OFF';
+});
+
+/* ════════════════════════════════════════════════════════════════════
+   5. WEB AUDIO PROCEDURAL COSMIC AMBIENT SYNTH (ZERO EXTERNAL ASSETS)
+════════════════════════════════════════════════════════════════════ */
+let audioCtx = null;
+let isAudioActive = false;
+let masterGain = null;
+
+function initCosmicAudio() {
+  if (audioCtx) return;
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  audioCtx = new AudioContext();
+
+  masterGain = audioCtx.createGain();
+  masterGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+  masterGain.connect(audioCtx.destination);
+
+  // Lowpass Filter for celestial muffled space hum
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(280, audioCtx.currentTime);
+  filter.connect(masterGain);
+
+  // Drone Osc 1: Root fundamental (65 Hz - Deep C2)
+  const osc1 = audioCtx.createOscillator();
+  osc1.type = 'sine';
+  osc1.frequency.setValueAtTime(65.4, audioCtx.currentTime);
+
+  // Drone Osc 2: Sub-octave detuned harmonic (98 Hz - G2)
+  const osc2 = audioCtx.createOscillator();
+  osc2.type = 'sine';
+  osc2.frequency.setValueAtTime(98.0, audioCtx.currentTime);
+
+  // Subtle LFO vibrato
+  const lfo = audioCtx.createOscillator();
+  lfo.frequency.setValueAtTime(0.12, audioCtx.currentTime);
+  const lfoGain = audioCtx.createGain();
+  lfoGain.gain.setValueAtTime(1.5, audioCtx.currentTime);
+  lfo.connect(lfoGain);
+  lfoGain.connect(osc1.frequency);
+
+  osc1.connect(filter);
+  osc2.connect(filter);
+
+  osc1.start();
+  osc2.start();
+  lfo.start();
+}
+
+const btnAudio = document.getElementById('btn-audio-toggle');
+btnAudio.addEventListener('click', () => {
+  if (!isAudioActive) {
+    initCosmicAudio();
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    masterGain.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + 1.5);
+    isAudioActive = true;
+    btnAudio.textContent = 'AUDIO: ON';
+    btnAudio.classList.add('active');
+  } else {
+    masterGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.8);
+    isAudioActive = false;
+    btnAudio.textContent = 'AUDIO: OFF';
+    btnAudio.classList.remove('active');
+  }
+});
+
+/* ════════════════════════════════════════════════════════════════════
+   6. MODAL SYSTEM & NAVIGATION TABS
+════════════════════════════════════════════════════════════════════ */
 const allModals = document.querySelectorAll('.techfest-modal');
 function closeModalAll() {
   allModals.forEach(m => m.classList.remove('open'));
@@ -1593,11 +2162,16 @@ allModals.forEach(m => {
   });
 });
 
-// Top Nav Tabs
 const navTabs = document.querySelectorAll('.nav-tab-btn');
 function setNavActive(btnId) {
   navTabs.forEach(b => b.classList.toggle('active', b.id === btnId));
 }
+
+document.getElementById('nav-brand-click').addEventListener('click', () => {
+  setNavActive('nav-btn-constellation');
+  closeModalAll();
+  focusPlanet('system');
+});
 
 document.getElementById('nav-btn-constellation').addEventListener('click', () => {
   setNavActive('nav-btn-constellation');
@@ -1615,6 +2189,18 @@ document.getElementById('nav-btn-schedule').addEventListener('click', () => {
   setNavActive('nav-btn-schedule');
   closeModalAll();
   document.getElementById('modal-schedule').classList.add('open');
+});
+
+document.getElementById('nav-btn-expo').addEventListener('click', () => {
+  setNavActive('nav-btn-expo');
+  closeModalAll();
+  document.getElementById('modal-expo').classList.add('open');
+});
+
+document.getElementById('nav-btn-campus').addEventListener('click', () => {
+  setNavActive('nav-btn-campus');
+  closeModalAll();
+  document.getElementById('modal-campus').classList.add('open');
 });
 
 document.getElementById('nav-btn-speakers').addEventListener('click', () => {
@@ -1642,8 +2228,6 @@ document.getElementById('btn-open-comp-from-brief').addEventListener('click', ()
   closeModalAll();
   document.getElementById('modal-competitions').classList.add('open');
 });
-
-// Open Dossier button from HUD
 document.getElementById('btn-open-dossier').addEventListener('click', () => {
   closeModalAll();
   document.getElementById('modal-competitions').classList.add('open');
@@ -1664,7 +2248,118 @@ attachCopy('btn-copy-code');
 attachCopy('btn-copy-code-2');
 
 /* ════════════════════════════════════════════════════════════════════
-   5. MASTER 60 FPS RENDER LOOP
+   7. LIVE INSTANT SEARCH & FILTERING ENGINE
+════════════════════════════════════════════════════════════════════ */
+// Competitions Filter
+const searchComp = document.getElementById('search-competitions');
+const compCards = document.querySelectorAll('#grid-competitions .content-card-mini');
+const compFilterBtns = document.querySelectorAll('[data-comp-filter]');
+let currentCompCat = 'all';
+
+function filterCompetitions() {
+  const query = (searchComp.value || '').toLowerCase().trim();
+  compCards.forEach(card => {
+    const cat = card.dataset.category;
+    const kw = (card.dataset.keywords || '') + ' ' + card.innerText.toLowerCase();
+    const matchCat = currentCompCat === 'all' || cat === currentCompCat;
+    const matchQuery = !query || kw.includes(query);
+    card.style.display = (matchCat && matchQuery) ? 'block' : 'none';
+  });
+}
+
+if (searchComp) searchComp.addEventListener('input', filterCompetitions);
+compFilterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    compFilterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCompCat = btn.dataset.compFilter;
+    filterCompetitions();
+  });
+});
+
+// Schedule Filter
+const searchSched = document.getElementById('search-schedule');
+const schedSlots = document.querySelectorAll('.timeline-slot');
+const dayBlocks = document.querySelectorAll('.schedule-day-block');
+const dayFilterBtns = document.querySelectorAll('[data-day-filter]');
+let currentDayFilter = 'all';
+
+function filterSchedule() {
+  const query = (searchSched.value || '').toLowerCase().trim();
+  dayBlocks.forEach(block => {
+    const day = block.dataset.day;
+    const matchDay = currentDayFilter === 'all' || day === currentDayFilter;
+    if (!matchDay) {
+      block.style.display = 'none';
+      return;
+    }
+    let anySlotVisible = false;
+    block.querySelectorAll('.timeline-slot').forEach(slot => {
+      const text = (slot.dataset.slotText || '') + ' ' + slot.innerText.toLowerCase();
+      const matchQuery = !query || text.includes(query);
+      slot.style.display = matchQuery ? 'flex' : 'none';
+      if (matchQuery) anySlotVisible = true;
+    });
+    block.style.display = anySlotVisible ? 'block' : 'none';
+  });
+}
+
+if (searchSched) searchSched.addEventListener('input', filterSchedule);
+dayFilterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    dayFilterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentDayFilter = btn.dataset.dayFilter;
+    filterSchedule();
+  });
+});
+
+// Expo vs Workshops Switcher
+const btnExhibits = document.getElementById('filter-btn-exhibits');
+const btnWorkshops = document.getElementById('filter-btn-workshops');
+const secExhibits = document.getElementById('section-exhibits');
+const secWorkshops = document.getElementById('section-workshops');
+const searchExpo = document.getElementById('search-expo');
+
+function filterExpo() {
+  const query = (searchExpo.value || '').toLowerCase().trim();
+  const activeSec = secExhibits.style.display !== 'none' ? secExhibits : secWorkshops;
+  activeSec.querySelectorAll('.content-card-mini').forEach(card => {
+    const text = (card.dataset.expoText || '') + ' ' + card.innerText.toLowerCase();
+    card.style.display = (!query || text.includes(query)) ? 'block' : 'none';
+  });
+}
+
+if (btnExhibits && btnWorkshops) {
+  btnExhibits.addEventListener('click', () => {
+    btnExhibits.classList.add('active');
+    btnWorkshops.classList.remove('active');
+    secExhibits.style.display = 'grid';
+    secWorkshops.style.display = 'none';
+    filterExpo();
+  });
+  btnWorkshops.addEventListener('click', () => {
+    btnWorkshops.classList.add('active');
+    btnExhibits.classList.remove('active');
+    secExhibits.style.display = 'none';
+    secWorkshops.style.display = 'grid';
+    filterExpo();
+  });
+}
+if (searchExpo) searchExpo.addEventListener('input', filterExpo);
+
+// FAQ Accordion Toggle
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const a = q.nextElementSibling;
+    const isClosed = a.style.display === 'none';
+    a.style.display = isClosed ? 'block' : 'none';
+    q.querySelector('span').textContent = isClosed ? '−' : '+';
+  });
+});
+
+/* ════════════════════════════════════════════════════════════════════
+   8. MASTER 60 FPS RENDER LOOP
 ════════════════════════════════════════════════════════════════════ */
 const clock = new THREE.Clock();
 
@@ -1687,26 +2382,26 @@ function animate() {
   }
 
   // Sun subtle rotation & corona breathing
-  sunMesh.rotation.y = time * 0.04;
-  coronaMesh.rotation.y = -time * 0.02;
+  sunMesh.rotation.y = time * 0.04 * simulationSpeed;
+  coronaMesh.rotation.y = -time * 0.02 * simulationSpeed;
   const coronaScale = 1.0 + Math.sin(time * 2) * 0.04;
   coronaMesh.scale.set(coronaScale, coronaScale, coronaScale);
 
   // Update Planetary Orbits
   Object.keys(planetObjects).forEach(key => {
     const p = planetObjects[key];
-    p.angle += p.speed * delta * 1.5;
+    p.angle += p.speed * delta * 1.5 * simulationSpeed;
     p.pivot.rotation.y = p.angle;
-    p.mesh.rotation.y += 0.02;
+    p.mesh.rotation.y += 0.02 * simulationSpeed;
 
     if (p.moonMesh) {
-      const mAngle = time * 2.5;
+      const mAngle = time * 2.5 * simulationSpeed;
       p.moonMesh.position.set(Math.cos(mAngle) * 2.2, 0, Math.sin(mAngle) * 2.2);
     }
   });
 
   // Asteroid belt gentle drift
-  asteroidBelt.rotation.y = time * 0.008;
+  asteroidBelt.rotation.y = time * 0.008 * simulationSpeed;
 
   // If focused on a specific planet, dynamically follow its world position
   if (currentTargetKey !== 'system' && planetObjects[currentTargetKey]) {
@@ -1725,7 +2420,7 @@ function animate() {
   } else {
     // Free system overview with mouse tilt & drag
     solarGroup.rotation.x = 0.22 + dragX + mouseY * 0.2;
-    solarGroup.rotation.y = time * 0.015 + dragY + mouseX * 0.3;
+    solarGroup.rotation.y = time * 0.015 * simulationSpeed + dragY + mouseX * 0.3;
   }
 
   // Smooth camera interpolation (Fly-to transitions)
@@ -1734,7 +2429,7 @@ function animate() {
   camera.lookAt(currentLookAt);
 
   // Stars drift
-  stars.rotation.y = time * 0.002;
+  stars.rotation.y = time * 0.002 * simulationSpeed;
 
   renderer.render(scene, camera);
 }
