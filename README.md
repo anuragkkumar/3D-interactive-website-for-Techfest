@@ -1,7 +1,7 @@
-# TECHFEST 2026 | IIT BOMBAY — Official 3D Interactive WebGL Portal
-### Techfest IIT Bombay | Campus Ambassador Submission: Build in 3D (100 Points)
+# Techfest 2026 — Indian Institute of Technology Bombay
+### 3D Interactive Web Experience (Three.js WebGL)
 
-An authentic, high-fidelity 3D WebGL web portal modeled directly after the official cosmic/sci-fi aesthetic of **Techfest, IIT Bombay** (30th Edition — *A Simulated Paradigm*). Built with pure browser-native WebGL (Three.js) and Web Audio API synthesis without external UI bloat.
+An engineering-grade, human-designed 3D interactive web portal for **Techfest, IIT Bombay** (30th Edition). Built with Three.js (WebGL) and physical PBR studio materials, stepping completely away from artificial cyberpunk neon cliches in favor of authentic titanium, graphite, and warm solar amber aesthetics.
 
 ---
 
@@ -11,46 +11,44 @@ An authentic, high-fidelity 3D WebGL web portal modeled directly after the offic
 
 ---
 
-## 🚀 Key Architectural & 3D Visual Features
+## 🎨 Design Philosophy & Architecture
 
-### 1. Authentic Techfest Sci-Fi HUD & Control Deck
-- **Top HUD Telemetry Bar:** Displays real-world Powai coordinates (`19.1334° N, 72.9133° E`), system status telemetry, and official hexagonal logo branding.
-- **Live Festival Countdown:** Real-time JavaScript chronometer counting down to the December festival kickoff (`Days : Hours : Mins : Secs`).
-- **Procedural Web Audio API Synthesizer:** Zero audio files needed. Generates a deep 45Hz/90Hz space ambient drone, laser click bleeps, and dynamic shockwave explosion rumbles procedurally in real-time.
+### 1. Authentic Studio Materiality (No Neon Cliches)
+- **Titanium & Matte Graphite Palette:** Physical standard materials (PBR) featuring realistic surface roughness, metalness, and ACES Filmic tone mapping.
+- **Warm Solar Key & Rim Lighting:** Directional studio key lights paired with warm tungsten/amber bounce lights (`#ff7a1a`), recreating high-end industrial engineering showcases.
+- **Cinematic Typography:** Modern editorial styling with `Plus Jakarta Sans`, `Space Grotesk`, and `Space Mono`.
 
-### 2. The 3D Quantum Core Engine (Three.js WebGL)
-- **Multi-Layered Gyroscope Containment:** 3 concentric spinning wireframe torus rings rotating on distinct Euler angles with glowing shader materials.
-- **Inner Quantum Reactor:** Holographic icosahedron core enclosing a glowing energy nucleus with dynamic scale breathing.
-- **Orbiting Data Nodes:** 14 geometric nodes traversing eccentric Keplerian orbital radii.
-- **Interactive Shockwave Physics Swarm:** 1,800 energetic particles tracking spring-return physics. Pressing **"OVERCLOCK PULSE"** unleashes an explosive radial kinetic shockwave that disperses and snaps back.
-- **Infinite Cosmic Starfield & Cyber Matrix Floor:** 3,500 multicolor celestial star particles combined with an infinite perspective wireframe coordinate grid plane.
+### 2. Precision Kinetic Gyroscope (Three.js)
+- **Central Faceted Monolith:** Geometric polyhedron core with inner warm luminescent nucleus.
+- **Machined Gimbal Rings:** 3 concentric structural rings revolving along distinct Euler rotational axes.
+- **Orbital Telemetry Nodes:** 12 precision-machined elements tracing circular orbits with dynamic rotational alignment.
+- **Stardust Atmosphere:** 2,000 warm amber and silver particles drifting naturally in 3D perspective.
 
-### 3. Scroll-Driven 3D Camera Flight Path
-- Camera flies seamlessly through 3D space across all sections:
-  - **Sector 00 (Hero):** Orbital vista looking down on the central Techfest core.
-  - **Sector 01 (Paradigm):** Swoops tight into the inner reactor manifold.
-  - **Sector 02 (Competitions):** Shifts perspective overlooking Robowars and the AI Hackathon.
-  - **Sector 03 (Exhibitions & Humanoids):** Glides along international tech showcases and ISRO aerospace pavilions.
-  - **Sector 04 (Technoholix):** Tilts upward toward the skyward drone symphony.
-  - **Sector 05 (Portal Terminal):** Top-down command terminal with official portal access identification (`TECHFEST-IITB-2026`).
+### 3. Smooth Damped Camera Trajectory
+- Scroll-driven camera flight smoothly interpolating through five major festival zones:
+  - **Zone 01 / Overview:** Panoramic view of the monolithic sculpture.
+  - **Zone 02 / Foundation:** Focus on festival scale and historical metrics (175,000+ footfall across 78 countries).
+  - **Zone 03 / Arenas:** Robowars, 36-hour hackathons, and autonomous robotics tracks.
+  - **Zone 04 / Innovation:** Humanoids, defense breakthroughs, and space technology from ISRO.
+  - **Zone 05 / Performance:** Technoholix drone ballets and evening spectacles.
+  - **Zone 06 / Access Deck:** Official delegate access identifier (`TECHFEST-IITB-2026`).
 
-### 4. Interactive Reactor Controls
-- **Cyan Void / Solar Flare:** Instantaneous live shader palette modulation.
-- **Wireframe Toggle:** Strips solid energy meshes down to bare holographic wireframes.
-- **Turbo Spin:** Accelerates gyroscope angular velocity by 350%.
-- **Overclock Pulse:** Triggers physics impulse explosion + audio shockwave.
+### 4. Interactive Studio Viewport Dock
+- **Matte Graphite / Solar Amber / Bronze Titanium:** Instantaneous live PBR material and studio lighting modulation.
+- **Wireframe Toggle:** Switch effortlessly between solid metallic surfaces and CAD wireframe meshes.
+- **Kinetic Pulse:** Generates dynamic energy impulses and lighting surges across the central sculpture.
 
 ---
 
-## 🛠️ Tech Stack
-- **Core 3D Engine:** Three.js (r128)
-- **Sound Design:** Web Audio API (procedural synthesis)
-- **Typography:** Orbitron, Rajdhani, JetBrains Mono (Google Fonts)
-- **Styling:** CSS3 Hardware-Accelerated Glassmorphism & Cybernetic Reticle Overlays
+## 🛠️ Technical Stack
+- **Engine:** Three.js (r128) WebGL Renderer
+- **Shading Model:** MeshStandardMaterial (PBR) + ACES Filmic Tone Mapping
+- **Typography:** Google Fonts (Plus Jakarta Sans, Space Grotesk, Space Mono)
+- **Styling:** CSS Hardware-Accelerated Glassmorphism (Frosted backdrop-filter)
 
 ---
 
-## 👤 Project Information
+## 👤 Project Details
 - **Developer:** Anurag Kumar
-- **College / City:** Kanpur, Uttar Pradesh
-- **Event:** Techfest, IIT Bombay 2026
+- **Location:** Kanpur, Uttar Pradesh
+- **Festival:** Techfest 2026, IIT Bombay (Powai, Mumbai)

@@ -3,22 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TECHFEST 2026 | IIT BOMBAY — Official 3D Experience</title>
+<title>Techfest 2026 — Indian Institute of Technology Bombay</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --primary: #00f0ff;
-  --secondary: #7000ff;
-  --accent: #ff0055;
-  --gold: #ffb700;
-  --bg-deep: #030308;
-  --bg-card: rgba(8, 10, 20, 0.7);
-  --border-glow: rgba(0, 240, 255, 0.25);
-  --text-main: #e8ecf2;
-  --text-dim: #7a8499;
+  --bg-main: #090a0f;
+  --surface-card: rgba(18, 20, 29, 0.65);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 138, 61, 0.35);
+  --accent-amber: #ff7a1a;
+  --accent-warm: #f59e0b;
+  --accent-gold: #fbbf24;
+  --text-heading: #f8fafc;
+  --text-body: #94a3b8;
+  --text-dim: #64748b;
 }
 
 * {
@@ -29,21 +30,21 @@
 
 html {
   scroll-behavior: smooth;
-  background: var(--bg-deep);
-  color: var(--text-main);
-  font-family: 'Rajdhani', sans-serif;
+  background: var(--bg-main);
+  color: var(--text-heading);
+  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
   overflow-x: hidden;
 }
 
 body {
   position: relative;
   min-height: 100vh;
-  background: radial-gradient(circle at 50% 20%, #0d0f24 0%, #030308 60%, #000002 100%);
-  cursor: default;
+  background: radial-gradient(circle at 50% 0%, #151824 0%, #090a0f 65%, #050608 100%);
+  color: var(--text-body);
 }
 
-/* ─── WEBGL FIXED CANVAS ─── */
-#webgl-canvas {
+/* ─── WEBGL CANVAS ─── */
+#canvas3d {
   position: fixed;
   top: 0;
   left: 0;
@@ -53,265 +54,241 @@ body {
   pointer-events: auto;
 }
 
-/* ─── HUD OVERLAYS & GRIDS ─── */
-.hud-grid {
+/* ─── ATMOSPHERIC GRAIN & LIGHTING ─── */
+.noise-overlay {
   position: fixed;
   inset: 0;
-  background-image: 
-    linear-gradient(to right, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-  background-size: 80px 80px;
   pointer-events: none;
   z-index: 2;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
-.hud-vignette {
+.ambient-glow {
   position: fixed;
-  inset: 0;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(3, 3, 8, 0.85) 90%);
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(255, 122, 26, 0.08) 0%, rgba(245, 158, 11, 0.03) 50%, transparent 75%);
   pointer-events: none;
   z-index: 2;
+  filter: blur(60px);
 }
 
-.hud-scanlines {
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 1px, transparent 1px, transparent 3px);
-  pointer-events: none;
-  z-index: 2;
-  opacity: 0.6;
-}
-
-/* ─── TOP NAVIGATION HUD ─── */
-.hud-topbar {
+/* ─── TOP HEADER NAVIGATION ─── */
+.site-nav {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  padding: 18px 40px;
+  padding: 22px 48px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 100;
-  backdrop-filter: blur(16px);
-  background: rgba(3, 3, 8, 0.65);
-  border-bottom: 1px solid rgba(0, 240, 255, 0.12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(9, 10, 15, 0.72);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-.brand-wrap {
+.brand-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand-symbol {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1e2235, #11131c);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.brand-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-info h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.brand-info span {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-link {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-body);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  letter-spacing: 0.3px;
+}
+
+.nav-link:hover {
+  color: #fff;
+}
+
+.nav-actions {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-.brand-logo-hex {
-  width: 38px;
-  height: 38px;
-  border: 1.5px solid var(--primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Orbitron', monospace;
-  font-weight: 900;
-  font-size: 1.1rem;
-  color: var(--primary);
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-  background: rgba(0, 240, 255, 0.1);
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
-  transition: all 0.3s ease;
-}
-
-.brand-text h1 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.3rem;
-  letter-spacing: 4px;
-  color: #fff;
-  line-height: 1;
-}
-
-.brand-text span {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
-  color: var(--primary);
-  letter-spacing: 2px;
-}
-
-.telemetry-strip {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  font-family: 'JetBrains Mono', monospace;
+.edition-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  font-family: 'Space Mono', monospace;
   font-size: 0.72rem;
-  color: var(--text-dim);
+  color: var(--accent-amber);
 }
 
-.telemetry-item strong {
-  color: var(--primary);
+.btn-primary {
+  padding: 10px 22px;
+  border-radius: 8px;
+  background: #fff;
+  color: #090a0f;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  border: none;
+  cursor: pointer;
 }
 
-.countdown-box {
+.btn-primary:hover {
+  background: #f1f5f9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+}
+
+/* ─── 3D VIEWPORT CONTROLS BAR (MINIMAL DOCK) ─── */
+.viewport-dock {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 14px;
-  border-radius: 6px;
-  background: rgba(0, 240, 255, 0.05);
-  border: 1px solid rgba(0, 240, 255, 0.2);
+  background: rgba(14, 16, 24, 0.82);
+  border: 1px solid var(--border-subtle);
+  padding: 6px 10px;
+  border-radius: 30px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
 }
 
-.countdown-digits {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.82rem;
-  color: #fff;
-  letter-spacing: 1px;
-}
-
-.hud-actions {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.hud-btn {
-  background: rgba(0, 240, 255, 0.08);
-  border: 1px solid rgba(0, 240, 255, 0.3);
-  color: var(--primary);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  padding: 8px 16px;
-  border-radius: 4px;
+.dock-item {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  padding: 7px 14px;
+  border-radius: 20px;
   cursor: pointer;
-  letter-spacing: 1px;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.hud-btn:hover {
-  background: var(--primary);
-  color: #030308;
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
-  transform: translateY(-1px);
-}
-
-.hud-btn.active {
-  background: rgba(255, 0, 85, 0.2);
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-/* ─── FLOATING 3D REACTOR CONTROL PANEL ─── */
-.reactor-panel {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  z-index: 100;
-  background: rgba(8, 10, 20, 0.85);
-  border: 1px solid rgba(0, 240, 255, 0.25);
-  padding: 16px 20px;
-  border-radius: 8px;
-  backdrop-filter: blur(20px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 260px;
-}
-
-.reactor-title {
-  font-family: 'Orbitron', monospace;
-  font-size: 0.75rem;
-  color: var(--primary);
-  letter-spacing: 2px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.reactor-btn-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.reactor-btn {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #c0c6d4;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
-  padding: 7px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-align: center;
-}
-
-.reactor-btn:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-  background: rgba(0, 240, 255, 0.08);
-}
-
-.pulse-btn {
-  grid-column: span 2;
-  background: linear-gradient(90deg, rgba(255, 0, 85, 0.25), rgba(112, 0, 255, 0.25));
-  border: 1px solid var(--accent);
+.dock-item:hover {
   color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dock-item.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-weight: 700;
+}
+
+.dock-divider {
+  width: 1px;
+  height: 16px;
+  background: var(--border-subtle);
+  margin: 0 2px;
+}
+
+.dock-pulse-btn {
+  background: linear-gradient(135deg, rgba(255, 122, 26, 0.2), rgba(245, 158, 11, 0.15));
+  border: 1px solid rgba(255, 122, 26, 0.4);
+  color: #ffa463;
   font-weight: 600;
-  letter-spacing: 1.5px;
 }
 
-.pulse-btn:hover {
-  background: var(--accent);
+.dock-pulse-btn:hover {
+  background: var(--accent-amber);
   color: #fff;
-  box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
+  box-shadow: 0 0 20px rgba(255, 122, 26, 0.4);
 }
 
-/* ─── SCROLL PROGRESS INDICATOR ─── */
-.scroll-meter {
+/* ─── SCROLL TRACKER BAR ─── */
+.scroll-tracker {
   position: fixed;
-  left: 30px;
+  right: 32px;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
-  z-index: 100;
+  gap: 16px;
+  z-index: 90;
 }
 
-.meter-line {
-  width: 2px;
-  height: 180px;
-  background: rgba(255, 255, 255, 0.08);
-  position: relative;
-  border-radius: 2px;
+.tracker-point {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-.meter-fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 0%;
-  background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--accent));
-  box-shadow: 0 0 10px var(--primary);
-  transition: height 0.1s linear;
+.tracker-point.active {
+  background: var(--accent-amber);
+  height: 24px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255, 122, 26, 0.5);
 }
 
-.meter-label {
-  writing-mode: vertical-lr;
-  transform: rotate(180deg);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 3px;
-  color: var(--text-dim);
-}
-
-/* ─── CONTENT SECTIONS ─── */
+/* ─── CONTENT WRAPPER & SECTIONS ─── */
 .content-wrapper {
   position: relative;
   z-index: 10;
@@ -320,18 +297,22 @@ body {
 
 .section {
   min-height: 100vh;
-  padding: 120px 8vw 80px 8vw;
+  padding: 140px 8vw 100px 8vw;
   display: flex;
   align-items: center;
   position: relative;
   pointer-events: none;
 }
 
-.interactive-box {
+.interactive-card {
   pointer-events: auto;
 }
 
-/* Section Alignments */
+.section.align-center {
+  justify-content: center;
+  text-align: center;
+}
+
 .section.align-left {
   justify-content: flex-start;
 }
@@ -340,863 +321,648 @@ body {
   justify-content: flex-end;
 }
 
-.section.align-center {
-  justify-content: center;
-  text-align: center;
-}
-
-/* Section Cards / HUD panels */
-.hud-panel {
-  max-width: 580px;
-  background: rgba(8, 10, 20, 0.78);
-  border: 1px solid rgba(0, 240, 255, 0.2);
-  border-radius: 12px;
-  padding: 44px;
-  backdrop-filter: blur(25px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
-  position: relative;
-  transition: transform 0.4s ease, border-color 0.4s ease;
-}
-
-.hud-panel:hover {
-  border-color: rgba(0, 240, 255, 0.45);
-  box-shadow: 0 25px 70px rgba(0, 240, 255, 0.12);
-}
-
-/* Corner Reticle Accents */
-.hud-panel::before,
-.hud-panel::after {
-  content: '';
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-color: var(--primary);
-  pointer-events: none;
-}
-
-.hud-panel::before {
-  top: -1px;
-  left: -1px;
-  border-top: 2px solid;
-  border-left: 2px solid;
-}
-
-.hud-panel::after {
-  bottom: -1px;
-  right: -1px;
-  border-bottom: 2px solid;
-  border-right: 2px solid;
-}
-
-.sec-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--primary);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.sec-tag::before {
-  content: '';
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background: var(--primary);
-  box-shadow: 0 0 10px var(--primary);
-  border-radius: 50%;
-}
-
-.sec-title {
-  font-family: 'Orbitron', sans-serif;
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 900;
-  line-height: 1.1;
-  color: #fff;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.sec-title span {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 60%, var(--accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.sec-p {
-  font-size: 1.05rem;
-  line-height: 1.7;
-  color: #b3bdd1;
-  font-weight: 400;
-  margin-bottom: 28px;
-}
-
-/* ─── HERO SECTION ─── */
-.hero-center {
-  max-width: 820px;
+/* ─── HERO CARD ─── */
+.hero-box {
+  max-width: 860px;
   margin: 0 auto;
 }
 
-.hero-pill {
+.pill-eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 22px;
-  border-radius: 50px;
-  background: rgba(0, 240, 255, 0.08);
-  border: 1px solid rgba(0, 240, 255, 0.3);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8rem;
-  color: var(--primary);
-  letter-spacing: 2px;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--accent-warm);
+  letter-spacing: 1px;
   margin-bottom: 24px;
 }
 
-.hero-title-giant {
-  font-family: 'Orbitron', sans-serif;
-  font-size: clamp(3.2rem, 8.5vw, 7rem);
-  font-weight: 900;
-  line-height: 0.95;
-  letter-spacing: 6px;
-  text-transform: uppercase;
-  margin-bottom: 20px;
+.hero-main-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3.2rem, 8vw, 6.5rem);
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 0.98;
   color: #fff;
-  text-shadow: 0 0 40px rgba(0, 240, 255, 0.3);
+  margin-bottom: 24px;
 }
 
-.hero-title-giant span {
+.hero-main-title span {
   display: block;
-  font-size: clamp(1.2rem, 3.2vw, 2.5rem);
-  letter-spacing: 8px;
-  background: linear-gradient(90deg, #ffffff, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-weight: 400;
+  font-size: clamp(1.4rem, 3.2vw, 2.6rem);
+  color: #94a3b8;
+  letter-spacing: -0.5px;
   margin-top: 10px;
 }
 
-.hero-sub {
-  font-size: 1.25rem;
-  line-height: 1.6;
-  color: #a4b0c7;
-  max-width: 650px;
+.hero-lead-text {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--text-body);
+  max-width: 620px;
   margin: 0 auto 36px auto;
   font-weight: 400;
 }
 
-.hero-buttons {
+.hero-cta-group {
   display: flex;
-  gap: 18px;
+  gap: 16px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.cta-main {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.9rem;
-  letter-spacing: 2px;
-  font-weight: 700;
-  padding: 16px 40px;
-  border-radius: 6px;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  color: #030308;
-  text-decoration: none;
-  box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-  display: inline-block;
-}
-
-.cta-main:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 50px rgba(0, 240, 255, 0.8);
-  color: #000;
-}
-
-.cta-secondary {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85rem;
-  letter-spacing: 1.5px;
-  padding: 16px 36px;
-  border-radius: 6px;
+.btn-secondary {
+  padding: 12px 28px;
+  border-radius: 8px;
   background: transparent;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #e2e8f0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.88rem;
   text-decoration: none;
-  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.25s ease;
 }
 
-.cta-secondary:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-  background: rgba(0, 240, 255, 0.05);
-  box-shadow: 0 0 25px rgba(0, 240, 255, 0.3);
-}
-
-/* ─── COMPETITION GRID ─── */
-.comp-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-top: 24px;
-}
-
-.comp-box {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 18px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-}
-
-.comp-box:hover {
-  background: rgba(0, 240, 255, 0.06);
-  border-color: var(--primary);
-  transform: translateY(-3px);
-}
-
-.comp-box h4 {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.95rem;
+.btn-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.04);
   color: #fff;
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
-.comp-box p {
-  font-size: 0.85rem;
+/* ─── GLASS PANEL CARDS ─── */
+.glass-panel {
+  max-width: 540px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 44px;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-panel:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+}
+
+.panel-kicker {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--accent-amber);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.panel-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -1px;
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+
+.panel-title em {
+  font-style: normal;
+  color: var(--accent-amber);
+}
+
+.panel-desc {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--text-body);
+  margin-bottom: 28px;
+}
+
+/* ─── EVENT HIGHLIGHT ITEMS ─── */
+.feature-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+}
+
+.feature-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.feature-icon {
+  font-size: 1.2rem;
+  padding-top: 2px;
+}
+
+.feature-text h4 {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 2px;
+}
+
+.feature-text p {
+  font-size: 0.82rem;
   color: var(--text-dim);
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
-/* ─── KEYNOTE & STATS BADGES ─── */
-.stats-badge-row {
+/* ─── METRIC STAT COUNTERS ─── */
+.metrics-row {
   display: flex;
-  gap: 16px;
-  margin-top: 24px;
-  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 28px;
 }
 
-.stats-card-mini {
+.metric-cell {
   flex: 1;
-  min-width: 120px;
-  background: rgba(0, 240, 255, 0.05);
-  border: 1px solid rgba(0, 240, 255, 0.18);
-  padding: 16px 14px;
-  border-radius: 8px;
-  text-align: center;
+  padding: 16px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
 }
 
-.stats-card-mini .num {
-  font-family: 'Orbitron', monospace;
+.metric-val {
+  font-family: 'Space Grotesk', sans-serif;
   font-size: 1.8rem;
-  font-weight: 900;
-  color: var(--primary);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.5px;
 }
 
-.stats-card-mini .lbl {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
+.metric-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
   color: var(--text-dim);
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 1px;
   margin-top: 4px;
 }
 
-/* ─── REGISTRATION TERMINAL ─── */
-.terminal-card {
-  max-width: 680px;
+/* ─── TERMINAL / REGISTRATION DECK ─── */
+.deck-card {
+  max-width: 620px;
   margin: 0 auto;
-  background: rgba(6, 8, 16, 0.9);
-  border: 1px solid rgba(0, 240, 255, 0.35);
-  border-radius: 10px;
-  box-shadow: 0 0 50px rgba(0, 240, 255, 0.15);
-  overflow: hidden;
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  padding: 44px;
+  backdrop-filter: blur(25px);
+  text-align: center;
 }
 
-.terminal-header {
-  background: rgba(0, 240, 255, 0.1);
-  padding: 12px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(0, 240, 255, 0.2);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--primary);
-}
-
-.terminal-dots {
-  display: flex;
-  gap: 6px;
-}
-
-.terminal-dots span {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.terminal-body {
-  padding: 36px 40px;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.term-line {
-  margin-bottom: 16px;
-  font-size: 0.88rem;
-  color: #cfd8dc;
-  line-height: 1.6;
-}
-
-.term-line.green {
-  color: #00ffaa;
-}
-
-.referral-box {
-  margin: 24px 0;
+.access-chip {
+  margin: 24px auto;
   padding: 18px 24px;
-  background: rgba(0, 240, 255, 0.08);
-  border: 1px dashed var(--primary);
-  border-radius: 6px;
+  background: rgba(255, 122, 26, 0.06);
+  border: 1px dashed rgba(255, 122, 26, 0.4);
+  border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 440px;
 }
 
-.referral-code {
-  font-family: 'Orbitron', monospace;
-  font-size: 1.2rem;
-  color: var(--primary);
+.access-val {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--accent-amber);
   letter-spacing: 2px;
 }
 
 /* ─── FOOTER ─── */
-.hud-footer {
+.site-footer {
   position: relative;
   z-index: 10;
   text-align: center;
-  padding: 30px 20px;
-  background: rgba(2, 2, 6, 0.9);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
+  padding: 40px 20px;
+  border-top: 1px solid var(--border-subtle);
+  background: rgba(5, 6, 8, 0.9);
+  font-size: 0.8rem;
   color: var(--text-dim);
 }
 
-.hud-footer a {
-  color: var(--primary);
-  text-decoration: none;
+.site-footer p {
+  margin-top: 6px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
 }
 
-/* ─── RESPONSIVE ─── */
+/* ─── RESPONSIVE ADAPTATION ─── */
 @media (max-width: 900px) {
-  .hud-topbar { padding: 14px 20px; }
-  .telemetry-strip { display: none; }
-  .reactor-panel { bottom: 16px; right: 16px; width: 220px; }
-  .scroll-meter { display: none; }
-  .section { padding: 90px 5vw 60px 5vw; }
-  .comp-grid { grid-template-columns: 1fr; }
-  .hero-title-giant { font-size: 3.5rem; }
-  .hud-panel { padding: 28px 20px; }
+  .site-nav { padding: 16px 20px; }
+  .nav-links, .edition-badge { display: none; }
+  .section { padding: 100px 5vw 60px 5vw; }
+  .glass-panel, .deck-card { padding: 28px 20px; }
+  .hero-main-title { font-size: 3.2rem; }
+  .scroll-tracker { display: none; }
+  .viewport-dock { width: 90%; justify-content: center; overflow-x: auto; }
 }
 </style>
 </head>
 <body>
 
-<!-- WEBGL 3D CANVAS -->
-<canvas id="webgl-canvas"></canvas>
+<!-- WEBGL CANVAS -->
+<canvas id="canvas3d"></canvas>
 
-<!-- HUD SCI-FI OVERLAYS -->
-<div class="hud-grid"></div>
-<div class="hud-vignette"></div>
-<div class="hud-scanlines"></div>
+<!-- ATMOSPHERE -->
+<div class="noise-overlay"></div>
+<div class="ambient-glow"></div>
 
-<!-- TOP HUD NAVBAR -->
-<header class="hud-topbar">
-  <div class="brand-wrap">
-    <div class="brand-logo-hex">TF</div>
-    <div class="brand-text">
-      <h1>TECHFEST</h1>
-      <span>IIT BOMBAY // 30TH EDITION</span>
+<!-- NAVIGATION BAR -->
+<header class="site-nav">
+  <a href="#hero" class="brand-container">
+    <div class="brand-symbol">TF</div>
+    <div class="brand-info">
+      <h1>Techfest</h1>
+      <span>IIT BOMBAY · 2026</span>
     </div>
-  </div>
+  </a>
 
-  <div class="telemetry-strip">
-    <div class="telemetry-item">LOC: <strong>19.1334° N, 72.9133° E</strong></div>
-    <div class="telemetry-item">STATUS: <strong>SYSTEMS ONLINE</strong></div>
-    <div class="countdown-box">
-      <span style="color:var(--text-dim)">COUNTDOWN:</span>
-      <span class="countdown-digits" id="countdown-timer">032D : 14H : 22M : 45S</span>
-    </div>
-  </div>
+  <ul class="nav-links">
+    <li><a href="#about" class="nav-link">Overview</a></li>
+    <li><a href="#competitions" class="nav-link">Competitions</a></li>
+    <li><a href="#exhibitions" class="nav-link">Exhibitions</a></li>
+    <li><a href="#technoholix" class="nav-link">Technoholix</a></li>
+  </ul>
 
-  <div class="hud-actions">
-    <button class="hud-btn" id="audio-toggle-btn" title="Toggle Synthesizer Atmosphere">
-      <span id="audio-icon">🔈</span> <span id="audio-label">AUDIO: OFF</span>
-    </button>
-    <a href="#register-sec" class="hud-btn" style="background:var(--primary);color:#030308;font-weight:700">PORTAL LOGIN</a>
+  <div class="nav-actions">
+    <div class="edition-badge">30TH EDITION</div>
+    <a href="#register" class="btn-primary">Register</a>
   </div>
 </header>
 
-<!-- SCROLL PROGRESS INDICATOR -->
-<div class="scroll-meter">
-  <div class="meter-label">CORE TELEMETRY</div>
-  <div class="meter-line">
-    <div class="meter-fill" id="scroll-fill"></div>
-  </div>
+<!-- INTERACTIVE 3D DOCK -->
+<div class="viewport-dock">
+  <button class="dock-item active" id="btn-theme-studio">MATTE GRAPHITE</button>
+  <button class="dock-item" id="btn-theme-amber">SOLAR AMBER</button>
+  <button class="dock-item" id="btn-theme-bronze">BRONZE TITANIUM</button>
+  <div class="dock-divider"></div>
+  <button class="dock-item" id="btn-wire-toggle">WIREFRAME</button>
+  <button class="dock-item dock-pulse-btn" id="btn-kinetic-pulse">KINETIC PULSE</button>
 </div>
 
-<!-- FLOATING 3D REACTOR CONTROLLER -->
-<div class="reactor-panel interactive-box">
-  <div class="reactor-title">
-    <span>CORE MANIFOLD</span>
-    <span style="color:#00ffaa;font-size:0.6rem">● ACTIVE</span>
-  </div>
-  <div class="reactor-btn-grid">
-    <button class="reactor-btn" id="btn-theme-cyan">CYAN VOID</button>
-    <button class="reactor-btn" id="btn-theme-crimson">SOLAR FLARE</button>
-    <button class="reactor-btn" id="btn-toggle-wire">WIREFRAME</button>
-    <button class="reactor-btn" id="btn-toggle-rot">TURBO SPIN</button>
-    <button class="reactor-btn pulse-btn" id="btn-pulse-core">💥 OVERCLOCK PULSE</button>
-  </div>
+<!-- SCROLL POINT TRACKER -->
+<div class="scroll-tracker">
+  <div class="tracker-point active" data-sec="hero"></div>
+  <div class="tracker-point" data-sec="about"></div>
+  <div class="tracker-point" data-sec="competitions"></div>
+  <div class="tracker-point" data-sec="exhibitions"></div>
+  <div class="tracker-point" data-sec="technoholix"></div>
+  <div class="tracker-point" data-sec="register"></div>
 </div>
 
-<!-- PAGE CONTENT SECTIONS (SCROLL DRIVE) -->
+<!-- SECTIONS CONTAINER -->
 <main class="content-wrapper">
 
   <!-- 01: HERO SECTION -->
-  <section class="section align-center" id="hero-sec">
-    <div class="hero-center interactive-box">
-      <div class="hero-pill">
-        <span>⚡ ASIA'S LARGEST SCIENCE &amp; TECH FESTIVAL</span>
+  <section class="section align-center" id="hero">
+    <div class="hero-box interactive-card">
+      <div class="pill-eyebrow">
+        <span>POWAI, MUMBAI · DECEMBER 18–20, 2026</span>
       </div>
-      <h2 class="hero-title-giant">
-        TECHFEST
-        <span>A SIMULATED PARADIGM</span>
+      <h2 class="hero-main-title">
+        The Future of Scale.
+        <span>Asia's Largest Science &amp; Technology Festival.</span>
       </h2>
-      <p class="hero-sub">
-        Enter the 30th edition at IIT Bombay. Where 175,000+ engineers, researchers, and creators converge across 78 countries to define the next frontier of human engineering.
+      <p class="hero-lead-text">
+        Thirty years of engineering breakthrough. 175,000+ creators, students, and pioneers gather at IIT Bombay for three days of international robotics, AI summits, and global exhibits.
       </p>
-      <div class="hero-buttons">
-        <a href="#competitions-sec" class="cta-main">ENTER MATRIX →</a>
-        <a href="#register-sec" class="cta-secondary">CA VERIFICATION</a>
+      <div class="hero-cta-group">
+        <a href="#competitions" class="btn-primary" style="padding:14px 32px;font-size:0.95rem">Explore Schedule</a>
+        <a href="#register" class="btn-secondary">Portal Access</a>
       </div>
     </div>
   </section>
 
-  <!-- 02: THE MISSION / PARADIGM -->
-  <section class="section align-left" id="paradigm-sec">
-    <div class="hud-panel interactive-box">
-      <div class="sec-tag">SECTOR 01 // PARADIGM</div>
-      <h3 class="sec-title">BEYOND <span>DIMENSIONS</span></h3>
-      <p class="sec-p">
-        Techfest has pioneered collegiate robotics, artificial intelligence, and aerospace engineering in India since 1998. The 30th Edition bridges quantum computation, humanoid kinematics, and autonomous combat robotics inside an ultra-high-definition physical arena.
+  <!-- 02: ABOUT / FESTIVAL VISION -->
+  <section class="section align-left" id="about">
+    <div class="glass-panel interactive-card">
+      <span class="panel-kicker">01 / Foundation</span>
+      <h3 class="panel-title">Precision engineering <em>at scale.</em></h3>
+      <p class="panel-desc">
+        Founded in 1998 at IIT Bombay, Techfest has grown into the benchmark student festival across Asia. We host premier national engineering challenges, keynote addresses by Nobel laureates, and cutting-edge exhibits from global defense and aerospace centers.
       </p>
-      <div class="stats-badge-row">
-        <div class="stats-card-mini">
-          <div class="num">175K+</div>
-          <div class="lbl">Footfall</div>
+      <div class="metrics-row">
+        <div class="metric-cell">
+          <div class="metric-val">175,000+</div>
+          <div class="metric-tag">Footfall</div>
         </div>
-        <div class="stats-card-mini">
-          <div class="num">2,500+</div>
-          <div class="lbl">Colleges</div>
+        <div class="metric-cell">
+          <div class="metric-val">2,500+</div>
+          <div class="metric-tag">Institutions</div>
         </div>
-        <div class="stats-card-mini">
-          <div class="num">₹45L+</div>
-          <div class="lbl">Prizes</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 03: FLAGSHIP COMPETITIONS -->
-  <section class="section align-right" id="competitions-sec">
-    <div class="hud-panel interactive-box" style="max-width:640px">
-      <div class="sec-tag">SECTOR 02 // COMPETITIONS</div>
-      <h3 class="sec-title">COMBAT &amp; <span>CODE</span></h3>
-      <p class="sec-p">
-        International combat machines with 300 km/h kinetic energy spinners clash under bulletproof polycarbonate arenas, running parallel to national AI hackathons.
-      </p>
-
-      <div class="comp-grid">
-        <div class="comp-box">
-          <h4>⚔️ ROBOWARS</h4>
-          <p>60kg &amp; 15kg Heavyweight combat bots battle to destruction inside Asia's toughest arena.</p>
-        </div>
-        <div class="comp-box">
-          <h4>💻 NATIONAL HACK</h4>
-          <p>36-hour code marathon solving direct industry challenges with cloud compute credits.</p>
-        </div>
-        <div class="comp-box">
-          <h4>🤖 MESHMERIZE</h4>
-          <p>High-velocity autonomous line followers navigating complex dynamic grid tracks.</p>
-        </div>
-        <div class="comp-box">
-          <h4>🛸 DRONE PRIX</h4>
-          <p>FPV drone pilots racing obstacle gauntlets with millimeter-precision telemetry.</p>
+        <div class="metric-cell">
+          <div class="metric-val">78</div>
+          <div class="metric-tag">Countries</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 04: EXHIBITIONS & HUMANOIDS -->
-  <section class="section align-left" id="exhibition-sec">
-    <div class="hud-panel interactive-box">
-      <div class="sec-tag">SECTOR 03 // EXHIBITIONS</div>
-      <h3 class="sec-title">GLOBAL <span>NEXUS</span></h3>
-      <p class="sec-p">
-        Witness state-of-the-art humanoid robotics, bionic prosthetics, aerospace prototypes from ISRO and international defense labs, and quantum sensor demonstrations brought straight to Powai.
+  <!-- 03: COMPETITIONS -->
+  <section class="section align-right" id="competitions">
+    <div class="glass-panel interactive-card">
+      <span class="panel-kicker">02 / Arenas</span>
+      <h3 class="panel-title">Combat robotics &amp; <em>autonomous systems.</em></h3>
+      <p class="panel-desc">
+        Watch high-impact combat robots compete inside armored bulletproof arenas, alongside 36-hour competitive hackathons and autonomous drone racing.
       </p>
-      <ul style="list-style:none;color:#b3bdd1;line-height:2;font-size:0.95rem;font-family:'JetBrains Mono',monospace">
-        <li>▹ Humanoid Robotics Showcase (Sophia &amp; Unitree Kinematics)</li>
-        <li>▹ DRDO &amp; ISRO Space Tech Pavilion</li>
-        <li>▹ Autonomous EV Hypercar Prototyping</li>
-        <li>▹ Brain-Computer Interface (BCI) Demos</li>
-      </ul>
+
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-icon">⚔️</div>
+          <div class="feature-text">
+            <h4>International Robowars</h4>
+            <p>60kg and 15kg combat robots clashing in high-velocity kinetic rounds.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">💻</div>
+          <div class="feature-text">
+            <h4>National 36-Hour Hackathon</h4>
+            <p>Full-stack and AI sprints solving direct industry challenge statements.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🤖</div>
+          <div class="feature-text">
+            <h4>Meshmerize</h4>
+            <p>Autonomous line-following robots navigating complex algorithmic mazes.</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- 05: TECHNOHOLIX NIGHTS -->
-  <section class="section align-right" id="technoholix-sec">
-    <div class="hud-panel interactive-box">
-      <div class="sec-tag">SECTOR 04 // SPECTACLE</div>
-      <h3 class="sec-title">TECHNO<span>HOLIX</span></h3>
-      <p class="sec-p">
-        When the sun sets over the IIT Bombay campus, the Open Air Theatre ignites. International EDM producers, pyrotechnic aerial acrobatics, and synchronized 1,000-drone sky formations illuminate the Mumbai skyline.
+  <!-- 04: EXHIBITIONS -->
+  <section class="section align-left" id="exhibitions">
+    <div class="glass-panel interactive-card">
+      <span class="panel-kicker">03 / Innovation</span>
+      <h3 class="panel-title">Humanoids, defense &amp; <em>space exploration.</em></h3>
+      <p class="panel-desc">
+        An open platform featuring prototypes that rarely leave research facilities. Direct interactive access to humanoid bionics, aerospace hardware from ISRO, and brain-machine interface labs.
+      </p>
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-icon">🔬</div>
+          <div class="feature-text">
+            <h4>Humanoid &amp; Quadruped Robotics</h4>
+            <p>State-of-the-art robotic kinematics showcased by international research teams.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🚀</div>
+          <div class="feature-text">
+            <h4>Aerospace &amp; Defense Pavilion</h4>
+            <p>Rocket propulsion test displays and indigenous technological breakthroughs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05: TECHNOHOLIX -->
+  <section class="section align-right" id="technoholix">
+    <div class="glass-panel interactive-card">
+      <span class="panel-kicker">04 / Performance</span>
+      <h3 class="panel-title">Technoholix: <em>Night of spectacle.</em></h3>
+      <p class="panel-desc">
+        The evening climax at IIT Bombay's Open Air Theatre. 10,000 students under open skies for synchronized drone light ballets, world-class pyrotechnics, and live electronic compositions.
       </p>
       <div style="display:flex;gap:12px;margin-top:16px">
-        <span style="background:rgba(255,0,85,0.15);color:var(--accent);padding:6px 14px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;border:1px solid rgba(255,0,85,0.3)">1,000 DRONE SHOW</span>
-        <span style="background:rgba(112,0,255,0.15);color:#b388ff;padding:6px 14px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;border:1px solid rgba(112,0,255,0.3)">LASER SYMPHONY</span>
+        <span style="background:rgba(255,255,255,0.05);color:#fff;padding:6px 14px;border-radius:6px;font-family:'Space Mono',monospace;font-size:0.75rem;border:1px solid var(--border-subtle)">1,000 SYNC DRONES</span>
+        <span style="background:rgba(255,122,26,0.1);color:var(--accent-amber);padding:6px 14px;border-radius:6px;font-family:'Space Mono',monospace;font-size:0.75rem;border:1px solid rgba(255,122,26,0.3)">LASER MAPPING</span>
       </div>
     </div>
   </section>
 
-  <!-- 06: AMBASSADOR / REGISTRATION TERMINAL -->
-  <section class="section align-center" id="register-sec">
-    <div class="terminal-card interactive-box">
-      <div class="terminal-header">
-        <div class="terminal-dots">
-          <span style="background:#ff5f56"></span>
-          <span style="background:#ffbd2e"></span>
-          <span style="background:#27c93f"></span>
-        </div>
-        <div>CAMPUS AMBASSADOR REGISTRATION PORTAL // IIT BOMBAY</div>
-        <div style="color:#00ffaa">SECURE SSL</div>
-      </div>
-      <div class="terminal-body">
-        <div class="term-line green">> INITIALIZING FESTIVAL DEPLOYMENT UPLINK...</div>
-        <div class="term-line">> CAMPUS NODE: KANPUR / UTTAR PRADESH</div>
-        <div class="term-line">> AMBASSADOR: ANURAG KUMAR</div>
-        
-        <div class="referral-box">
-          <div>
-            <div style="font-size:0.7rem;color:var(--text-dim);letter-spacing:1px;margin-bottom:4px">OFFICIAL ACCESS IDENTIFIER</div>
-            <div class="referral-code">TECHFEST-IITB-2026</div>
-          </div>
-          <button class="hud-btn" id="copy-ca-btn">COPY CODE</button>
-        </div>
+  <!-- 06: REGISTRATION DECK -->
+  <section class="section align-center" id="register">
+    <div class="deck-card interactive-card">
+      <span class="panel-kicker">05 / Registration</span>
+      <h3 class="panel-title">Join the <em>30th Edition.</em></h3>
+      <p class="panel-desc" style="max-width:500px;margin:0 auto 20px auto">
+        Official campus delegate entry portal for team registrations, accommodation reservations at IIT Bombay, and accredited workshop schedules.
+      </p>
 
-        <p class="term-line" style="font-size:0.8rem;color:#8892b0">
-          Use the verification access code above for fast-track team registration, accommodation reservations at the IIT Bombay campus, and workshop slot verification.
-        </p>
-
-        <div style="margin-top:24px;display:flex;gap:12px;justify-content:center">
-          <a href="https://techfest.org" target="_blank" class="cta-main" style="width:100%;text-align:center">PROCEED TO TECHFEST.ORG PORTAL</a>
+      <div class="access-chip">
+        <div style="text-align:left">
+          <div style="font-size:0.68rem;color:var(--text-dim);font-family:'Space Mono',monospace">DELEGATE CODE</div>
+          <div class="access-val">TECHFEST-IITB-2026</div>
         </div>
+        <button class="btn-primary" id="copy-btn" style="padding:8px 16px;font-size:0.78rem">Copy Code</button>
       </div>
+
+      <a href="https://techfest.org" target="_blank" class="btn-primary" style="display:inline-block;padding:14px 40px;font-size:0.95rem">
+        Proceed to Official Registration Portal →
+      </a>
     </div>
   </section>
 
 </main>
 
-<footer class="hud-footer">
-  <div>TECHFEST 2026 // INDIAN INSTITUTE OF TECHNOLOGY BOMBAY // POWAI, MUMBAI - 400076</div>
-  <div style="margin-top:8px">DEVELOPED BY ANURAG KUMAR · TECHFEST IIT BOMBAY 2026 · OFFICIAL 3D WEBGL INTERACTION TASK</div>
+<footer class="site-footer">
+  <div>Indian Institute of Technology Bombay · Powai, Mumbai 400076</div>
+  <p>Engineered by Anurag Kumar · Built for Techfest 2026 Interactive Submission</p>
 </footer>
 
-<!-- THREE.JS CORE & ANIMATION SCRIPTS -->
+<!-- THREE.JS 3D ENGINE -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
 /* ════════════════════════════════════════════════════════════════════
-   1. PROCEDURAL SOUND SYNTHESIZER (WEB AUDIO API)
+   1. THREE.JS SCENE SETUP & CINEMATIC PBR LIGHTING
 ════════════════════════════════════════════════════════════════════ */
-let audioCtx = null;
-let isAudioOn = false;
-let ambientOsc1 = null, ambientOsc2 = null, ambientGain = null;
-
-function initAudio() {
-  if (audioCtx) return;
-  const AudioContext = window.AudioContext || window.webkitAudioContext;
-  audioCtx = new AudioContext();
-
-  ambientGain = audioCtx.createGain();
-  ambientGain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-  ambientGain.connect(audioCtx.destination);
-
-  // Deep space harmonic drone (45Hz & 90Hz)
-  ambientOsc1 = audioCtx.createOscillator();
-  ambientOsc1.type = 'sine';
-  ambientOsc1.frequency.setValueAtTime(45, audioCtx.currentTime);
-  ambientOsc1.connect(ambientGain);
-  ambientOsc1.start();
-
-  ambientOsc2 = audioCtx.createOscillator();
-  ambientOsc2.type = 'triangle';
-  ambientOsc2.frequency.setValueAtTime(90.5, audioCtx.currentTime);
-  ambientOsc2.connect(ambientGain);
-  ambientOsc2.start();
-}
-
-function playLaserBeep(freq = 600, duration = 0.12) {
-  if (!audioCtx || !isAudioOn) return;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.type = 'sawtooth';
-  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + duration);
-  gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
-  osc.start();
-  osc.stop(audioCtx.currentTime + duration);
-}
-
-function playShockwaveSound() {
-  if (!audioCtx || !isAudioOn) return;
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-  osc.type = 'triangle';
-  osc.frequency.setValueAtTime(180, audioCtx.currentTime);
-  osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.8);
-  gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
-  osc.start();
-  osc.stop(audioCtx.currentTime + 0.8);
-}
-
-const audioBtn = document.getElementById('audio-toggle-btn');
-const audioIcon = document.getElementById('audio-icon');
-const audioLabel = document.getElementById('audio-label');
-
-audioBtn.addEventListener('click', () => {
-  if (!audioCtx) initAudio();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-
-  isAudioOn = !isAudioOn;
-  if (isAudioOn) {
-    ambientGain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-    audioBtn.classList.add('active');
-    audioIcon.textContent = '🔊';
-    audioLabel.textContent = 'AUDIO: LIVE';
-    playLaserBeep(880, 0.2);
-  } else {
-    ambientGain.gain.setValueAtTime(0, audioCtx.currentTime);
-    audioBtn.classList.remove('active');
-    audioIcon.textContent = '🔈';
-    audioLabel.textContent = 'AUDIO: OFF';
-  }
-});
-
-/* ════════════════════════════════════════════════════════════════════
-   2. THREE.JS 3D SCENE ARCHITECTURE (TECHFEST CORE ENGINE)
-════════════════════════════════════════════════════════════════════ */
-const canvas = document.getElementById('webgl-canvas');
+const canvas = document.getElementById('canvas3d');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.1;
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x030308, 0.012);
+scene.fog = new THREE.FogExp2(0x090a0f, 0.015);
 
-const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.set(0, 0, 32);
 
-// Palettes
+// Studio Lighting (Clean Warm / Titanium Tones)
+const keyLight = new THREE.DirectionalLight(0xffedd5, 1.8);
+keyLight.position.set(15, 20, 20);
+scene.add(keyLight);
+
+const warmFillLight = new THREE.PointLight(0xff7a1a, 2.2, 50);
+warmFillLight.position.set(-12, -8, 10);
+scene.add(warmFillLight);
+
+const ambientLight = new THREE.AmbientLight(0x1e2433, 1.2);
+scene.add(ambientLight);
+
+/* ─── COLOR PALETTES ─── */
 const PALETTES = {
-  cyan: {
-    core: 0x00f0ff,
-    rings: 0x7000ff,
-    accent: 0xff0055,
-    particles: 0x00f0ff
+  studio: {
+    metal: 0x222634,
+    accent: 0xd4d4d8,
+    glow: 0xffedd5,
+    roughness: 0.35,
+    metalness: 0.85
   },
-  crimson: {
-    core: 0xff0055,
-    rings: 0xffb700,
-    accent: 0x7000ff,
-    particles: 0xff3366
+  amber: {
+    metal: 0x2a1a12,
+    accent: 0xff7a1a,
+    glow: 0xf59e0b,
+    roughness: 0.25,
+    metalness: 0.9
+  },
+  bronze: {
+    metal: 0x241d18,
+    accent: 0xc27838,
+    glow: 0xe6a15c,
+    roughness: 0.3,
+    metalness: 0.8
   }
 };
-let currentPalette = PALETTES.cyan;
+let activeTheme = PALETTES.studio;
 
-/* ─── A. DEEP SPACE COSMIC PARTICLES (STARFIELD) ─── */
-const starCount = 3500;
-const starGeo = new THREE.BufferGeometry();
-const starPos = new Float32Array(starCount * 3);
-const starColors = new Float32Array(starCount * 3);
+/* ════════════════════════════════════════════════════════════════════
+   2. PRECISION KINETIC GYROSCOPE SCULPTURE
+════════════════════════════════════════════════════════════════════ */
+const kineticGroup = new THREE.Group();
+scene.add(kineticGroup);
 
-for (let i = 0; i < starCount; i++) {
-  starPos[i * 3] = (Math.random() - 0.5) * 220;
-  starPos[i * 3 + 1] = (Math.random() - 0.5) * 220;
-  starPos[i * 3 + 2] = (Math.random() - 0.5) * 220;
-
-  const rnd = Math.random();
-  if (rnd < 0.6) {
-    starColors[i * 3] = 0.8; starColors[i * 3 + 1] = 0.9; starColors[i * 3 + 2] = 1.0;
-  } else if (rnd < 0.85) {
-    starColors[i * 3] = 0.0; starColors[i * 3 + 1] = 0.94; starColors[i * 3 + 2] = 1.0;
-  } else {
-    starColors[i * 3] = 0.5; starColors[i * 3 + 1] = 0.1; starColors[i * 3 + 2] = 1.0;
-  }
-}
-
-starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-starGeo.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
-const starMat = new THREE.PointsMaterial({
-  size: 0.18,
-  vertexColors: true,
-  transparent: true,
-  opacity: 0.75
+// Master PBR Materials
+const metallicMat = new THREE.MeshStandardMaterial({
+  color: activeTheme.metal,
+  roughness: activeTheme.roughness,
+  metalness: activeTheme.metalness
 });
-const starField = new THREE.Points(starGeo, starMat);
-scene.add(starField);
 
-/* ─── B. MASTER QUANTUM CORE GROUP (TECHFEST MONOLITH) ─── */
-const coreGroup = new THREE.Group();
-scene.add(coreGroup);
+const accentMat = new THREE.MeshStandardMaterial({
+  color: activeTheme.accent,
+  roughness: 0.2,
+  metalness: 0.95
+});
 
-// 1. Inner Glowing Hologram Icosahedron (The Reactor)
-const innerCoreGeo = new THREE.IcosahedronGeometry(4.2, 2);
-const innerCoreMat = new THREE.MeshBasicMaterial({
-  color: currentPalette.core,
+const coreMat = new THREE.MeshStandardMaterial({
+  color: 0x0f1118,
+  roughness: 0.2,
+  metalness: 0.9,
+  wireframe: false
+});
+
+// Central Monolith (Faceted Precision Polyhedron)
+const coreGeo = new THREE.IcosahedronGeometry(4.2, 1);
+const centralCore = new THREE.Mesh(coreGeo, coreMat);
+kineticGroup.add(centralCore);
+
+// Inner Luminous Core
+const innerLightGeo = new THREE.SphereGeometry(1.8, 32, 32);
+const innerLightMat = new THREE.MeshBasicMaterial({
+  color: 0xff8a3d,
   wireframe: true,
   transparent: true,
-  opacity: 0.45
+  opacity: 0.6
 });
-const innerCoreMesh = new THREE.Mesh(innerCoreGeo, innerCoreMat);
-coreGroup.add(innerCoreMesh);
+const innerNucleus = new THREE.Mesh(innerLightGeo, innerLightMat);
+kineticGroup.add(innerNucleus);
 
-// 2. Central High-Density Energy Nucleus
-const nucleusGeo = new THREE.SphereGeometry(2.2, 32, 32);
-const nucleusMat = new THREE.MeshBasicMaterial({
-  color: 0xffffff,
-  wireframe: false,
-  transparent: true,
-  opacity: 0.85
-});
-const nucleusMesh = new THREE.Mesh(nucleusGeo, nucleusMat);
-coreGroup.add(nucleusMesh);
-
-// 3. Concentric Gyroscope Rings (Quantum Containment)
-const ringMaterials = [];
-function createGyroRing(radius, tube, color, rotX, rotY) {
-  const geo = new THREE.TorusGeometry(radius, tube, 16, 120);
-  const mat = new THREE.MeshBasicMaterial({
-    color: color,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.5
-  });
-  ringMaterials.push(mat);
+// Precision Outer Rings (Machined Titanium Gyroscope)
+function makeGimbalRing(radius, tubeWidth, mat, rx, ry) {
+  const geo = new THREE.TorusGeometry(radius, tubeWidth, 24, 160);
   const ring = new THREE.Mesh(geo, mat);
-  ring.rotation.x = rotX;
-  ring.rotation.y = rotY;
-  coreGroup.add(ring);
+  ring.rotation.x = rx;
+  ring.rotation.y = ry;
+  kineticGroup.add(ring);
   return ring;
 }
 
-const gyroRing1 = createGyroRing(7.2, 0.08, currentPalette.rings, Math.PI / 3, 0);
-const gyroRing2 = createGyroRing(9.5, 0.08, currentPalette.core, -Math.PI / 4, Math.PI / 6);
-const gyroRing3 = createGyroRing(12.0, 0.1, currentPalette.accent, Math.PI / 2, 0);
+const ring1 = makeGimbalRing(7.2, 0.16, metallicMat, Math.PI / 4, 0);
+const ring2 = makeGimbalRing(9.8, 0.14, accentMat, -Math.PI / 5, Math.PI / 3);
+const ring3 = makeGimbalRing(12.4, 0.12, metallicMat, Math.PI / 2.2, -Math.PI / 6);
 
-// 4. Orbiting Data Nodes (Floating Hexagons / Tetrahedrons)
-const nodeCount = 14;
-const nodes = [];
-const nodeGeo = new THREE.OctahedronGeometry(0.5, 0);
+// Orbital Kinetic Nodes
+const nodeCount = 12;
+const orbitalNodes = [];
+const nodeGeo = new THREE.CylinderGeometry(0.2, 0.2, 0.8, 8);
 
 for (let i = 0; i < nodeCount; i++) {
-  const nodeMat = new THREE.MeshBasicMaterial({
-    color: i % 2 === 0 ? currentPalette.core : currentPalette.accent,
-    wireframe: true
-  });
-  const nodeMesh = new THREE.Mesh(nodeGeo, nodeMat);
+  const mesh = new THREE.Mesh(nodeGeo, accentMat);
   const angle = (i / nodeCount) * Math.PI * 2;
-  const rad = 10.5 + (i % 3) * 1.5;
-  nodeMesh.position.set(Math.cos(angle) * rad, (Math.random() - 0.5) * 4, Math.sin(angle) * rad);
-  coreGroup.add(nodeMesh);
-  nodes.push({ mesh: nodeMesh, angle: angle, speed: 0.01 + Math.random() * 0.015, rad: rad });
+  const radius = 11.2;
+  mesh.position.set(Math.cos(angle) * radius, 0, Math.sin(angle) * radius);
+  mesh.rotation.z = Math.PI / 2;
+  kineticGroup.add(mesh);
+  orbitalNodes.push({ mesh, angle, radius, speed: 0.008 + (i % 3) * 0.004 });
 }
 
-// 5. High-Velocity Core Particle Swarm (Shockwave Enabled)
-const swarmCount = 1800;
-const swarmGeo = new THREE.BufferGeometry();
-const swarmPositions = new Float32Array(swarmCount * 3);
-const swarmOrigPositions = new Float32Array(swarmCount * 3);
-const swarmVelocities = new Float32Array(swarmCount * 3);
+// Particle Atmosphere (Subtle Amber & Silver Stardust)
+const dustCount = 2000;
+const dustGeo = new THREE.BufferGeometry();
+const dustPositions = new Float32Array(dustCount * 3);
+const dustColors = new Float32Array(dustCount * 3);
 
-for (let i = 0; i < swarmCount; i++) {
-  const phi = Math.acos(2 * Math.random() - 1);
-  const theta = Math.random() * Math.PI * 2;
-  const r = 5.2 + Math.random() * 3.8;
+for (let i = 0; i < dustCount; i++) {
+  dustPositions[i * 3] = (Math.random() - 0.5) * 160;
+  dustPositions[i * 3 + 1] = (Math.random() - 0.5) * 160;
+  dustPositions[i * 3 + 2] = (Math.random() - 0.5) * 160;
 
-  const x = r * Math.sin(phi) * Math.cos(theta);
-  const y = r * Math.sin(phi) * Math.sin(theta);
-  const z = r * Math.cos(phi);
-
-  swarmPositions[i * 3] = x;
-  swarmPositions[i * 3 + 1] = y;
-  swarmPositions[i * 3 + 2] = z;
-
-  swarmOrigPositions[i * 3] = x;
-  swarmOrigPositions[i * 3 + 1] = y;
-  swarmOrigPositions[i * 3 + 2] = z;
-
-  swarmVelocities[i * 3] = 0;
-  swarmVelocities[i * 3 + 1] = 0;
-  swarmVelocities[i * 3 + 2] = 0;
+  const rnd = Math.random();
+  if (rnd < 0.2) {
+    // Warm amber ember
+    dustColors[i * 3] = 1.0; dustColors[i * 3 + 1] = 0.55; dustColors[i * 3 + 2] = 0.2;
+  } else {
+    // Silver starlight
+    dustColors[i * 3] = 0.85; dustColors[i * 3 + 1] = 0.9; dustColors[i * 3 + 2] = 0.95;
+  }
 }
 
-swarmGeo.setAttribute('position', new THREE.BufferAttribute(swarmPositions, 3));
-const swarmMat = new THREE.PointsMaterial({
-  size: 0.12,
-  color: currentPalette.particles,
+dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPositions, 3));
+dustGeo.setAttribute('color', new THREE.BufferAttribute(dustColors, 3));
+const dustMat = new THREE.PointsMaterial({
+  size: 0.18,
+  vertexColors: true,
   transparent: true,
-  opacity: 0.8
+  opacity: 0.65
 });
-const swarmMesh = new THREE.Points(swarmGeo, swarmMat);
-coreGroup.add(swarmMesh);
-
-/* ─── C. HORIZONTAL SCI-FI MATRIX CYBER GRID (FLOOR) ─── */
-const gridHelper = new THREE.GridHelper(160, 60, 0x00f0ff, 0x7000ff);
-gridHelper.position.y = -18;
-gridHelper.material.opacity = 0.22;
-gridHelper.material.transparent = true;
-scene.add(gridHelper);
+const dustPoints = new THREE.Points(dustGeo, dustMat);
+scene.add(dustPoints);
 
 /* ════════════════════════════════════════════════════════════════════
-   3. DYNAMIC SCROLL ANIMATION & CAMERA FLIGHT ENGINE
+   3. SCROLL KINEMATICS & MOUSE INTERACTION (SMOOTH DAMPING)
 ════════════════════════════════════════════════════════════════════ */
+let scrollY = 0;
 let scrollProgress = 0;
-const scrollFill = document.getElementById('scroll-fill');
 
 window.addEventListener('scroll', () => {
-  const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-  scrollProgress = window.scrollY / (totalHeight || 1);
-  if (scrollFill) scrollFill.style.height = (scrollProgress * 100) + '%';
+  scrollY = window.scrollY;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  scrollProgress = Math.min(Math.max(scrollY / (maxScroll || 1), 0), 1);
+  updateActiveTracker();
 });
 
-// Mouse parallax tracking
+// Parallax tracking
 let mouseX = 0, mouseY = 0;
 let targetMouseX = 0, targetMouseY = 0;
 
@@ -1205,91 +971,62 @@ window.addEventListener('mousemove', (e) => {
   targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
 });
 
-// Interactive Overclock Pulse
-let pulseFactor = 0;
-function triggerPulse() {
-  pulseFactor = 1.0;
-  playShockwaveSound();
-
-  // Give outward impulse to swarm particles
-  for (let i = 0; i < swarmCount; i++) {
-    const ix = i * 3;
-    swarmVelocities[ix] = (swarmPositions[ix] / 5) * (0.8 + Math.random());
-    swarmVelocities[ix + 1] = (swarmPositions[ix + 1] / 5) * (0.8 + Math.random());
-    swarmVelocities[ix + 2] = (swarmPositions[ix + 2] / 5) * (0.8 + Math.random());
-  }
-}
-
-document.getElementById('btn-pulse-core').addEventListener('click', triggerPulse);
+// Kinetic Pulse Effect
+let pulseStrength = 0;
+document.getElementById('btn-kinetic-pulse').addEventListener('click', () => {
+  pulseStrength = 1.0;
+  warmFillLight.intensity = 6.0;
+});
 
 // Wireframe toggle
-let isWireOnly = false;
-document.getElementById('btn-toggle-wire').addEventListener('click', () => {
-  isWireOnly = !isWireOnly;
-  nucleusMesh.visible = !isWireOnly;
-  playLaserBeep(520, 0.08);
+let isWire = false;
+document.getElementById('btn-wire-toggle').addEventListener('click', () => {
+  isWire = !isWire;
+  centralCore.material.wireframe = isWire;
+  document.getElementById('btn-wire-toggle').classList.toggle('active', isWire);
 });
 
-// Turbo Spin toggle
-let turboSpeed = 1.0;
-document.getElementById('btn-toggle-rot').addEventListener('click', () => {
-  turboSpeed = turboSpeed === 1.0 ? 3.5 : 1.0;
-  playLaserBeep(700, 0.1);
-});
-
-// Palette switchers
-function applyTheme(themeKey) {
-  currentPalette = PALETTES[themeKey];
-  innerCoreMat.color.setHex(currentPalette.core);
-  gyroRing1.material.color.setHex(currentPalette.rings);
-  gyroRing2.material.color.setHex(currentPalette.core);
-  gyroRing3.material.color.setHex(currentPalette.accent);
-  swarmMat.color.setHex(currentPalette.particles);
-  playLaserBeep(900, 0.15);
+// Palette modulation
+function setPalette(themeKey, btnId) {
+  activeTheme = PALETTES[themeKey];
+  metallicMat.color.setHex(activeTheme.metal);
+  accentMat.color.setHex(activeTheme.accent);
+  warmFillLight.color.setHex(activeTheme.glow);
+  document.querySelectorAll('.dock-item').forEach(b => b.classList.remove('active'));
+  document.getElementById(btnId).classList.add('active');
 }
 
-document.getElementById('btn-theme-cyan').addEventListener('click', () => applyTheme('cyan'));
-document.getElementById('btn-theme-crimson').addEventListener('click', () => applyTheme('crimson'));
+document.getElementById('btn-theme-studio').addEventListener('click', () => setPalette('studio', 'btn-theme-studio'));
+document.getElementById('btn-theme-amber').addEventListener('click', () => setPalette('amber', 'btn-theme-amber'));
+document.getElementById('btn-theme-bronze').addEventListener('click', () => setPalette('bronze', 'btn-theme-bronze'));
 
-// Access Code copy
-document.getElementById('copy-ca-btn').addEventListener('click', () => {
+// Copy referral code
+document.getElementById('copy-btn').addEventListener('click', () => {
   navigator.clipboard.writeText('TECHFEST-IITB-2026');
-  const btn = document.getElementById('copy-ca-btn');
-  btn.textContent = 'COPIED!';
-  playLaserBeep(1200, 0.1);
-  setTimeout(() => { btn.textContent = 'COPY CODE'; }, 2000);
+  const btn = document.getElementById('copy-btn');
+  btn.textContent = 'Copied!';
+  setTimeout(() => { btn.textContent = 'Copy Code'; }, 2000);
+});
+
+// Tracker navigation
+const trackerPoints = document.querySelectorAll('.tracker-point');
+function updateActiveTracker() {
+  const sections = ['hero', 'about', 'competitions', 'exhibitions', 'technoholix', 'register'];
+  const index = Math.min(Math.floor(scrollProgress * sections.length), sections.length - 1);
+  trackerPoints.forEach((pt, i) => {
+    pt.classList.toggle('active', i === index);
+  });
+}
+
+trackerPoints.forEach(pt => {
+  pt.addEventListener('click', () => {
+    const target = document.getElementById(pt.dataset.sec);
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
 });
 
 /* ════════════════════════════════════════════════════════════════════
-   4. LIVE FESTIVAL COUNTDOWN ENGINE
-════════════════════════════════════════════════════════════════════ */
-const targetDate = new Date('2026-12-18T09:00:00+05:30').getTime();
-const countdownElem = document.getElementById('countdown-timer');
-
-function updateCountdown() {
-  const now = new Date().getTime();
-  const diff = targetDate - now;
-
-  if (diff > 0) {
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-    countdownElem.textContent = 
-      String(days).padStart(3, '0') + 'D : ' + 
-      String(hours).padStart(2, '0') + 'H : ' + 
-      String(minutes).padStart(2, '0') + 'M : ' + 
-      String(seconds).padStart(2, '0') + 'S';
-  } else {
-    countdownElem.textContent = 'FESTIVAL IS LIVE!';
-  }
-}
-setInterval(updateCountdown, 1000);
-updateCountdown();
-
-/* ════════════════════════════════════════════════════════════════════
-   5. MASTER 60FPS RENDER & DYNAMICS LOOP
+   4. RENDER LOOP (60 FPS FLUID DYNAMICS)
 ════════════════════════════════════════════════════════════════════ */
 const clock = new THREE.Clock();
 
@@ -1297,94 +1034,56 @@ function animate() {
   requestAnimationFrame(animate);
 
   const delta = clock.getDelta();
-  const time = clock.getElapsedTime() * turboSpeed;
+  const time = clock.getElapsedTime();
 
-  // Smooth mouse lerping
+  // Smooth mouse damping
   mouseX += (targetMouseX - mouseX) * 0.05;
   mouseY += (targetMouseY - mouseY) * 0.05;
 
-  // Camera flight path keyed to scroll progress
-  // Scroll 0.0 (Hero): Center view, slightly elevated
-  // Scroll 0.25 (Sector 1): Camera pulls right, core shifts left
-  // Scroll 0.5 (Sector 2): Camera swings left, core shifts right
-  // Scroll 0.75 (Sector 3): Camera dives low near grid
-  // Scroll 1.0 (Terminal): Camera overhead looking down at reactor
-  
-  const camTargetX = Math.sin(scrollProgress * Math.PI * 2) * 8 + mouseX * 2.5;
-  const camTargetY = -scrollProgress * 24 + 1.5 - mouseY * 2;
-  const camTargetZ = 32 - scrollProgress * 14;
+  // Camera flight trajectory driven by natural scroll
+  const camX = Math.sin(scrollProgress * Math.PI * 1.8) * 8 + mouseX * 2.2;
+  const camY = -scrollProgress * 20 - mouseY * 1.8;
+  const camZ = 32 - scrollProgress * 10;
 
-  camera.position.x += (camTargetX - camera.position.x) * 0.05;
-  camera.position.y += (camTargetY - camera.position.y) * 0.05;
-  camera.position.z += (camTargetZ - camera.position.z) * 0.05;
+  camera.position.x += (camX - camera.position.x) * 0.06;
+  camera.position.y += (camY - camera.position.y) * 0.06;
+  camera.position.z += (camZ - camera.position.z) * 0.06;
+  camera.lookAt(0, -scrollProgress * 18, 0);
 
-  camera.lookAt(0, -scrollProgress * 22, 0);
+  // Precision Gyroscopic Rotations
+  centralCore.rotation.x = time * 0.15;
+  centralCore.rotation.y = time * 0.22;
 
-  // Core manifold rotations
-  innerCoreMesh.rotation.x = time * 0.3;
-  innerCoreMesh.rotation.y = time * 0.45;
+  ring1.rotation.z = time * 0.2;
+  ring1.rotation.y = time * 0.12;
 
-  gyroRing1.rotation.z = time * 0.4;
-  gyroRing1.rotation.y = time * 0.25;
+  ring2.rotation.x = -time * 0.18;
+  ring2.rotation.z = time * 0.15;
 
-  gyroRing2.rotation.x = -time * 0.35;
-  gyroRing2.rotation.z = time * 0.3;
+  ring3.rotation.y = time * 0.25;
 
-  gyroRing3.rotation.y = time * 0.5;
-
-  // Starfield subtle cosmic drift
-  starField.rotation.y = time * 0.02;
-  starField.rotation.x = time * 0.01;
-
-  // Data node orbits
-  nodes.forEach((node) => {
-    node.angle += node.speed * turboSpeed;
-    node.mesh.position.x = Math.cos(node.angle) * node.rad;
-    node.mesh.position.z = Math.sin(node.angle) * node.rad;
-    node.mesh.rotation.x += 0.02;
-    node.mesh.rotation.y += 0.03;
+  // Orbital Nodes
+  orbitalNodes.forEach(node => {
+    node.angle += node.speed;
+    node.mesh.position.x = Math.cos(node.angle) * node.radius;
+    node.mesh.position.z = Math.sin(node.angle) * node.radius;
+    node.mesh.rotation.y = -node.angle;
   });
 
-  // Pulse & Particle physics simulation
-  if (pulseFactor > 0.005) {
-    pulseFactor *= 0.94;
-    nucleusMesh.scale.setScalar(1.0 + pulseFactor * 0.8);
-    innerCoreMesh.scale.setScalar(1.0 + pulseFactor * 0.35);
+  // Pulse Decay
+  if (pulseStrength > 0.01) {
+    pulseStrength *= 0.93;
+    const sc = 1.0 + pulseStrength * 0.35;
+    centralCore.scale.set(sc, sc, sc);
+    warmFillLight.intensity = 2.2 + pulseStrength * 4.0;
   } else {
-    // Subtle breathing heartbeat
-    const breath = 1.0 + Math.sin(time * 3) * 0.05;
-    nucleusMesh.scale.setScalar(breath);
-    innerCoreMesh.scale.setScalar(1.0 + Math.cos(time * 2) * 0.03);
+    centralCore.scale.set(1, 1, 1);
+    warmFillLight.intensity = 2.2;
   }
 
-  // Update particle positions with spring return physics
-  const positions = swarmGeo.attributes.position.array;
-  for (let i = 0; i < swarmCount; i++) {
-    const ix = i * 3;
-
-    // Apply shockwave velocities
-    positions[ix] += swarmVelocities[ix];
-    positions[ix + 1] += swarmVelocities[ix + 1];
-    positions[ix + 2] += swarmVelocities[ix + 2];
-
-    // Damp velocity
-    swarmVelocities[ix] *= 0.88;
-    swarmVelocities[ix + 1] *= 0.88;
-    swarmVelocities[ix + 2] *= 0.88;
-
-    // Spring pull back toward origin with orbit swirl
-    const ox = swarmOrigPositions[ix];
-    const oy = swarmOrigPositions[ix + 1];
-    const oz = swarmOrigPositions[ix + 2];
-
-    positions[ix] += (ox - positions[ix]) * 0.04;
-    positions[ix + 1] += (oy - positions[ix + 1]) * 0.04;
-    positions[ix + 2] += (oz - positions[ix + 2]) * 0.04;
-  }
-  swarmGeo.attributes.position.needsUpdate = true;
-
-  // Scroll matrix floor position follow
-  gridHelper.position.y = -scrollProgress * 22 - 14;
+  // Stardust drift
+  dustPoints.rotation.y = time * 0.01;
+  dustPoints.rotation.x = time * 0.005;
 
   renderer.render(scene, camera);
 }
