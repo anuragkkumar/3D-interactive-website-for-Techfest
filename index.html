@@ -103,19 +103,22 @@ body {
 }
 
 .brand-symbol {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #1e2235, #11131c);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: #fff;
-  letter-spacing: 0.5px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.brand-container:hover .brand-symbol {
+  border-color: rgba(255, 122, 26, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(255, 122, 26, 0.15);
 }
 
 .brand-info {
@@ -593,9 +596,33 @@ body {
 <!-- NAVIGATION BAR -->
 <header class="site-nav">
   <a href="#hero" class="brand-container">
-    <div class="brand-symbol">TF</div>
+    <div class="brand-symbol">
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="tfGradTop" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ffffff"/>
+            <stop offset="100%" stop-color="#cbd5e1"/>
+          </linearGradient>
+          <linearGradient id="tfGradLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#ff8a3d"/>
+            <stop offset="100%" stop-color="#ea580c"/>
+          </linearGradient>
+          <linearGradient id="tfGradRight" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#f59e0b"/>
+            <stop offset="100%" stop-color="#b45309"/>
+          </linearGradient>
+        </defs>
+        <!-- Isometric Faceted Engineering Polyhedron Mark -->
+        <path d="M16 3 L28 10 L16 17 L4 10 Z" fill="url(#tfGradTop)"/>
+        <path d="M4 10 L16 17 L16 29 L4 22 Z" fill="url(#tfGradLeft)"/>
+        <path d="M16 17 L28 10 L28 22 L16 29 Z" fill="url(#tfGradRight)"/>
+        <!-- Core Aperture Cutout -->
+        <path d="M16 8 L22 11.5 L16 15 L10 11.5 Z" fill="#090a0f" opacity="0.85"/>
+        <circle cx="16" cy="11.5" r="2" fill="#ffedd5"/>
+      </svg>
+    </div>
     <div class="brand-info">
-      <h1>Techfest</h1>
+      <h1>TECHFEST</h1>
       <span>IIT BOMBAY · 2026</span>
     </div>
   </a>
