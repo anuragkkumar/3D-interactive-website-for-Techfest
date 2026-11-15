@@ -25,7 +25,7 @@ An interactive 3D Celestial Solar Observatory designed and developed for **Techf
   - **Exhibits & Labs:** International humanoid robotics exhibits (Unitree H1, Sophia) and certified engineering masterclasses (Quantum computing, ROS 2, Edge AI).
   - **Campus Map:** Powai venue dossiers (Convocation Hall, Gymkhana, Open Air Theatre, SAC, Computer Centre, VMCC) and transit routes from BOM Airport and Mumbai railway stations.
   - **Luminaries:** Wall of keynote speakers across 30 editions (Dr. APJ Abdul Kalam, Rakesh Sharma, Bjarne Stroustrup, Ada Yonath, Gordon Moore, Sophia).
-  - **Delegation Pass:** Accreditation privileges, accommodation guidelines, and verified delegate code (`TECHFEST-IITB-2026`).
+  - **Delegation Pass:** Accreditation privileges, accommodation guidelines, and team registration instructions.
 - **Unified Tabbed Dossier Modal:** All festival information is organized inside a unified tabbed modal with zero clutter on the 3D viewport.
 
 ### 2. Direct 3D Raycasting & Planet Fly-To Engine
@@ -68,4 +68,3 @@ An interactive 3D Celestial Solar Observatory designed and developed for **Techf
 ## 👤 Project Details
 - **Developer:** Anurag Kumar
 - **Event:** Techfest 2026, IIT Bombay
-- **Delegate Access:** `TECHFEST-IITB-2026`

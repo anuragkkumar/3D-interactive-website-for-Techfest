@@ -1098,14 +1098,6 @@ html, body {
         <p class="panel-desc">Official accreditation benefits for college delegations and participant teams.</p>
       </div>
 
-      <div class="access-box">
-        <div>
-          <div style="font-size:0.7rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace">VERIFIED REFERRAL ACCESS CODE</div>
-          <div class="access-tag">TECHFEST-IITB-2026</div>
-        </div>
-        <button class="btn-explore" id="btn-copy-code" style="padding:8px 18px;font-size:0.75rem">Copy Code</button>
-      </div>
-
       <div class="modal-grid-2">
         <div class="content-card-mini">
           <h4>🏨 Campus Accommodation</h4>
@@ -1664,17 +1656,6 @@ document.getElementById('btn-hero-info').addEventListener('click', () => {
 document.getElementById('btn-hud-inspect').addEventListener('click', () => {
   openDossierTab('arenas');
 });
-
-// Copy code button
-const btnCopy = document.getElementById('btn-copy-code');
-if (btnCopy) {
-  btnCopy.addEventListener('click', () => {
-    navigator.clipboard.writeText('TECHFEST-IITB-2026');
-    const orig = btnCopy.textContent;
-    btnCopy.textContent = 'Copied!';
-    setTimeout(() => { btnCopy.textContent = orig; }, 2000);
-  });
-}
 
 /* ════════════════════════════════════════════════════════════════════
    6. MASTER 60 FPS RENDER LOOP
